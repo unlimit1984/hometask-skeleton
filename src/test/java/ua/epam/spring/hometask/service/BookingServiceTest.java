@@ -40,9 +40,13 @@ public class BookingServiceTest {
     private UserService userService;
 
     @Autowired
+    private UserAccountService accountService;
+
+    @Autowired
     private EventService eventService;
 
 
+    private UserAccount userAccount;
     private LocalDateTime ldt;
     private Auditorium auditorium1;
     private Auditorium auditorium2;
@@ -51,6 +55,8 @@ public class BookingServiceTest {
     @Before
     public void setUp() {
         userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1, PASSWORD, ROLE_SET));
+
+        userAccount = new UserAccount(userService.getUserByEmail(EMAIL1).getId(), "userAcc", 100);
 
         ldt = LocalDateTime.now();
 
@@ -104,7 +110,7 @@ public class BookingServiceTest {
                 new Ticket(user, event, ldt, 1L),
                 new Ticket(user, event, ldt, 2L)
         ));
-        bookingService.bookTickets(tickets);
+        bookingService.bookTickets(tickets, user.getId(), userAccount, 10);
 
         Assert.assertEquals(2, bookingService.getPurchasedTicketsForEvent(event, ldt).size());
     }
@@ -127,13 +133,13 @@ public class BookingServiceTest {
                 new Ticket(user, event, ldt, 2L),
                 new Ticket(user, event, ldt, 3L)
         ));
-        bookingService.bookTickets(tickets);
+        bookingService.bookTickets(tickets, user.getId(), userAccount, 10);
 
         tickets = new TreeSet<>(Arrays.asList(
                 new Ticket(user, event, ldt, 3L),
                 new Ticket(user, event, ldt, 4L)
         ));
-        bookingService.bookTickets(tickets);
+        bookingService.bookTickets(tickets, user.getId(), userAccount, 10);
 
         Assert.assertEquals(2, bookingService.getPurchasedTicketsForEvent(event, ldt).size());
     }
@@ -155,7 +161,7 @@ public class BookingServiceTest {
                 new Ticket(user, event1, ldt, 1L),
                 new Ticket(user, event1, ldt, 2L)
         ));
-        bookingService.bookTickets(tickets);
+        bookingService.bookTickets(tickets, user.getId(), userAccount, 10);
 
         Event event2 = new Event();
         event2.setName("event2");
@@ -178,7 +184,7 @@ public class BookingServiceTest {
                 new Ticket(user, event2, ldt.plusDays(3), 5L),
                 new Ticket(user, event2, ldt.plusDays(3), 6L)
         ));
-        bookingService.bookTickets(tickets2);
+        bookingService.bookTickets(tickets2, user.getId(), userAccount, 10);
 
         Assert.assertEquals(0, bookingService.getPurchasedTicketsForEvent(event2, ldt).size());
         Assert.assertEquals(4, bookingService.getPurchasedTicketsForEvent(event2, ldt.plusDays(3)).size());
