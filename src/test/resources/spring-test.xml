@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+ 		http://www.springframework.org/schema/util
+ 		http://www.springframework.org/schema/util/spring-util-3.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd"
+       xmlns:context="http://www.springframework.org/schema/context">
+
+
+    <!--<bean class="ua.epam.spring.hometask.service.UserServiceTest">-->
+    <!--<property name="service" ref="userService"/>-->
+    <!--</bean>-->
+
+    <bean id="userRepository" class="ua.epam.spring.hometask.repository.memory.InMemoryUserRepositoryImpl"/>
+    <bean id="userService" class="ua.epam.spring.hometask.service.UserServiceImpl">
+        <property name="userRepository" ref="userRepository"/>
+    </bean>
+
+
+    <bean id="eventRepository" class="ua.epam.spring.hometask.repository.memory.InMemoryEventRepositoryImpl"/>
+    <bean id="eventService" class="ua.epam.spring.hometask.service.EventServiceImpl">
+        <property name="eventRepository" ref="eventRepository"/>
+    </bean>
+
+    <bean id="configurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:auditorium1.properties</value>
+                <value>classpath:auditorium2.properties</value>
+                <value>classpath:auditorium3.properties</value>
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="systemPropertiesMode">
+            <util:constant
+                    static-field="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+        </property>
+    </bean>
+
+    <!--<util:properties id="properties1" location="auditorium1.properties"/>-->
+    <!--<util:properties id="properties2" location="auditorium2.properties"/>-->
+    <!--<util:properties id="properties3" location="auditorium3.properties"/>-->
+
+    <!--<context:property-placeholder location="classpath:auditorium1.properties"/>-->
+
+    <bean id="auditoriumRepository"
+          class="ua.epam.spring.hometask.repository.memory.InMemoryAuditoriumRepositoryImpl">
+        <constructor-arg name="auditoriumNames">
+            <list>
+                <value>${name.0}</value>
+                <value>${name.1}</value>
+                <value>${name.2}</value>
+            </list>
+        </constructor-arg>
+        <constructor-arg name="numberOfSeats">
+            <list>
+                <value>${numberOfSeats.0}</value>
+                <value>${numberOfSeats.1}</value>
+                <value>${numberOfSeats.2}</value>
+            </list>
+        </constructor-arg>
+        <constructor-arg name="vipSeats">
+            <util:list list-class="java.util.ArrayList">
+                <value>${vipSeats.0}</value>
+                <value>${vipSeats.1}</value>
+                <value>${vipSeats.2}</value>
+            </util:list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="auditoryService"
+          class="ua.epam.spring.hometask.service.AuditoriumServiceImpl"
+          p:repository-ref="auditoriumRepository"/>
+
+
+    <bean id="ticketRepository"
+          class="ua.epam.spring.hometask.repository.memory.InMemoryTicketRepositoryImpl"/>
+
+    <bean id="discountService"
+          class="ua.epam.spring.hometask.service.DiscountServiceImpl"/>
+
+    <bean id="bookingService"
+          class="ua.epam.spring.hometask.service.BookingServiceImpl"
+          c:ticketRepository-ref="ticketRepository"
+          c:discountService-ref="discountService"/>
+
+
+</beans>

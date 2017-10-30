@@ -1,0 +1,58 @@
+-- DROP TABLE auditorium_seats;
+-- DROP TABLE event_auditoriums;
+-- DROP TABLE user_lucky_dates;
+--
+-- DROP TABLE ticket;
+-- DROP TABLE users;
+-- DROP TABLE event;
+-- DROP TABLE auditorium;
+
+
+CREATE TABLE users (
+  id         BIGINT      NOT NULL GENERATED ALWAYS AS IDENTITY ( START WITH 0, INCREMENT BY 1),
+  first_name VARCHAR(50) NOT NULL,
+  last_name  VARCHAR(50) NOT NULL,
+  email      VARCHAR(50) NOT NULL,
+  CONSTRAINT primary_key_users PRIMARY KEY (id)
+);
+
+CREATE TABLE event (
+  id         BIGINT      NOT NULL GENERATED ALWAYS AS IDENTITY ( START WITH 0, INCREMENT BY 1),
+  name       VARCHAR(50) NOT NULL,
+  base_price DOUBLE PRECISION,
+  rating     VARCHAR(50) NOT NULL,
+  CONSTRAINT primary_key_event PRIMARY KEY (id)
+);
+
+CREATE TABLE ticket (
+  id        BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY ( START WITH 0, INCREMENT BY 1),
+  user_id   BIGINT REFERENCES users (id),
+  event_id  BIGINT REFERENCES event (id),
+  date_time TIMESTAMP       DEFAULT CURRENT_TIMESTAMP,
+  seat      BIGINT NOT NULL,
+  CONSTRAINT primary_key_ticket PRIMARY KEY (id)
+);
+
+CREATE TABLE auditorium (
+  name            VARCHAR(50) NOT NULL PRIMARY KEY,
+  number_of_seats BIGINT      NOT NULL
+);
+
+--Wiring tables
+CREATE TABLE user_lucky_dates (
+  user_id BIGINT REFERENCES users(id),
+  lucky_datetime TIMESTAMP NOT NULL,
+  CONSTRAINT primary_key_lucky PRIMARY KEY (user_id, lucky_datetime)
+);
+CREATE TABLE event_auditoriums (
+  event_id        BIGINT      NOT NULL REFERENCES event (id),
+  auditorium_name VARCHAR(50) NOT NULL REFERENCES auditorium (name),
+  air_date        TIMESTAMP   NOT NULL,
+  CONSTRAINT primary_key_ea PRIMARY KEY (event_id, auditorium_name, air_date)
+);
+
+CREATE TABLE auditorium_seats (
+  auditorium_name VARCHAR(50) NOT NULL REFERENCES auditorium (name),
+  vip_seat        BIGINT      NOT NULL,
+  CONSTRAINT primary_key PRIMARY KEY (auditorium_name, vip_seat)
+);
