@@ -6,6 +6,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import ua.epam.spring.hometask.EventTestData;
@@ -42,12 +44,12 @@ import static ua.epam.spring.hometask.UserTestData.*;
         classes = AppConfig.class,
         loader = AnnotationConfigContextLoader.class
 )
-@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
-
+//@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
+@Sql(scripts = "classpath:populate_db.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class EventServiceTest {
 
     @Autowired
-    EventService service;
+    private EventService service;
 
     @Autowired
     private UserService userService;
@@ -67,6 +69,7 @@ public class EventServiceTest {
 
     @Before
     public void setUp() throws Exception {
+
         userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1));
 
         auditorium = new Auditorium();
@@ -114,8 +117,8 @@ public class EventServiceTest {
 
     @Test
     public void remove() throws Exception {
-        Event event2 = EventTestData.createNew(EVENT_NAME2, EVENT_PRICE2, EventRating.MID, EVENT_AIR_DATES2, auditoriumMap2);
-        event2.setId(1L);
+        Event event2 = service.getByName(EVENT_NAME2);
+
         service.remove(event2);
         MATCHER.assertCollectionEquals(
                 Arrays.asList(EVENT1, EVENT3),
@@ -127,7 +130,8 @@ public class EventServiceTest {
 
     @Test
     public void getById() throws Exception {
-        MATCHER.assertEquals(EVENT3, service.getById(2L));
+        Event event3 = service.getByName(EVENT_NAME3);
+        MATCHER.assertEquals(EVENT3, service.getById(event3.getId()));
     }
 
     @Test
