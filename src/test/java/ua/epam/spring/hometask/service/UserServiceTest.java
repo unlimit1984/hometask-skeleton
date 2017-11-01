@@ -6,6 +6,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import ua.epam.spring.hometask.UserTestData;
@@ -28,7 +30,8 @@ import static ua.epam.spring.hometask.UserTestData.*;
         loader = AnnotationConfigContextLoader.class
 )
 @RunWith(SpringJUnit4ClassRunner.class)
-@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
+//@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
+@Sql(scripts = "classpath:populate_db.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class UserServiceTest {
 
     @Autowired
@@ -68,8 +71,7 @@ public class UserServiceTest {
 
     @Test
     public void remove() throws Exception {
-        User user2 = UserTestData.createNew(EMAIL2, USER_NAME2, LAST_NAME2);
-        user2.setId(1L);
+        User user2 = service.getUserByEmail(EMAIL2);
         service.remove(user2);
         MATCHER.assertCollectionEquals(
                 Arrays.asList(USER1, USER3),
@@ -81,7 +83,8 @@ public class UserServiceTest {
 
     @Test
     public void getById() throws Exception {
-        MATCHER.assertEquals(USER2, service.getById(1L));
+        User user2 = service.getUserByEmail(EMAIL2);
+        MATCHER.assertEquals(USER2, service.getById(user2.getId()));
     }
 
     @Test
