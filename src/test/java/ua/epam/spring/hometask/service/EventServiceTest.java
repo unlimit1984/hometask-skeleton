@@ -70,7 +70,7 @@ public class EventServiceTest {
     @Before
     public void setUp() throws Exception {
 
-        userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1));
+        userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1));
 
         auditorium = new Auditorium();
         auditorium.setName("alpha");

@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.service;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -23,10 +24,10 @@ public interface DiscountService {
      *            Event that tickets are bought for
      * @param airDateTime
      *            The date and time event will be aired
-     * @param numberOfTickets
-     *            Number of tickets that user buys
+     * @param seats
+     *            Set of ticket seats that user buys
      * @return discount value from 0 to 100
      */
-    byte getDiscount(@Nullable User user, @Nonnull Event event, @Nonnull LocalDateTime airDateTime, long numberOfTickets);
+    byte getDiscount(@Nullable User user, @Nonnull Event event, @Nonnull LocalDateTime airDateTime, Set<Long> seats);
 
 }

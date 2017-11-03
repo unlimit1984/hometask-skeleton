@@ -55,7 +55,7 @@ public class BookingServiceTest {
 
     @Before
     public void setUp() {
-        userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1));
+        userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1));
 
         ldt = LocalDateTime.now();
 
@@ -83,13 +83,13 @@ public class BookingServiceTest {
         Event event = new Event();
         event.setBasePrice(10);
         event.setName("test_event");
-        event.setRating(EventRating.HIGH);
+        event.setRating(EventRating.MID);
         event.setAirDates(new TreeSet<>(Arrays.asList(ldt.minusDays(1), ldt.plusDays(1), ldt)));
         event.setAuditoriums(auditoriumMap);
 
         //eventService.save(event);
 
-        Assert.assertEquals(90, bookingService.getTicketsPrice(event, ldt, user, LongStream.range(1, 11).boxed().collect(Collectors.toSet())), 0);
+        Assert.assertEquals(90, bookingService.getTicketsPrice(event, ldt, user, LongStream.range(1, 9).boxed().collect(Collectors.toSet())), 0);
         Assert.assertEquals(160, bookingService.getTicketsPrice(event, ldt, user, LongStream.range(1, 21).boxed().collect(Collectors.toSet())), 0);
         Assert.assertEquals(350, bookingService.getTicketsPrice(event, ldt, user, LongStream.range(1, 51).boxed().collect(Collectors.toSet())), 0);
 

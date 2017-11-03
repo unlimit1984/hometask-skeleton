@@ -30,6 +30,9 @@ public class EventTestData {
     public static final double EVENT_PRICE2 = 20;
     public static final double EVENT_PRICE3 = 30;
 
+    public static final LocalDateTime AIR_DATE1 = LocalDateTime.of(2018, 1, 1, 10, 0);    //01-jan-2018 10:00
+    public static final LocalDateTime AIR_DATE2 = LocalDateTime.of(2018, 1, 5, 12, 0);    //05-jan-2018 12:00
+
     public static final TreeSet<LocalDateTime> EVENT_AIR_DATES1 = new TreeSet<>(Arrays.asList(
             LocalDateTime.of(2018, 1, 1, 10, 0),    //01-jan-2018 10:00
             LocalDateTime.of(2018, 1, 15, 15, 0),   //15-jan-2018 15:00

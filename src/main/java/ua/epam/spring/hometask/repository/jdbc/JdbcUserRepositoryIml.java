@@ -10,8 +10,11 @@ import ua.epam.spring.hometask.repository.UserRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,25 +33,27 @@ public class JdbcUserRepositoryIml implements UserRepository {
     @Override
     public User save(User user) {
         int result;
+        Timestamp birthday = Timestamp.valueOf(LocalDateTime.of(user.getBirthday(), LocalTime.ofSecondOfDay(0)));
         if (user.isNew()) {
-            String sql = "INSERT INTO users (first_name, last_name, email) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO users (first_name, last_name, email, birthday) VALUES (?, ?, ?, ?)";
 //            result = jdbcTemplate.update(sql, user.getFirstName(), user.getLastName(), user.getEmail());
 
             KeyHolder keyHolder = new GeneratedKeyHolder();
+
             result = jdbcTemplate.update(con -> {
                 PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 //                PreparedStatement ps = con.prepareStatement(sql, new String[]{"id"});
                 ps.setString(1, user.getFirstName());
                 ps.setString(2, user.getLastName());
                 ps.setString(3, user.getEmail());
+                ps.setTimestamp(4, birthday);
                 return ps;
             }, keyHolder);
-            //result = jdbcTemplate.update(sql, params);
             user.setId(keyHolder.getKey().longValue());
 
         } else {
-            String sql = "UPDATE users SET first_name=?, last_name=?, email=? WHERE id=?";
-            result = jdbcTemplate.update(sql, user.getFirstName(), user.getLastName(), user.getEmail(), user.getId());
+            String sql = "UPDATE users SET first_name=?, last_name=?, email=?, birthday=? WHERE id=?";
+            result = jdbcTemplate.update(sql, user.getFirstName(), user.getLastName(), user.getEmail(), birthday, user.getId());
         }
 
         if (user.getLuckyEvents() != null && user.getLuckyEvents().size() > 0) {
@@ -83,6 +88,7 @@ public class JdbcUserRepositoryIml implements UserRepository {
                     user.setFirstName(rs.getString("first_name"));
                     user.setLastName(rs.getString("last_name"));
                     user.setEmail(rs.getString("email"));
+                    user.setBirthday(rs.getTimestamp("birthday").toLocalDateTime().toLocalDate());
                     return user;
                 });
         List<UserLuckyDate> luckyDates = jdbcTemplate.query(
@@ -121,7 +127,7 @@ public class JdbcUserRepositoryIml implements UserRepository {
 
 
         return jdbcTemplate.query(
-                "SELECT u.id, u.first_name, u.last_name, u.email, l.lucky_datetime" +
+                "SELECT u.id, u.first_name, u.last_name, u.email, u.birthday, l.lucky_datetime" +
                         " FROM users u LEFT JOIN user_lucky_dates l ON u.id=l.user_id",
                 rs -> {
                     Map<User, Set<LocalDateTime>> userLuckyDates = new HashMap<>();
@@ -130,12 +136,14 @@ public class JdbcUserRepositoryIml implements UserRepository {
                         String firstName = rs.getString("first_name");
                         String lastName = rs.getString("last_name");
                         String email = rs.getString("email");
+                        LocalDate birthday = rs.getTimestamp("birthday").toLocalDateTime().toLocalDate();
 
                         User tempUser = new User();
                         tempUser.setId(id);
                         tempUser.setFirstName(firstName);
                         tempUser.setLastName(lastName);
                         tempUser.setEmail(email);
+                        tempUser.setBirthday(birthday);
 
                         if (!userLuckyDates.containsKey(tempUser)) {
                             userLuckyDates.put(tempUser, new HashSet<>());

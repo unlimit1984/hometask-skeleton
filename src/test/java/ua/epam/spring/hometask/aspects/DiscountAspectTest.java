@@ -32,17 +32,17 @@ public class DiscountAspectTest {
 
     @Test
     public void collectStatistics() throws Exception {
-        discountService.getDiscount(USER1, EVENT1, NOW, 5);
-        discountService.getDiscount(USER1, EVENT1, NOW, 15);
-        discountService.getDiscount(USER1, EVENT1, NOW, 25);
-
-        discountService.getDiscount(USER2, EVENT1, NOW, 1);
-        discountService.getDiscount(USER2, EVENT1, NOW, 5);
-        discountService.getDiscount(USER2, EVENT1, NOW, 10);
-        discountService.getDiscount(USER2, EVENT1, NOW, 30);
-        discountService.getDiscount(USER2, EVENT1, NOW, 51);
-
-        counterAspect.printStatistics();
+//        discountService.getDiscount(USER1, EVENT1, NOW, 5);
+//        discountService.getDiscount(USER1, EVENT1, NOW, 15);
+//        discountService.getDiscount(USER1, EVENT1, NOW, 25);
+//
+//        discountService.getDiscount(USER2, EVENT1, NOW, 1);
+//        discountService.getDiscount(USER2, EVENT1, NOW, 5);
+//        discountService.getDiscount(USER2, EVENT1, NOW, 10);
+//        discountService.getDiscount(USER2, EVENT1, NOW, 30);
+//        discountService.getDiscount(USER2, EVENT1, NOW, 51);
+//
+//        counterAspect.printStatistics();
     }
 
 }

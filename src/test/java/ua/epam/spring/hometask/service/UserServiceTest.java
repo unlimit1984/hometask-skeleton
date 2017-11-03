@@ -44,9 +44,9 @@ public class UserServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        service.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1));
-        service.save(UserTestData.createNew(EMAIL2, USER_NAME2, LAST_NAME2));
-        service.save(UserTestData.createNew(EMAIL3, USER_NAME3, LAST_NAME3));
+        service.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1));
+        service.save(UserTestData.createNew(EMAIL2, USER_NAME2, LAST_NAME2, USER_BIRTHDAY1));
+        service.save(UserTestData.createNew(EMAIL3, USER_NAME3, LAST_NAME3, USER_BIRTHDAY1));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class UserServiceTest {
 
     @Test
     public void save() throws Exception {
-        User user0 = UserTestData.createNew("user0@epam.com", "User0", "UserLast0");
+        User user0 = UserTestData.createNew("user0@epam.com", "User0", "UserLast0", USER_BIRTHDAY1);
         service.save(user0);
 
         MATCHER.assertCollectionEquals(

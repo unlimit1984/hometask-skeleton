@@ -13,6 +13,7 @@ CREATE TABLE users (
   first_name VARCHAR(50) NOT NULL,
   last_name  VARCHAR(50) NOT NULL,
   email      VARCHAR(50) NOT NULL,
+  birthday   TIMESTAMP   NOT NULL,
   CONSTRAINT primary_key_users PRIMARY KEY (id)
 );
 
@@ -40,7 +41,7 @@ CREATE TABLE auditorium (
 
 --Wiring tables
 CREATE TABLE user_lucky_dates (
-  user_id BIGINT REFERENCES users(id),
+  user_id        BIGINT REFERENCES users (id),
   lucky_datetime TIMESTAMP NOT NULL,
   CONSTRAINT primary_key_lucky PRIMARY KEY (user_id, lucky_datetime)
 );
@@ -56,3 +57,6 @@ CREATE TABLE auditorium_seats (
   vip_seat        BIGINT      NOT NULL,
   CONSTRAINT primary_key PRIMARY KEY (auditorium_name, vip_seat)
 );
+
+--Aspect tables
+--CREATE TABLE

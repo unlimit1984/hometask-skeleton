@@ -1,7 +1,9 @@
 package ua.epam.spring.hometask.repository.jdbc;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -11,9 +13,7 @@ import ua.epam.spring.hometask.domain.EventRating;
 import ua.epam.spring.hometask.domain.to.EventDetailsDTO;
 import ua.epam.spring.hometask.repository.EventRepository;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -85,59 +85,9 @@ public class JdbcEventRepositoryImpl implements EventRepository {
                 "SELECT e.id, e.name, e.base_price, e.rating, eu.auditorium_name, eu.air_date" +
                         " FROM event e" +
                         " LEFT JOIN event_auditoriums eu ON e.id=eu.event_id" +
-                        " WHERE id=?", new Object[]{id}, rs -> {
-
-                    Map<Event, Set<EventDetailsDTO>> eventDetailsMap = new HashMap<>();
-                    while (rs.next()) {
-                        Long eventId = rs.getLong("id");
-                        String eventName = rs.getString("name");
-                        double basePrice = rs.getDouble("base_price");
-                        EventRating eventRating = EventRating.valueOf(rs.getString("rating"));
-
-                        String auditoriumName = rs.getString("auditorium_name");
-                        LocalDateTime airDate = null;
-                        if (rs.getTimestamp("air_date") != null) {
-                            airDate = rs.getTimestamp("air_date").toLocalDateTime();
-                        }
-
-                        Event event = new Event();
-                        event.setId(eventId);
-                        event.setName(eventName);
-                        event.setBasePrice(basePrice);
-                        event.setRating(eventRating);
-
-                        if (!eventDetailsMap.containsKey(event)) {
-                            eventDetailsMap.put(event, new HashSet<>());
-                        }
-                        eventDetailsMap.get(event).add(new EventDetailsDTO(eventId, auditoriumName, airDate));
-                    }
-
-                    eventDetailsMap.forEach((event, eventDetailsDTOs) -> {
-
-                        Set<LocalDateTime> airDates = eventDetailsDTOs
-                                .stream()
-                                .map(EventDetailsDTO::getAirDate)
-                                .collect(Collectors.toSet());
-                        event.setAirDates(new TreeSet<>(airDates));
-
-                        NavigableMap<LocalDateTime, Auditorium> auditoriums = new TreeMap<>();
-
-                        eventDetailsDTOs.forEach(eventDetailsDTO -> {
-                            Auditorium a = new Auditorium();
-                            a.setName(eventDetailsDTO.getAuditoriumName());
-                            auditoriums.put(eventDetailsDTO.getAirDate(), a);
-                        });
-                        event.setAuditoriums(auditoriums);
-                    });
-
-                    return eventDetailsMap.keySet();
-                })
+                        " WHERE id=?", new Object[]{id}, rse())
         );
     }
-
-//    private List<Event> getFromQuery() {
-//
-//    }
 
     @Override
     public Collection<Event> getAll() {
@@ -145,70 +95,57 @@ public class JdbcEventRepositoryImpl implements EventRepository {
         return jdbcTemplate.query(
                 "SELECT e.id, e.name, e.base_price, e.rating, eu.auditorium_name, eu.air_date" +
                         " FROM event e" +
-                        " LEFT JOIN event_auditoriums eu ON e.id=eu.event_id",
-                rs -> {
-
-                    Map<Event, Set<EventDetailsDTO>> eventDetailsMap = new HashMap<>();
-                    while (rs.next()) {
-                        Long eventId = rs.getLong("id");
-                        String eventName = rs.getString("name");
-                        double basePrice = rs.getDouble("base_price");
-                        EventRating eventRating = EventRating.valueOf(rs.getString("rating"));
-
-                        String auditoriumName = rs.getString("auditorium_name");
-                        LocalDateTime airDate = null;
-                        if (rs.getTimestamp("air_date") != null) {
-                            airDate = rs.getTimestamp("air_date").toLocalDateTime();
-                        }
-
-                        Event event = new Event();
-                        event.setId(eventId);
-                        event.setName(eventName);
-                        event.setBasePrice(basePrice);
-                        event.setRating(eventRating);
-
-                        if (!eventDetailsMap.containsKey(event)) {
-                            eventDetailsMap.put(event, new HashSet<>());
-                        }
-                        eventDetailsMap.get(event).add(new EventDetailsDTO(eventId, auditoriumName, airDate));
-                    }
-
-                    eventDetailsMap.forEach((event, eventDetailsDTOs) -> {
-
-                        Set<LocalDateTime> airDates = eventDetailsDTOs
-                                .stream()
-                                .map(EventDetailsDTO::getAirDate)
-                                .collect(Collectors.toSet());
-                        event.setAirDates(new TreeSet<>(airDates));
-
-                        NavigableMap<LocalDateTime, Auditorium> auditoriums = new TreeMap<>();
-
-                        eventDetailsDTOs.forEach(eventDetailsDTO -> {
-                            Auditorium a = new Auditorium();
-                            a.setName(eventDetailsDTO.getAuditoriumName());
-                            auditoriums.put(eventDetailsDTO.getAirDate(), a);
-                        });
-                        event.setAuditoriums(auditoriums);
-                    });
-
-                    return eventDetailsMap.keySet();
-                });
-
-
-//        return jdbcTemplate.query("SELECT * FROM event", (rs, rowNum) -> {
-//            Long id = rs.getLong("id");
-//            String name = rs.getString("name");
-//            double basePrice = rs.getDouble("base_price");
-//            EventRating rating = EventRating.valueOf(rs.getString("rating"));
-//
-//            Event result = new Event();
-//            result.setId(id);
-//            result.setName(name);
-//            result.setBasePrice(basePrice);
-//            result.setRating(rating);
-//
-//            return result;
-//        });
-
+                        " LEFT JOIN event_auditoriums eu ON e.id=eu.event_id",rse());
     }
+
+    private ResultSetExtractor<Set<Event>> rse(){
+        return rs -> {
+
+            Map<Event, Set<EventDetailsDTO>> eventDetailsMap = new HashMap<>();
+            while (rs.next()) {
+                Long eventId = rs.getLong("id");
+                String eventName = rs.getString("name");
+                double basePrice = rs.getDouble("base_price");
+                EventRating eventRating = EventRating.valueOf(rs.getString("rating"));
+
+                String auditoriumName = rs.getString("auditorium_name");
+                LocalDateTime airDate = null;
+                if (rs.getTimestamp("air_date") != null) {
+                    airDate = rs.getTimestamp("air_date").toLocalDateTime();
+                }
+
+                Event event = new Event();
+                event.setId(eventId);
+                event.setName(eventName);
+                event.setBasePrice(basePrice);
+                event.setRating(eventRating);
+
+                if (!eventDetailsMap.containsKey(event)) {
+                    eventDetailsMap.put(event, new HashSet<>());
+                }
+                eventDetailsMap.get(event).add(new EventDetailsDTO(eventId, auditoriumName, airDate));
+            }
+
+            eventDetailsMap.forEach((event, eventDetailsDTOs) -> {
+
+                Set<LocalDateTime> airDates = eventDetailsDTOs
+                        .stream()
+                        .map(EventDetailsDTO::getAirDate)
+                        .collect(Collectors.toSet());
+                event.setAirDates(new TreeSet<>(airDates));
+
+                NavigableMap<LocalDateTime, Auditorium> auditoriums = new TreeMap<>();
+
+                eventDetailsDTOs.forEach(eventDetailsDTO -> {
+                    Auditorium a = new Auditorium();
+                    a.setName(eventDetailsDTO.getAuditoriumName());
+                    auditoriums.put(eventDetailsDTO.getAirDate(), a);
+                });
+                event.setAuditoriums(auditoriums);
+            });
+
+            return eventDetailsMap.keySet();
+        };
+    }
+
 }

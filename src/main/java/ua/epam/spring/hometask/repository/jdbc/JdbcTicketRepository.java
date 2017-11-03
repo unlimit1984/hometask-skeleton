@@ -67,15 +67,7 @@ public class JdbcTicketRepository implements TicketRepository {
             //check that event exists
             Event event;
             try {
-                event = jdbcTemplate.queryForObject("SELECT * FROM event WHERE id=?", new Object[]{t.getEvent().getId()}, (rs, rowNum) -> {
-
-                    Event e = new Event();
-                    e.setId(rs.getLong("id"));
-                    e.setName(rs.getString("name"));
-                    e.setBasePrice(rs.getDouble("base_price"));
-                    e.setRating(EventRating.valueOf(rs.getString("rating")));
-                    return e;
-                });
+                event = getEventById(t.getEvent().getId());
             } catch (IncorrectResultSizeDataAccessException e) {
                 return false;
             }
@@ -138,20 +130,25 @@ public class JdbcTicketRepository implements TicketRepository {
                 u.setFirstName(rs1.getString("first_name"));
                 u.setLastName(rs1.getString("last_name"));
                 u.setEmail(rs1.getString("email"));
+                u.setBirthday(rs1.getTimestamp("birthday").toLocalDateTime().toLocalDate());
                 return u;
             });
-            Event event = jdbcTemplate.queryForObject("SELECT * FROM event where id=?", new Object[]{event_id}, (rs1, rowNum1) -> {
-                Event e = new Event();
-                e.setId(rs1.getLong("id"));
-                e.setName(rs1.getString("name"));
-                e.setBasePrice(rs1.getDouble("base_price"));
-                e.setRating(EventRating.valueOf(rs1.getString("rating")));
-                return e;
-            });
+
+            Event event = getEventById(event_id);
 
             Ticket result = new Ticket(user, event, dateTime, seat);
             result.setId(id);
             return result;
+        });
+    }
+    private Event getEventById(long id){
+        return jdbcTemplate.queryForObject("SELECT * FROM event where id=?", new Object[]{id}, (rs, rowNum1) -> {
+            Event e = new Event();
+            e.setId(rs.getLong("id"));
+            e.setName(rs.getString("name"));
+            e.setBasePrice(rs.getDouble("base_price"));
+            e.setRating(EventRating.valueOf(rs.getString("rating")));
+            return e;
         });
     }
 }

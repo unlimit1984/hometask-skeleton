@@ -24,6 +24,9 @@ import ua.epam.spring.hometask.repository.memory.InMemoryEventRepositoryImpl;
 import ua.epam.spring.hometask.repository.memory.InMemoryTicketRepositoryImpl;
 import ua.epam.spring.hometask.repository.memory.InMemoryUserRepositoryImpl;
 import ua.epam.spring.hometask.service.*;
+import ua.epam.spring.hometask.service.strategy.BirthdayStrategy;
+import ua.epam.spring.hometask.service.strategy.DiscountStrategy;
+import ua.epam.spring.hometask.service.strategy.TicketCountStrategy;
 
 import javax.sql.DataSource;
 import java.util.Arrays;
@@ -116,13 +119,25 @@ public class AppConfig {
     }
 
     @Bean
+    public DiscountStrategy birthdayStrategy(){
+        return new BirthdayStrategy();
+    }
+
+    @Bean
+    public DiscountStrategy ticketCountStrategy(){
+        return new TicketCountStrategy();
+    }
+
+    @Bean
     public DiscountService discountService() {
-        return new DiscountServiceImpl();
+        DiscountServiceImpl discountService =  new DiscountServiceImpl();
+        discountService.setStrategies(Arrays.asList(birthdayStrategy(), ticketCountStrategy()));
+        return discountService;
     }
 
     @Bean
     public BookingService bookingService() {
-        return new BookingServiceImpl(ticketRepository(), discountService());
+        return new BookingServiceImpl(ticketRepository(), discountService(), auditoriumService());
     }
 
     @Bean

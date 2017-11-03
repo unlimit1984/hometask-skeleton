@@ -3,6 +3,7 @@ package ua.epam.spring.hometask;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.matcher.ModelMatcher;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 
 /**
@@ -32,6 +33,9 @@ public class UserTestData {
     public static final String LAST_NAME2 = "LastUser2";
     public static final String LAST_NAME3 = "LastUser3";
 
+    public static final LocalDate USER_BIRTHDAY1 = LocalDate.of(1980,1,5);
+    public static final LocalDate USER_BIRTHDAY2 = LocalDate.of(1980,1,7);
+
     static{
         USER1.setEmail(EMAIL1);
         USER1.setFirstName(USER_NAME1);
@@ -48,11 +52,12 @@ public class UserTestData {
 
 
 
-    public static User createNew(String email, String name, String lastName){
+    public static User createNew(String email, String name, String lastName, LocalDate birthday){
         User u = new User();
         u.setEmail(email);
         u.setFirstName(name);
         u.setLastName(lastName);
+        u.setBirthday(birthday);
         return u;
     }
 }

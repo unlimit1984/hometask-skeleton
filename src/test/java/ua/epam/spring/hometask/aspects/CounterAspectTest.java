@@ -78,7 +78,7 @@ public class CounterAspectTest {
         eventService.save(EventTestData.createNew(EVENT_NAME2, EVENT_PRICE2, EVENT_RATING2, EVENT_AIR_DATES2, auditoriumMap2));
         eventService.save(EventTestData.createNew(EVENT_NAME3, EVENT_PRICE3, EVENT_RATING3, EVENT_AIR_DATES3, auditoriumMap3));
 
-        userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1));
+        userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1));
         //userService.save(UserTestData.createNew(EMAIL2, USER_NAME2,LAST_NAME2));
 
     }
@@ -86,8 +86,8 @@ public class CounterAspectTest {
     @Test
     public void printStatistics() throws Exception {
 
-        Event event1 = eventService.getById(0L);
-        Event event2 = eventService.getById(1L);
+        Event event1 = eventService.getByName(EVENT_NAME1);
+        Event event2 = eventService.getByName(EVENT_NAME2);
 
         Set<Ticket> tickets = new TreeSet<>(Arrays.asList(
                 new Ticket(userService.getUserByEmail(EMAIL1), event1, NOW, 1L),
@@ -107,9 +107,9 @@ public class CounterAspectTest {
         eventService.getByName(EVENT_NAME2);
         eventService.getByName("event3");
 
-        bookingService.getTicketsPrice(event1, NOW, USER1, new HashSet<>(Arrays.asList(1L, 2L, 3L)));
-        bookingService.getTicketsPrice(event2, NOW, USER1, new HashSet<>(Arrays.asList(1L, 2L, 3L)));
-        bookingService.getTicketsPrice(event2, NOW, USER1, new HashSet<>(Arrays.asList(1L, 2L, 3L)));
+        bookingService.getTicketsPrice(event1, AIR_DATE1, USER1, new HashSet<>(Arrays.asList(1L, 2L, 3L)));
+        bookingService.getTicketsPrice(event2, AIR_DATE2, USER1, new HashSet<>(Arrays.asList(1L, 2L, 3L)));
+        bookingService.getTicketsPrice(event2, AIR_DATE2, USER1, new HashSet<>(Arrays.asList(1L, 2L, 3L)));
 
         bookingService.bookTickets(tickets);
         bookingService.bookTickets(tickets);

@@ -1,9 +1,8 @@
 package ua.epam.spring.hometask.service;
 
 import org.springframework.stereotype.Service;
-import ua.epam.spring.hometask.domain.Event;
-import ua.epam.spring.hometask.domain.Ticket;
-import ua.epam.spring.hometask.domain.User;
+import ua.epam.spring.hometask.domain.*;
+import ua.epam.spring.hometask.repository.AuditoriumRepository;
 import ua.epam.spring.hometask.repository.TicketRepository;
 
 import javax.annotation.Nonnull;
@@ -17,16 +16,36 @@ public class BookingServiceImpl implements BookingService {
 
     private TicketRepository ticketRepository;
     private DiscountService discountService;
+    private AuditoriumService auditoriumService;
 
-    public BookingServiceImpl(TicketRepository ticketRepository, DiscountService discountService) {
+    public BookingServiceImpl(TicketRepository ticketRepository, DiscountService discountService, AuditoriumService auditoriumService) {
         this.ticketRepository = ticketRepository;
         this.discountService = discountService;
+        this.auditoriumService = auditoriumService;
     }
 
     @Override
     public double getTicketsPrice(@Nonnull Event event, @Nonnull LocalDateTime dateTime, @Nullable User user, @Nonnull Set<Long> seats) {
-        long numberOfSeats = seats.size();
-        return numberOfSeats * event.getBasePrice() * (100 - discountService.getDiscount(user, event, dateTime, numberOfSeats)) / 100;
+        double movieRateIndex = 1;
+        EventRating rating = event.getRating();
+        if (rating == EventRating.LOW) {
+            movieRateIndex = 0.8;
+        } else if (rating == EventRating.HIGH) {
+            movieRateIndex = 1.2;
+        }
+
+        double price = 0;
+        Auditorium auditorium = auditoriumService.getByName(event.getAuditoriums().get(dateTime).getName());
+        for (long seat : seats) {
+            double ticket_price = event.getBasePrice();
+            //if (event.getAuditoriums().get(dateTime).getVipSeats().contains(seat)) {
+            if (auditorium.getVipSeats().contains(seat)) {
+                ticket_price *= 2;
+            }
+            price += ticket_price;
+        }
+        return price * movieRateIndex * (100 - discountService.getDiscount(user, event, dateTime, seats)) / 100;
+
     }
 
     @Override
