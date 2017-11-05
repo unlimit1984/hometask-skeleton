@@ -6,13 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import ua.epam.spring.hometask.UserTestData;
 import ua.epam.spring.hometask.config.AppConfig;
+import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.service.DiscountService;
+import ua.epam.spring.hometask.service.UserService;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import static ua.epam.spring.hometask.EventTestData.EVENT1;
 import static ua.epam.spring.hometask.EventTestData.NOW;
-import static ua.epam.spring.hometask.UserTestData.USER1;
-import static ua.epam.spring.hometask.UserTestData.USER2;
+import static ua.epam.spring.hometask.UserTestData.*;
 
 /**
  * Created by Vladimir on 22.10.2017.
@@ -28,21 +33,27 @@ public class DiscountAspectTest {
     private DiscountService discountService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private DiscountAspect counterAspect;
 
     @Test
     public void collectStatistics() throws Exception {
-//        discountService.getDiscount(USER1, EVENT1, NOW, 5);
-//        discountService.getDiscount(USER1, EVENT1, NOW, 15);
-//        discountService.getDiscount(USER1, EVENT1, NOW, 25);
-//
-//        discountService.getDiscount(USER2, EVENT1, NOW, 1);
-//        discountService.getDiscount(USER2, EVENT1, NOW, 5);
-//        discountService.getDiscount(USER2, EVENT1, NOW, 10);
-//        discountService.getDiscount(USER2, EVENT1, NOW, 30);
-//        discountService.getDiscount(USER2, EVENT1, NOW, 51);
-//
-//        counterAspect.printStatistics();
+        userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1));
+        userService.save(UserTestData.createNew(EMAIL2, USER_NAME2, LAST_NAME2, USER_BIRTHDAY2));
+        User user1 = userService.getUserByEmail(EMAIL1);
+        User user2 = userService.getUserByEmail(EMAIL2);
+
+        discountService.getDiscount(user1, EVENT1, NOW, 5);
+        discountService.getDiscount(user2, EVENT1, NOW, 15);
+        discountService.getDiscount(user1, EVENT1, NOW, 25);
+        discountService.getDiscount(user1, EVENT1, LocalDateTime.of(user1.getBirthday(), LocalTime.now()), 5);
+        discountService.getDiscount(user1, EVENT1, LocalDateTime.of(user1.getBirthday(), LocalTime.now()), 5);
+        discountService.getDiscount(user1, EVENT1, LocalDateTime.of(user1.getBirthday(), LocalTime.now()), 105);
+        discountService.getDiscount(user2, EVENT1, LocalDateTime.of(user2.getBirthday(), LocalTime.now()), 5);
+
+        counterAspect.printStatistics();
     }
 
 }

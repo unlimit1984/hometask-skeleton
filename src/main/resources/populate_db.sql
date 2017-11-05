@@ -1,3 +1,6 @@
+DELETE FROM event_counter_audit;
+DELETE FROM user_discount_audit;
+--
 DELETE FROM auditorium_seats;
 DELETE FROM event_auditoriums;
 DELETE FROM user_lucky_dates;
@@ -6,8 +9,7 @@ DELETE FROM ticket;
 DELETE FROM users;
 DELETE FROM event;
 DELETE FROM auditorium;
-
-
+--
 
 INSERT INTO auditorium (name, number_of_seats) VALUES ('alpha', 10);
 INSERT INTO auditorium_seats (auditorium_name, vip_seat) VALUES ('alpha', 1);

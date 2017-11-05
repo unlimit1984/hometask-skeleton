@@ -90,7 +90,7 @@ public class LuckyWinnerAspectTest {
         ));
         Set<Ticket> tickets3 = new TreeSet<>(Arrays.asList(
                 new Ticket(userService.getUserByEmail(EMAIL1), event1, ldt, 3L),
-                new Ticket(userService.getUserByEmail(EMAIL1), event1, ldt, 4L)
+                new Ticket(userService.getUserByEmail(EMAIL2), event1, ldt, 4L)
         ));
 
         bookingService.bookTickets(tickets1);

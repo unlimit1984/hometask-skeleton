@@ -41,12 +41,6 @@ public class EventDetailsDTO {
         this.airDate = airDate;
     }
 
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(eventId, auditoriumName, airDate);
-//    }
-
-
     @Override
     public int hashCode() {
         return Objects.hash(eventId, auditoriumName, airDate);

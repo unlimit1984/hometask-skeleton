@@ -25,8 +25,7 @@ public class LuckyWinnerAspect {
     @Autowired
     UserService userService;
 
-
-    @Pointcut("execution(public void bookTickets(..)) && within(ua.epam.spring.hometask.service.*)")
+    @Pointcut("execution(* ua.epam.spring.hometask.service.BookingService.bookTickets(..))")
     private void bookTickets() {
     }
 

@@ -55,8 +55,21 @@ CREATE TABLE event_auditoriums (
 CREATE TABLE auditorium_seats (
   auditorium_name VARCHAR(50) NOT NULL REFERENCES auditorium (name),
   vip_seat        BIGINT      NOT NULL,
-  CONSTRAINT primary_key PRIMARY KEY (auditorium_name, vip_seat)
+  CONSTRAINT primary_key_as PRIMARY KEY (auditorium_name, vip_seat)
 );
 
 --Aspect tables
---CREATE TABLE
+CREATE TABLE event_counter_audit (
+  event_name VARCHAR(50) NOT NULL,
+  name       VARCHAR(50) NOT NULL,
+  count      INTEGER     NOT NULL,
+  CONSTRAINT primary_key_audit_counter PRIMARY KEY (event_name, name)
+);
+
+CREATE TABLE user_discount_audit (
+  user_id       BIGINT      NOT NULL REFERENCES users (id),
+  discount_name VARCHAR(50) NOT NULL,
+  count         INTEGER     NOT NULL,
+  CONSTRAINT primary_key_user_discount_audit PRIMARY KEY (user_id, discount_name)
+);
+

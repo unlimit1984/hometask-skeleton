@@ -40,7 +40,7 @@ We have some additional service DiscountService for getting discount during purc
 ###HW2
 1. __DONE__ Add AuditoriumServiceImpl, AuditoriumRepository and memory implementation
 2. __DONE__ Add BookingServiceImpl, TicketRepository and memory implementation
-3. __DONE__ Add simple DiscountServiceImpl. 10% for buying more 10 tickets, 20% for 20 tickets and 30% for more than 50 tickets. At the next versions (HW3) Discount service will be improved by personal Events discounts
+3. __DONE__ Add simple DiscountServiceImpl. 10% for buying more 10 tickets, 20% for 20 tickets and 30% for more than 50 tickets. At the next versions (HW3) Discount service will be improved by strategies
 4. __DONE__ All services should be provided by tests
 5. __IN_PROGRESS__ Provide Command Line Interface for adding entities and reading all entities
 6. __DONE__ Replace Xml Spring configuration by AppConfig as a Spring Configuration annotated class
@@ -48,6 +48,14 @@ We have some additional service DiscountService for getting discount during purc
 8. __DONE__ Add DiscountAspect and provide tests
 9. __DONE__ Add LuckyWinnerAspect and provide tests
 
+###HW3
+1. __DONE__ Fix Discount service logic by adding two strategies: TicketCountStrategy and BirthdayStrategy
+3. __DONE__ Fix pointcuts in Aspects. Now they targets interfaces
+4. __DONE__ Fix DiscountAspect by calculating how many times each discount was given total and for user
+5. __DONE__ Fix Booking service. Total price corrected: price depends on EventRating and vipSeat
+6. __DONE__ Add DAO implementations that uses JdbcTemplate
+7. __DONE__ Add sql scripts for initialization and populating DB
+8. __DONE__ Implement DAO object to store all Aspect counters into the database
 
 ####How to test
 1. install maven

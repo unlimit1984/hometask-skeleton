@@ -2,7 +2,6 @@ package ua.epam.spring.hometask.service;
 
 import org.springframework.stereotype.Service;
 import ua.epam.spring.hometask.domain.*;
-import ua.epam.spring.hometask.repository.AuditoriumRepository;
 import ua.epam.spring.hometask.repository.TicketRepository;
 
 import javax.annotation.Nonnull;
@@ -44,7 +43,7 @@ public class BookingServiceImpl implements BookingService {
             }
             price += ticket_price;
         }
-        return price * movieRateIndex * (100 - discountService.getDiscount(user, event, dateTime, seats)) / 100;
+        return movieRateIndex * price * (100 - discountService.getDiscount(user, event, dateTime, seats.size())) / 100;
 
     }
 

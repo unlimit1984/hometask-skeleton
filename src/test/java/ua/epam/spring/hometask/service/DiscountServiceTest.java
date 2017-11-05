@@ -71,18 +71,13 @@ public class DiscountServiceTest {
         Event event = eventService.getByName(EVENT_NAME1);
 
         //nothing special
-        Assert.assertEquals(0, discountService.getDiscount(simpleUser, event, AIR_DATE1, new HashSet<>(Arrays.asList(2L, 3L, 4L))));
+        Assert.assertEquals(0, discountService.getDiscount(simpleUser, event, AIR_DATE1, 3));
         //Birthday is close
-        Assert.assertEquals(10, discountService.getDiscount(luckyUser, event, AIR_DATE1, new HashSet<>(Arrays.asList(2L, 3L, 4L))));
+        Assert.assertEquals(10, discountService.getDiscount(luckyUser, event, AIR_DATE1, 3));
         //10 tickets
-        Assert.assertEquals(5, discountService.getDiscount(simpleUser, event, AIR_DATE1, new HashSet<>(Arrays.asList(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L))));
+        Assert.assertEquals(5, discountService.getDiscount(simpleUser, event, AIR_DATE1, 10));
         //Birthday is close and 10 tickets
-        Assert.assertEquals(10, discountService.getDiscount(luckyUser, event, AIR_DATE1, new HashSet<>(Arrays.asList(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L))));
-
-
-//        Assert.assertEquals(0, discountService.getDiscount(user, event, AIR_DATE1, new HashSet<>(Arrays.asList(2L, 3L, 4L))));
-//        Assert.assertEquals(20, discountService.getDiscount(user,event,ldt,21));
-//        Assert.assertEquals(30, discountService.getDiscount(user,event,ldt,51));
+        Assert.assertEquals(10, discountService.getDiscount(luckyUser, event, AIR_DATE1, 10));
     }
 
 }

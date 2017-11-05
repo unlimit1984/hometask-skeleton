@@ -13,7 +13,6 @@ import ua.epam.spring.hometask.config.AppConfig;
 import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.Ticket;
-import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.service.AuditoriumService;
 import ua.epam.spring.hometask.service.BookingService;
 import ua.epam.spring.hometask.service.EventService;
@@ -33,6 +32,7 @@ import static ua.epam.spring.hometask.UserTestData.*;
         classes = AppConfig.class,
         loader = AnnotationConfigContextLoader.class
 )
+
 public class CounterAspectTest {
 
     @Autowired
@@ -79,15 +79,13 @@ public class CounterAspectTest {
         eventService.save(EventTestData.createNew(EVENT_NAME3, EVENT_PRICE3, EVENT_RATING3, EVENT_AIR_DATES3, auditoriumMap3));
 
         userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1));
-        //userService.save(UserTestData.createNew(EMAIL2, USER_NAME2,LAST_NAME2));
-
     }
 
     @Test
     public void printStatistics() throws Exception {
 
-        Event event1 = eventService.getByName(EVENT_NAME1);
-        Event event2 = eventService.getByName(EVENT_NAME2);
+        Event event1 = eventService.getByName(EVENT_NAME1);// event1-byName - 1
+        Event event2 = eventService.getByName(EVENT_NAME2);// event2-byName - 1
 
         Set<Ticket> tickets = new TreeSet<>(Arrays.asList(
                 new Ticket(userService.getUserByEmail(EMAIL1), event1, NOW, 1L),
@@ -100,11 +98,11 @@ public class CounterAspectTest {
         ));
 
         eventService.getByName("event0");
-        eventService.getByName(EVENT_NAME1);
-        eventService.getByName(EVENT_NAME1);
-        eventService.getByName(EVENT_NAME2);
-        eventService.getByName(EVENT_NAME2);
-        eventService.getByName(EVENT_NAME2);
+        eventService.getByName(EVENT_NAME1);// event1-byName - 2
+        eventService.getByName(EVENT_NAME1);// event1-byName - 3
+        eventService.getByName(EVENT_NAME2);// event2-byName - 2
+        eventService.getByName(EVENT_NAME2);// event2-byName- 3
+        eventService.getByName(EVENT_NAME2);// event2-byName - 4
         eventService.getByName("event3");
 
         bookingService.getTicketsPrice(event1, AIR_DATE1, USER1, new HashSet<>(Arrays.asList(1L, 2L, 3L)));

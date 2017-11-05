@@ -77,8 +77,7 @@ public class BookingServiceTest {
 
     @Test
     public void getTicketsPrice() throws Exception {
-        User user = new User();
-        LocalDateTime ldt = LocalDateTime.now();
+        User user = userService.getUserByEmail(EMAIL1);
 
         Event event = new Event();
         event.setBasePrice(10);
@@ -89,9 +88,9 @@ public class BookingServiceTest {
 
         //eventService.save(event);
 
-        Assert.assertEquals(90, bookingService.getTicketsPrice(event, ldt, user, LongStream.range(1, 9).boxed().collect(Collectors.toSet())), 0);
-        Assert.assertEquals(160, bookingService.getTicketsPrice(event, ldt, user, LongStream.range(1, 21).boxed().collect(Collectors.toSet())), 0);
-        Assert.assertEquals(350, bookingService.getTicketsPrice(event, ldt, user, LongStream.range(1, 51).boxed().collect(Collectors.toSet())), 0);
+        Assert.assertEquals(110, bookingService.getTicketsPrice(event, ldt, user, LongStream.range(1, 9).boxed().collect(Collectors.toSet())), 0);
+        Assert.assertEquals(218.5, bookingService.getTicketsPrice(event, ldt, user, LongStream.range(1, 21).boxed().collect(Collectors.toSet())), 0);
+        Assert.assertEquals(503.5, bookingService.getTicketsPrice(event, ldt, user, LongStream.range(1, 51).boxed().collect(Collectors.toSet())), 0);
 
     }
 
