@@ -1,6 +1,5 @@
 package ua.epam.spring.hometask.repository.jdbc;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -13,7 +12,9 @@ import ua.epam.spring.hometask.domain.EventRating;
 import ua.epam.spring.hometask.domain.to.EventDetailsDTO;
 import ua.epam.spring.hometask.repository.EventRepository;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -47,7 +48,6 @@ public class JdbcEventRepositoryImpl implements EventRepository {
                 ps.setString(3, event.getRating().name());
                 return ps;
             }, keyHolder);
-            //result = jdbcTemplate.update(sql, params);
             event.setId(keyHolder.getKey().longValue());
         } else {
             String sql = "UPDATE event SET name=?, base_price=?, rating=?, where id=" + event.getId();
@@ -95,10 +95,10 @@ public class JdbcEventRepositoryImpl implements EventRepository {
         return jdbcTemplate.query(
                 "SELECT e.id, e.name, e.base_price, e.rating, eu.auditorium_name, eu.air_date" +
                         " FROM event e" +
-                        " LEFT JOIN event_auditoriums eu ON e.id=eu.event_id",rse());
+                        " LEFT JOIN event_auditoriums eu ON e.id=eu.event_id", rse());
     }
 
-    private ResultSetExtractor<Set<Event>> rse(){
+    private ResultSetExtractor<Set<Event>> rse() {
         return rs -> {
 
             Map<Event, Set<EventDetailsDTO>> eventDetailsMap = new HashMap<>();

@@ -18,7 +18,8 @@ import java.util.TreeMap;
 @Aspect
 public class DiscountAspect {
 
-    private Map<User, Integer> counter = new HashMap<>();
+    /*InMemory impl*/
+//    private Map<User, Integer> counter = new HashMap<>();
 
     private JdbcTemplate jdbcTemplate;
 

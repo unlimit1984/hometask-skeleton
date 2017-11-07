@@ -22,6 +22,9 @@ public class JdbcAuditoriumRepositoryImpl implements AuditoriumRepository {
 
     @Override
     public Collection<Auditorium> getAll() {
+
+        /*  With one SELECT JOIN query*/
+
         return jdbcTemplate.query(
                 "SELECT a.name, a.number_of_seats, aseats.vip_seat" +
                         " FROM auditorium a" +
@@ -55,6 +58,8 @@ public class JdbcAuditoriumRepositoryImpl implements AuditoriumRepository {
 
                     return auditoriumSeats.keySet();
                 });
+
+        /*  With multiple simple SELECT queries*/
 
 //        Collection<Auditorium> auditoriums =
 //                jdbcTemplate.query("SELECT * FROM auditorium", (rs, rowNum) -> {

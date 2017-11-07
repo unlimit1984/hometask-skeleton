@@ -83,8 +83,11 @@ public class AppConfig {
 
     @Bean
     public UserRepository userRepository() {
-        //return new InMemoryUserRepositoryImpl();
+
         return new JdbcUserRepositoryIml(jdbcTemplate());
+
+        /*InMemory impl*/
+        //return new InMemoryUserRepositoryImpl();
     }
 
     @Bean
@@ -94,8 +97,10 @@ public class AppConfig {
 
     @Bean
     public EventRepository eventRepository() {
-        //return new InMemoryEventRepositoryImpl();
         return new JdbcEventRepositoryImpl(jdbcTemplate());
+
+        /*InMemory impl*/
+        //return new InMemoryEventRepositoryImpl();
     }
 
     @Bean
@@ -134,6 +139,8 @@ public class AppConfig {
     @Bean
     public AuditoriumRepository auditoriumRepository() {
         return new JdbcAuditoriumRepositoryImpl(jdbcTemplate());
+
+        /*InMemory impl*/
 //        return new InMemoryAuditoriumRepositoryImpl(
 //                Arrays.asList(names),
 //                numberOfSeats,

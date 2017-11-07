@@ -35,12 +35,10 @@ public class JdbcUserRepositoryIml implements UserRepository {
         int result;
         Timestamp birthday = Timestamp.valueOf(LocalDateTime.of(user.getBirthday(), LocalTime.ofSecondOfDay(0)));
         if (user.isNew()) {
-            String sql = "INSERT INTO users (first_name, last_name, email, birthday) VALUES (?, ?, ?, ?)";
-//            result = jdbcTemplate.update(sql, user.getFirstName(), user.getLastName(), user.getEmail());
-
             KeyHolder keyHolder = new GeneratedKeyHolder();
 
             result = jdbcTemplate.update(con -> {
+                String sql = "INSERT INTO users (first_name, last_name, email, birthday) VALUES (?, ?, ?, ?)";
                 PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 //                PreparedStatement ps = con.prepareStatement(sql, new String[]{"id"});
                 ps.setString(1, user.getFirstName());
@@ -108,6 +106,8 @@ public class JdbcUserRepositoryIml implements UserRepository {
     @Override
     public Collection<User> getAll() {
 
+
+        /* Short version of User  */
 
 //        return jdbcTemplate.query("SELECT * FROM users", (rs, rowNum) -> {
 //            Long id = rs.getLong("id");
