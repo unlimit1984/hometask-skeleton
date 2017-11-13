@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 /**
  * Created by Vladimir on 01.11.2017.
  */
-@Component
+//@Component
 public class BirthdayStrategy implements DiscountStrategy {
 
     @Override

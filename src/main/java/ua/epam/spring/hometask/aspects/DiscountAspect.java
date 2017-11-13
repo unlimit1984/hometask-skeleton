@@ -5,6 +5,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.domain.User;
 
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import java.util.TreeMap;
  * Created by Vladimir on 22.10.2017.
  */
 @Aspect
+@Component
 public class DiscountAspect {
 
     /*InMemory impl*/
@@ -112,7 +114,7 @@ public class DiscountAspect {
             System.out.println(count + " - " + discountName);
         });
 
-        System.out.println("---------------------");
+        System.out.println("-----------------");
 
         getDiscountEventsGroupedByUser().forEach((id, userEventInfo) -> {
             System.out.println("user_id: " + id);

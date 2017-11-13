@@ -4,6 +4,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.Ticket;
 
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
  * Created by Vladimir on 22.10.2017.
  */
 @Aspect
+@Component
 public class CounterAspect {
     /*InMemory impl*/
 //    private Map<Event, Map<EventInfoType, Integer>> counter = new HashMap<>();
@@ -121,6 +123,7 @@ public class CounterAspect {
             System.out.println(eventInfo.get(EventInfoType.GET_BY_NAME) + " - get by name");
             System.out.println(eventInfo.get(EventInfoType.GET_TICKET_PRICE) + " - get ticket price");
             System.out.println(eventInfo.get(EventInfoType.BOOK_TICKET) + " - booked");
+            System.out.println("--------------");
         });
 
 

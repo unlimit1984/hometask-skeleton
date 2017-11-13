@@ -5,6 +5,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.service.UserService;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
  * Created by Vladimir on 22.10.2017.
  */
 @Aspect
+@Component
 public class LuckyWinnerAspect {
 
     private Random random = new Random();

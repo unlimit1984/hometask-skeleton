@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * <p>
  * Created by Vladimir on 02.11.2017.
  */
-@Component
+//@Component
 public class TicketCountStrategy implements DiscountStrategy {
 
     @Override

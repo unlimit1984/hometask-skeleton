@@ -1,6 +1,8 @@
 package ua.epam.spring.hometask.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,6 +11,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import ua.epam.spring.hometask.aspects.CounterAspect;
 import ua.epam.spring.hometask.aspects.DiscountAspect;
 import ua.epam.spring.hometask.aspects.LuckyWinnerAspect;
+import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.repository.AuditoriumRepository;
 import ua.epam.spring.hometask.repository.EventRepository;
 import ua.epam.spring.hometask.repository.TicketRepository;
@@ -24,12 +27,18 @@ import ua.epam.spring.hometask.service.strategy.TicketCountStrategy;
 
 import javax.sql.DataSource;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Vladimir on 19.10.2017.
  */
 @Configuration
 @EnableAspectJAutoProxy
+@ComponentScan({
+        "ua.epam.spring.hometask.repository.jdbc",
+        "ua.epam.spring.hometask.service",
+        "ua.epam.spring.hometask.aspects"
+})
 //@PropertySource({"classpath:auditorium.properties", "classpath:db.properties"})
 //@PropertySource("classpath:auditorium.properties")
 public class AppConfig {
@@ -81,37 +90,42 @@ public class AppConfig {
         return new JdbcTemplate(dataSource());
     }
 
+//    @Bean
+//    public UserRepository userRepository() {
+//
+//        return new JdbcUserRepositoryIml(jdbcTemplate());
+//
+//        /*InMemory impl*/
+//        //return new InMemoryUserRepositoryImpl();
+//    }
+
+//    @Bean
+//    public UserService userService() {
+//        return new UserServiceImpl();
+//    }
+
+//    @Bean
+//    public EventRepository eventRepository() {
+//        return new JdbcEventRepositoryImpl(jdbcTemplate());
+//
+//        /*InMemory impl*/
+//        //return new InMemoryEventRepositoryImpl();
+//    }
+
+//    @Bean
+//    public EventService eventService() {
+//        return new EventServiceImpl();
+//    }
+
+//    @Bean
+//    public TicketRepository ticketRepository() {
+//        //return new InMemoryTicketRepositoryImpl();
+//        return new JdbcTicketRepository(jdbcTemplate());
+//    }
+
     @Bean
-    public UserRepository userRepository() {
-
-        return new JdbcUserRepositoryIml(jdbcTemplate());
-
-        /*InMemory impl*/
-        //return new InMemoryUserRepositoryImpl();
-    }
-
-    @Bean
-    public UserService userService() {
-        return new UserServiceImpl();
-    }
-
-    @Bean
-    public EventRepository eventRepository() {
-        return new JdbcEventRepositoryImpl(jdbcTemplate());
-
-        /*InMemory impl*/
-        //return new InMemoryEventRepositoryImpl();
-    }
-
-    @Bean
-    public EventService eventService() {
-        return new EventServiceImpl();
-    }
-
-    @Bean
-    public TicketRepository ticketRepository() {
-        //return new InMemoryTicketRepositoryImpl();
-        return new JdbcTicketRepository(jdbcTemplate());
+    public List<DiscountStrategy> strategies(){
+        return Arrays.asList(birthdayStrategy(), ticketCountStrategy());
     }
 
     @Bean
@@ -124,46 +138,46 @@ public class AppConfig {
         return new TicketCountStrategy();
     }
 
-    @Bean
-    public DiscountService discountService() {
-        DiscountServiceImpl discountService = new DiscountServiceImpl();
-        discountService.setStrategies(Arrays.asList(birthdayStrategy(), ticketCountStrategy()));
-        return discountService;
-    }
+//    @Bean
+//    public DiscountService discountService() {
+//        DiscountServiceImpl discountService = new DiscountServiceImpl();
+//        discountService.setStrategies(Arrays.asList(birthdayStrategy(), ticketCountStrategy()));
+//        return discountService;
+//    }
 
-    @Bean
-    public BookingService bookingService() {
-        return new BookingServiceImpl(ticketRepository(), discountService(), auditoriumService());
-    }
+//    @Bean
+//    public BookingService bookingService() {
+//        return new BookingServiceImpl(ticketRepository(), discountService(), auditoriumService());
+//    }
 
-    @Bean
-    public AuditoriumRepository auditoriumRepository() {
-        return new JdbcAuditoriumRepositoryImpl(jdbcTemplate());
+//    @Bean
+//    public AuditoriumRepository auditoriumRepository() {
+//        return new JdbcAuditoriumRepositoryImpl(jdbcTemplate());
+//
+//        /*InMemory impl*/
+////        return new InMemoryAuditoriumRepositoryImpl(
+////                Arrays.asList(names),
+////                numberOfSeats,
+////                vipSeats.values().stream().collect(Collectors.toList()));
+//    }
 
-        /*InMemory impl*/
-//        return new InMemoryAuditoriumRepositoryImpl(
-//                Arrays.asList(names),
-//                numberOfSeats,
-//                vipSeats.values().stream().collect(Collectors.toList()));
-    }
+//    @Bean
+//    public AuditoriumService auditoriumService() {
+//        return new AuditoriumServiceImpl();
+//    }
 
-    @Bean
-    public AuditoriumService auditoriumService() {
-        return new AuditoriumServiceImpl();
-    }
+//    @Bean
+//    public CounterAspect counterAspect() {
+//        return new CounterAspect(jdbcTemplate());
+//    }
 
-    @Bean
-    public CounterAspect counterAspect() {
-        return new CounterAspect(jdbcTemplate());
-    }
+//    @Bean
+//    public DiscountAspect discountAspect() {
+//        return new DiscountAspect(jdbcTemplate());
+//    }
 
-    @Bean
-    public DiscountAspect discountAspect() {
-        return new DiscountAspect(jdbcTemplate());
-    }
-
-    @Bean
-    public LuckyWinnerAspect luckyWinnerAspect() {
-        return new LuckyWinnerAspect();
-    }
+//    @Bean
+//    public LuckyWinnerAspect luckyWinnerAspect() {
+//        return new LuckyWinnerAspect();
+//    }
 }
