@@ -12,9 +12,23 @@
 
     <!--Support for @Controller-->
     <context:component-scan base-package="ua.epam.spring.hometask.controller" />
+    <context:component-scan base-package="ua.epam.spring.hometask.repository.jdbc" />
+    <context:component-scan base-package="ua.epam.spring.hometask.service" />
+    <context:component-scan base-package="ua.epam.spring.hometask.aspects" />
 
     <!--Turn @Controller into actual web controllers-->
     <mvc:annotation-driven />
 
+
+    <!-- freemarker config -->
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/ftl/"/>
+    </bean>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="cache" value="true"/>
+        <property name="prefix" value=""/>
+        <property name="suffix" value=".ftl"/>
+    </bean>
 
 </beans>
