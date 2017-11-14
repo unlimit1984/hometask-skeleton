@@ -16,15 +16,12 @@ import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.User;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
 import static ua.epam.spring.hometask.EventTestData.*;
 import static ua.epam.spring.hometask.UserTestData.*;
 
-//@ContextConfiguration({"classpath:spring-test.xml"})
 @ContextConfiguration(
         classes = AppConfig.class,
         loader = AnnotationConfigContextLoader.class

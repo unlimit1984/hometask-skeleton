@@ -24,23 +24,16 @@ import static ua.epam.spring.hometask.UserTestData.*;
 /**
  * Created by Vladimir on 09.10.2017.
  */
-//@ContextConfiguration({"classpath:spring-test.xml"})
 @ContextConfiguration(
         classes = AppConfig.class,
         loader = AnnotationConfigContextLoader.class
 )
 @RunWith(SpringJUnit4ClassRunner.class)
-//@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
 @Sql(scripts = "classpath:populate_db.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class UserServiceTest {
 
     @Autowired
     private UserService service;
-
-//    public void setService(UserService userService) {
-//        this.service = userService;
-//    }
-
 
     @Before
     public void setUp() throws Exception {

@@ -4,6 +4,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.Ticket;
 
@@ -14,9 +15,8 @@ import java.util.stream.Collectors;
  * Created by Vladimir on 22.10.2017.
  */
 @Aspect
+@Component
 public class CounterAspect {
-    /*InMemory impl*/
-//    private Map<Event, Map<EventInfoType, Integer>> counter = new HashMap<>();
 
     private JdbcTemplate jdbcTemplate;
 
@@ -79,21 +79,7 @@ public class CounterAspect {
                     "UPDATE event_counter_audit SET count = count+1 WHERE event_name=? AND name=?",
                     event.getName(),
                     category.name());
-
-            /*InMemory impl*/
-
-//            if (!counter.containsKey(event)) {
-//                Map<EventInfoType, Integer> eventInfo = new HashMap<>();
-//                eventInfo.put(EventInfoType.GET_BY_NAME, 0);
-//                eventInfo.put(EventInfoType.GET_TICKET_PRICE, 0);
-//                eventInfo.put(EventInfoType.BOOK_TICKET, 0);
-//                counter.put(event, eventInfo);
-//            }
-//            Map<EventInfoType, Integer> eventInfo = counter.get(event);
-//            int newValue = eventInfo.get(category) + 1;
-//            eventInfo.put(category, newValue);
         }
-
     }
 
     public void printStatistics() {
@@ -121,18 +107,8 @@ public class CounterAspect {
             System.out.println(eventInfo.get(EventInfoType.GET_BY_NAME) + " - get by name");
             System.out.println(eventInfo.get(EventInfoType.GET_TICKET_PRICE) + " - get ticket price");
             System.out.println(eventInfo.get(EventInfoType.BOOK_TICKET) + " - booked");
+            System.out.println("--------------");
         });
-
-
-                    /*InMemory impl*/
-
-//        counter.entrySet().forEach(entry -> {
-//            System.out.println("Event: " + entry.getKey());
-//            Map<EventInfoType, Integer> eventInfo = entry.getValue();
-//            System.out.println(eventInfo.get(EventInfoType.GET_BY_NAME) + " - get by name");
-//            System.out.println(eventInfo.get(EventInfoType.GET_TICKET_PRICE) + " - get ticket price");
-//            System.out.println(eventInfo.get(EventInfoType.BOOK_TICKET) + " - booked");
-//        });
     }
 
 }

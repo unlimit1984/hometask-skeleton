@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.repository.jdbc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ua.epam.spring.hometask.domain.Auditorium;
@@ -16,14 +17,13 @@ public class JdbcAuditoriumRepositoryImpl implements AuditoriumRepository {
 
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired//we can avoid it because of Spring 4.3
     public JdbcAuditoriumRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public Collection<Auditorium> getAll() {
-
-        /*  With one SELECT JOIN query*/
 
         return jdbcTemplate.query(
                 "SELECT a.name, a.number_of_seats, aseats.vip_seat" +
@@ -58,37 +58,5 @@ public class JdbcAuditoriumRepositoryImpl implements AuditoriumRepository {
 
                     return auditoriumSeats.keySet();
                 });
-
-        /*  With multiple simple SELECT queries*/
-
-//        Collection<Auditorium> auditoriums =
-//                jdbcTemplate.query("SELECT * FROM auditorium", (rs, rowNum) -> {
-//                    String name = rs.getString("name");
-//                    Long numberOfSeats = rs.getLong("numberOfSeats");
-//
-//                    Auditorium result = new Auditorium();
-//                    result.setName(name);
-//                    result.setNumberOfSeats(numberOfSeats);
-//                    return result;
-//                });
-//
-//        Collection<AuditoriumDetailsDTO> auditoriumDetailsDTOs = jdbcTemplate.query("SELECT * FROM auditorium_seats", (rs, rowNum) -> {
-//            String auditoriumName = rs.getString("auditorium_name");
-//            Long vipSeat = rs.getLong("vip_seat");
-//            AuditoriumDetailsDTO dto = new AuditoriumDetailsDTO(auditoriumName, vipSeat);
-//            return dto;
-//        });
-//
-//        auditoriums.forEach(auditorium -> {
-//            Set<Long> seats = auditoriumDetailsDTOs
-//                    .stream()
-//                    .filter(dto -> dto.getAuditoriumName().equals(auditorium.getName()))
-//                    .mapToLong(AuditoriumDetailsDTO::getVipSeat)
-//                    .boxed()
-//                    .collect(Collectors.toSet());
-//            auditorium.setVipSeats(seats);
-//        });
-//
-//        return auditoriums;
     }
 }

@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.repository.jdbc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -10,7 +11,6 @@ import ua.epam.spring.hometask.repository.UserRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,6 +26,7 @@ public class JdbcUserRepositoryIml implements UserRepository {
 
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired//we can avoid it because of Spring 4.3
     public JdbcUserRepositoryIml(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -40,7 +41,6 @@ public class JdbcUserRepositoryIml implements UserRepository {
             result = jdbcTemplate.update(con -> {
                 String sql = "INSERT INTO users (first_name, last_name, email, birthday) VALUES (?, ?, ?, ?)";
                 PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-//                PreparedStatement ps = con.prepareStatement(sql, new String[]{"id"});
                 ps.setString(1, user.getFirstName());
                 ps.setString(2, user.getLastName());
                 ps.setString(3, user.getEmail());
@@ -105,26 +105,6 @@ public class JdbcUserRepositoryIml implements UserRepository {
 
     @Override
     public Collection<User> getAll() {
-
-
-        /* Short version of User  */
-
-//        return jdbcTemplate.query("SELECT * FROM users", (rs, rowNum) -> {
-//            Long id = rs.getLong("id");
-//            String firstName = rs.getString("first_name");
-//            String lastName = rs.getString("last_name");
-//            String email = rs.getString("email");
-//
-//
-//            User result = new User();
-//            result.setId(id);
-//            result.setFirstName(firstName);
-//            result.setLastName(lastName);
-//            result.setEmail(email);
-//
-//            return result;
-//        });
-
 
         return jdbcTemplate.query(
                 "SELECT u.id, u.first_name, u.last_name, u.email, u.birthday, l.lucky_datetime" +

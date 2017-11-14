@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.repository.jdbc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -27,6 +28,7 @@ public class JdbcEventRepositoryImpl implements EventRepository {
 
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired//we can avoid it because of Spring 4.3
     public JdbcEventRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -42,7 +44,6 @@ public class JdbcEventRepositoryImpl implements EventRepository {
             KeyHolder keyHolder = new GeneratedKeyHolder();
             result = jdbcTemplate.update(con -> {
                 PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-//                PreparedStatement ps = con.prepareStatement(sql, new String[]{"id"});
                 ps.setString(1, event.getName());
                 ps.setDouble(2, event.getBasePrice());
                 ps.setString(3, event.getRating().name());
