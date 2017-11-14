@@ -23,6 +23,7 @@ public class EventServiceImpl implements EventService {
     public EventServiceImpl() {
         this(Clock.systemDefaultZone());
     }
+
     public EventServiceImpl(Clock clock) {
         this.clock = clock;
     }
@@ -78,18 +79,17 @@ public class EventServiceImpl implements EventService {
         return eventRepository.getAll()
                 .stream()
                 .filter(event -> event.airsOnDates(from, to))
-                //.filter(event -> event.getAirDates().stream().anyMatch(ldt -> ldt.toLocalDate().compareTo(from)>=0 && ldt.toLocalDate().compareTo(to)<=0))
                 .collect(Collectors.toSet());
     }
 
     @Nonnull
     @Override
     public Set<Event> getNextEvents(@Nonnull LocalDateTime to) {
-        LocalDateTime now  = LocalDateTime.now(clock);
+        LocalDateTime now = LocalDateTime.now(clock);
 
         return eventRepository.getAll()
                 .stream()
-                .filter(event -> event.getAirDates().stream().anyMatch(ldt -> ldt.compareTo(now)>=0 && ldt.compareTo(to) <= 0))
+                .filter(event -> event.getAirDates().stream().anyMatch(ldt -> ldt.compareTo(now) >= 0 && ldt.compareTo(to) <= 0))
                 .collect(Collectors.toSet());
     }
 }

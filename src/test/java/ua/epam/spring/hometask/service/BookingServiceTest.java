@@ -24,22 +24,17 @@ import static ua.epam.spring.hometask.EventTestData.EVENT_PRICE1;
 import static ua.epam.spring.hometask.EventTestData.EVENT_PRICE2;
 import static ua.epam.spring.hometask.UserTestData.*;
 
-//@ContextConfiguration({"classpath:spring-test.xml"})
 @ContextConfiguration(
         classes = AppConfig.class,
         loader = AnnotationConfigContextLoader.class
 )
 
 @RunWith(SpringJUnit4ClassRunner.class)
-//@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
 @Sql(scripts = "classpath:populate_db.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class BookingServiceTest {
 
     @Autowired
     BookingService bookingService;
-
-    @Autowired
-    AuditoriumService auditoriumService;
 
     @Autowired
     private UserService userService;
@@ -85,8 +80,6 @@ public class BookingServiceTest {
         event.setRating(EventRating.MID);
         event.setAirDates(new TreeSet<>(Arrays.asList(ldt.minusDays(1), ldt.plusDays(1), ldt)));
         event.setAuditoriums(auditoriumMap);
-
-        //eventService.save(event);
 
         Assert.assertEquals(110, bookingService.getTicketsPrice(event, ldt, user, LongStream.range(1, 9).boxed().collect(Collectors.toSet())), 0);
         Assert.assertEquals(218.5, bookingService.getTicketsPrice(event, ldt, user, LongStream.range(1, 21).boxed().collect(Collectors.toSet())), 0);
