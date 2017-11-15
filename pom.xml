@@ -189,6 +189,7 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--Freemarker-->
         <!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
         <dependency>
             <groupId>org.freemarker</groupId>
