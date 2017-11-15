@@ -28,7 +28,7 @@ public class UserController {
 //    }
 
     @RequestMapping("/users")
-    public ModelAndView getAll(HttpServletRequest request) {
+    public ModelAndView getAll() {
 
         ModelAndView mav = new ModelAndView("users");
         List<User> users = new ArrayList<>(userService.getAll());
