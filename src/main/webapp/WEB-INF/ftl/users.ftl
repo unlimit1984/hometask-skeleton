@@ -3,7 +3,7 @@
 <head><title>User list</title></head>
 
 <body>
-
+<h1><a href="./">Main page</a></h1>
 <h3>User list</h3>
 
 <table style="border: solid 1px">
