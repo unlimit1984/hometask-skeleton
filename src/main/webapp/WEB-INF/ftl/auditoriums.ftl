@@ -1,26 +1,38 @@
 <html>
 
-<head><title>User list</title></head>
+<head>
+    <title>User list</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
 
 <body>
-<h1><a href="./">Main page</a></h1>
-<h3>Auditorium list</h3>
+<div class="container">
+    <h1><a href="./">Main page</a></h1>
+    <h3>Auditorium list</h3>
 
-<table style="border: solid 1px">
-    <tr>
-        <th>Name</th>
-        <th>Number of seats</th>
-    </tr>
-<#list auditoriums as auditorium>
-    <tr>
-        <td>${auditorium.name}</td>
-        <td>${auditorium.numberOfSeats}</td>
-    </tr>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Number of seats</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#list auditoriums as auditorium>
+        <tr>
+            <td>${auditorium.name}</td>
+            <td>${auditorium.numberOfSeats}</td>
+        </tr>
 
-</#list>
-
-</table>
-
+        </#list>
+        </tbody>
+    </table>
+</div>
 </body>
 
 </html>
