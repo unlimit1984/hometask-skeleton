@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>User list</title>
+    <title>Auditorium list</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- jQuery library -->
@@ -25,7 +25,7 @@
         <tbody>
         <#list auditoriums as auditorium>
         <tr>
-            <td>${auditorium.name}</td>
+            <td><a href="./auditorium?name=${auditorium.name}">${auditorium.name}</a></td>
             <td>${auditorium.numberOfSeats}</td>
         </tr>
 

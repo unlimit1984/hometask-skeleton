@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Event list</title>
+    <title>User list</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- jQuery library -->
@@ -13,26 +13,9 @@
 <body>
 <div class="container">
     <h1><a href="./">Main page</a></h1>
-    <h3>Event list</h3>
-
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Base price</th>
-            <th>Rating</th>
-        </tr>
-        </thead>
-        <tbody>
-        <#list events as event>
-        <tr>
-            <td>${event.name}</td>
-            <td>${event.basePrice}</td>
-            <td>${event.rating}</td>
-        </tr>
-        </#list>
-        </tbody>
-    </table>
+    <h3>Error page</h3>
+    <h3><a href="javascript: window.history.go(-1)">Back</a></h3>
+    <p>Wrong request</p>
 </div>
 </body>
 
