@@ -14,10 +14,12 @@
 <div class="container">
     <h1><a href="./">Main page</a></h1>
     <h3>User list</h3>
+    <a href="./user/add">Add new</a>
 
     <table class="table">
         <thead>
         <tr>
+            <th>Id</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
@@ -27,10 +29,11 @@
     <tbody>
     <#list users as user>
         <tr>
+            <td><a href="./user/id?id=${user.id}">${user.id}</a></td>
             <td>${user.firstName}</td>
             <td>${user.lastName}</td>
             <td>${user.email}</td>
-            <td>${user.birthday}</td>
+            <td><a href="./user/email?email=${user.birthday}">${user.birthday}</a></td>
         </tr>
 
     </#list>
