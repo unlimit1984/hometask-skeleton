@@ -16,26 +16,37 @@
     <h3><a href="javascript: window.history.go(-1)">Back</a></h3>
     <h3>User</h3>
 
-    <form action="/addUser" method="post">
+    <form action="addUser" method="post">
         <div class="form-group">
             <label for="id">Id:</label>
-            <input type="text" class="form-control" id="id" disabled
-                   value="">
-            <div class="form-group">
-                <label for="firstName">First Name:</label>
-                <input type="text" class="form-control" id="firstName" placeholder="Enter First Name"
-                       value="">
-            </div>
-            <div class="form-group">
-                <label for="lastName">Last Name:</label>
-                <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name"
-                       value="">
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="text" class="form-control" id="email" placeholder="Enter Email"
-                       value="">
-            </div>
+            <input type="text" class="form-control" id="id" name="id" disabled
+                   value="${(user.id)!""}">
+        </div>
+        <div class="form-group">
+            <label for="firstName">First Name:</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter first name"
+                   required="required"
+                   value="${(user.firstName)!""}">
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter last name"
+                   required="required"
+                   value="${(user.lastName)!""}">
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" class="form-control" id="email" name="email" placeholder="Enter email"
+                   required="required"
+                   value="${(user.email)!""}">
+        </div>
+        <div class="form-group">
+            <label for="birthday">Email:</label>
+            <input type="date" class="form-control" id="birthday" name="birthday" placeholder="Enter birthday"
+                   required="required"
+                   value="${(user.birthday)!""}">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
 </div>
