@@ -63,7 +63,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/addUser", method = RequestMethod.POST)
     public ModelAndView submit(@ModelAttribute("user") User user, BindingResult result) {
         if (result.hasErrors()) {
             return new ModelAndView("error");
