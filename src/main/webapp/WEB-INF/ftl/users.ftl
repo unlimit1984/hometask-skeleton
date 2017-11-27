@@ -32,8 +32,8 @@
             <td><a href="./user/id?id=${user.id}">${user.id}</a></td>
             <td>${user.firstName}</td>
             <td>${user.lastName}</td>
-            <td>${user.email}</td>
-            <td><a href="./user/email?email=${user.birthday}">${user.birthday}</a></td>
+            <td><a href="./user/email?email=${user.email}">${user.email}</a></td>
+            <td>${user.birthday}</td>
         </tr>
 
     </#list>

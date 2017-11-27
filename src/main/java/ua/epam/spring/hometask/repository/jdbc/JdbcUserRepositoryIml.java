@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.domain.to.UserLuckyDate;
 import ua.epam.spring.hometask.repository.UserRepository;
+import ua.epam.spring.hometask.util.exception.NotFoundException;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -79,16 +80,21 @@ public class JdbcUserRepositoryIml implements UserRepository {
 
     @Override
     public User get(long id) {
-        User u = jdbcTemplate.queryForObject("SELECT * FROM users WHERE id=?", new Object[]{id},
-                (rs, rowNum) -> {
-                    User user = new User();
-                    user.setId(rs.getLong("id"));
-                    user.setFirstName(rs.getString("first_name"));
-                    user.setLastName(rs.getString("last_name"));
-                    user.setEmail(rs.getString("email"));
-                    user.setBirthday(rs.getTimestamp("birthday").toLocalDateTime().toLocalDate());
-                    return user;
-                });
+        User u;
+        try {
+            u = jdbcTemplate.queryForObject("SELECT * FROM users WHERE id=?", new Object[]{id},
+                    (rs, rowNum) -> {
+                        User user = new User();
+                        user.setId(rs.getLong("id"));
+                        user.setFirstName(rs.getString("first_name"));
+                        user.setLastName(rs.getString("last_name"));
+                        user.setEmail(rs.getString("email"));
+                        user.setBirthday(rs.getTimestamp("birthday").toLocalDateTime().toLocalDate());
+                        return user;
+                    });
+        } catch (Exception e){
+            throw new NotFoundException("Not found entity User with id="+id);
+        }
         List<UserLuckyDate> luckyDates = jdbcTemplate.query(
                 "SELECT * FROM user_lucky_dates WHERE user_id=?",
                 new Object[]{id},
