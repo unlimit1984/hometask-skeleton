@@ -1,5 +1,7 @@
 package ua.epam.spring.hometask.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -15,6 +17,8 @@ public class User extends DomainObject {
 
     private String email;
 
+    //1st approach
+    //@DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
 
     private NavigableSet<Ticket> tickets = new TreeSet<>();
