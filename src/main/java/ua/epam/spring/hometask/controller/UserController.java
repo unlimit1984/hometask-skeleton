@@ -57,7 +57,7 @@ public class UserController {
     @RequestMapping("/user/id")
     public ModelAndView getById(@RequestParam long id) {
 
-        ModelAndView mav = new ModelAndView();
+        ModelAndView mav = new ModelAndView("user");
 
         User user = userService.getById(id);
         mav.addObject("user", user);
@@ -68,7 +68,7 @@ public class UserController {
     @RequestMapping("/user/email")
     public ModelAndView getByEmail(@RequestParam String email) {
 
-        ModelAndView mav = new ModelAndView();
+        ModelAndView mav = new ModelAndView("user");
 
         User user = userService.getUserByEmail(email);
         mav.addObject("user", user);
@@ -88,13 +88,14 @@ public class UserController {
 
 
     @RequestMapping(value = "/user/addUser", method = RequestMethod.POST)
-    public ModelAndView submit(@ModelAttribute("user") User user, BindingResult result) {
+    public /*ModelAndView*/String  submit(@ModelAttribute("user") User user, BindingResult result) {
         if (result.hasErrors()) {
-            return new ModelAndView("error");
+            //return new ModelAndView("error");
+            return "error";
         }
 
         userService.save(user);
 
-        return getAll();
+        return "redirect:/users";//getAll();
     }
 }
