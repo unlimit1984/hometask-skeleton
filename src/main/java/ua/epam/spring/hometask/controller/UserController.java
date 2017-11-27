@@ -3,14 +3,15 @@ package ua.epam.spring.hometask.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.service.UserService;
 
+import java.beans.PropertyEditorSupport;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,29 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    //doesn't work
+//    @InitBinder
+//    protected void initBinder(WebDataBinder binder) {
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        binder.registerCustomEditor(LocalDate.class, "birthday", new CustomDateEditor(sdf,false));
+//    }
+
+    //2nd approach
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(LocalDate.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) throws IllegalArgumentException {
+                setValue(LocalDate.parse(text, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            }
+
+            @Override
+            public String getAsText() throws IllegalArgumentException {
+                return DateTimeFormatter.ofPattern("yyyy-MM-dd").format((LocalDate) getValue());
+            }
+        });
+    }
 
     @RequestMapping("/users")
     public ModelAndView getAll() {
