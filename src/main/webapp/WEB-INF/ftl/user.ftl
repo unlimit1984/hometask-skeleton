@@ -19,7 +19,7 @@
     <form action="addUser" method="post">
         <div class="form-group">
             <label for="id">Id:</label>
-            <input type="text" class="form-control" id="id" name="id" disabled
+            <input type="text" class="form-control" id="id" name="id" readonly
                    value="${(user.id)!""}">
         </div>
         <div class="form-group">
