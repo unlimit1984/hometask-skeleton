@@ -88,7 +88,7 @@ public class UserController {
 
 
     @RequestMapping(value = "/user/addUser", method = RequestMethod.POST)
-    public /*ModelAndView*/String  submit(@ModelAttribute("user") User user, BindingResult result) {
+    public /*ModelAndView*/String submit(@ModelAttribute("user") User user, BindingResult result) {
         if (result.hasErrors()) {
             //return new ModelAndView("error");
             return "error";
@@ -98,4 +98,15 @@ public class UserController {
 
         return "redirect:/users";//getAll();
     }
+
+    @RequestMapping(value = "/user/removeUser")
+    public String remove(@RequestParam("id") long userId) {
+
+        User u = new User();
+        u.setId(userId);
+        userService.remove(u);
+
+        return "redirect:/users";
+    }
+
 }
