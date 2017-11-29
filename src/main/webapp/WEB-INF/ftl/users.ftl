@@ -24,6 +24,7 @@
             <th>Last Name</th>
             <th>Email</th>
             <th>Birthday</th>
+            <th>Action</th>
         </tr>
         </thead>
     <tbody>
@@ -34,6 +35,12 @@
             <td>${user.lastName}</td>
             <td><a href="./user/email?email=${user.email}">${user.email}</a></td>
             <td>${user.birthday}</td>
+            <td>
+                <input type="button"
+                        class="btn btn-danger"
+                        onclick="location.href='./user/removeUser?id=${user.id}'"
+                        value="Delete">
+            </td>
         </tr>
 
     </#list>
