@@ -35,6 +35,10 @@
             <td>${event.rating}</td>
             <td>
                 <input type="button"
+                       class="btn btn-primary"
+                       onclick="location.href='./event/id?id=${event.id}'"
+                       value="Edit">
+                <input type="button"
                        class="btn btn-danger"
                        onclick="location.href='./event/removeEvent?id=${event.id}'"
                        value="Delete">

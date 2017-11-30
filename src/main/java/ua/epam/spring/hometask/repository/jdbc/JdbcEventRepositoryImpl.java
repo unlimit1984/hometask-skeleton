@@ -51,7 +51,7 @@ public class JdbcEventRepositoryImpl implements EventRepository {
             }, keyHolder);
             event.setId(keyHolder.getKey().longValue());
         } else {
-            String sql = "UPDATE event SET name=?, base_price=?, rating=?, where id=" + event.getId();
+            String sql = "UPDATE event SET name=?, base_price=?, rating=? where id=" + event.getId();
             result = jdbcTemplate.update(sql, params);
         }
 

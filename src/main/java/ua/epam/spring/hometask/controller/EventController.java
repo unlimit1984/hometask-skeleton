@@ -20,6 +20,17 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
+    @RequestMapping("/event/id")
+    public ModelAndView getById(@RequestParam long id) {
+
+        ModelAndView mav = new ModelAndView("event");
+
+        Event event = eventService.getById(id);
+        mav.addObject("event", event);
+
+        return mav;
+    }
+
     @RequestMapping("/event/add")
     public ModelAndView addEvent() {
 
@@ -40,7 +51,6 @@ public class EventController {
 
         return "redirect:/events";
     }
-
 
     @RequestMapping("/events")
     public ModelAndView getAll() {
