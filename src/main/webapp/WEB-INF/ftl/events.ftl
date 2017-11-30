@@ -14,21 +14,32 @@
 <div class="container">
     <h1><a href="./">Main page</a></h1>
     <h3>Event list</h3>
+    <a href="./event/add">Add new</a>
 
     <table class="table">
         <thead>
         <tr>
+            <td>Id</td>
             <th>Name</th>
             <th>Base price</th>
             <th>Rating</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
         <#list events as event>
         <tr>
+            <td>${event.id}</td>
             <td>${event.name}</td>
             <td>${event.basePrice}</td>
             <td>${event.rating}</td>
+            <td>
+                <input type="button"
+                       class="btn btn-danger"
+                       onclick="location.href='./event/removeEvent?id=${event.id}'"
+                       value="Delete">
+            </td>
+
         </tr>
         </#list>
         </tbody>
