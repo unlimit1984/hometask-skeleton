@@ -35,24 +35,40 @@
                    value="${(event.basePrice)!""}">
         </div>
 
+    <#--Previous text mode-->
+    <#--<div class="form-group">-->
+    <#--<label for="rating">Rating:</label>-->
+    <#--<input type="text" class="form-control" id="rating" name="rating" placeholder="Enter rating"-->
+    <#--required="required"-->
+    <#--value="${(event.rating)!""}">-->
+    <#--</div>-->
+
+
         <div class="form-group">
-            <label for="rating">Rating:</label>
-            <input type="text" class="form-control" id="rating" name="rating" placeholder="Enter rating"
-                   required="required"
-                   value="${(event.rating)!""}">
+            <label for="ratingGroup">Rating:</label>
+
+
+            <div class="form-group" id="ratingGroup">
+                <label class="radio-inline">
+                    <input ${((event.rating == 'LOW')?then('checked', ''))!''}
+                            type="radio" name="rating" value="LOW" required>LOW
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="rating" value="MID"
+                           required ${((event.rating == 'MID')?then('checked', ''))!''}>MID
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="rating" value="HIGH"
+                           required ${((event.rating == 'HIGH')?then('checked', ''))!''}>HIGH
+                </label>
+            </div>
         </div>
 
-        <#--<div class="radio">-->
-            <#--<label><input type="radio" name="rating">LOW</label>-->
-        <#--</div>-->
-        <#--<div class="radio">-->
-            <#--<label><input type="radio" name="rating">MID</label>-->
-        <#--</div>-->
-        <#--<div class="radio disabled">-->
-            <#--<label><input type="radio" name="rating">HIGH</label>-->
-        <#--</div>-->
-        <button type="button" class="btn btn-warning" onclick="location.href='../events'">Cancel</button>
-        <button type="submit" class="btn btn-primary">Save</button>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-warning" onclick="location.href='../events'">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
     </form>
 
 </div>
