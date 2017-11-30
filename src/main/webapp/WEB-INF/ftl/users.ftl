@@ -37,6 +37,10 @@
             <td>${user.birthday}</td>
             <td>
                 <input type="button"
+                       class="btn btn-primary"
+                       onclick="location.href='./user/id?id=${user.id}'"
+                       value="Edit">
+                <input type="button"
                         class="btn btn-danger"
                         onclick="location.href='./user/removeUser?id=${user.id}'"
                         value="Delete">
