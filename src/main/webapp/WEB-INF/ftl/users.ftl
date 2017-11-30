@@ -27,8 +27,8 @@
             <th>Action</th>
         </tr>
         </thead>
-    <tbody>
-    <#list users as user>
+        <tbody>
+        <#list users as user>
         <tr>
             <td><a href="./user/id?id=${user.id}">${user.id}</a></td>
             <td>${user.firstName}</td>
@@ -36,19 +36,21 @@
             <td><a href="./user/email?email=${user.email}">${user.email}</a></td>
             <td>${user.birthday}</td>
             <td>
-                <input type="button"
-                       class="btn btn-primary"
-                       onclick="location.href='./user/id?id=${user.id}'"
-                       value="Edit">
-                <input type="button"
-                        class="btn btn-danger"
-                        onclick="location.href='./user/removeUser?id=${user.id}'"
-                        value="Delete">
+                <div class="btn-group">
+                    <input type="button"
+                           class="btn btn-primary"
+                           onclick="location.href='./user/id?id=${user.id}'"
+                           value="Edit">
+                    <input type="button"
+                           class="btn btn-danger"
+                           onclick="location.href='./user/removeUser?id=${user.id}'"
+                           value="Delete">
+                </div>
             </td>
         </tr>
 
-    </#list>
-    </tbody>
+        </#list>
+        </tbody>
     </table>
 </div>
 </body>
