@@ -46,7 +46,9 @@
                    required="required"
                    value="${(user.birthday)!""}">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-warning" onclick="location.href='../users'">Cancel</button>
+        <#--<button type="button" class="btn btn-warning" onclick="location.href='javascript: window.history.go(-1)'">Cancel</button>-->
+        <button type="submit" class="btn btn-primary">Save</button>
     </form>
 
 </div>

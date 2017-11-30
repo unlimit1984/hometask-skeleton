@@ -51,8 +51,8 @@
         <#--<div class="radio disabled">-->
             <#--<label><input type="radio" name="rating">HIGH</label>-->
         <#--</div>-->
-
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-warning" onclick="location.href='../events'">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
     </form>
 
 </div>
