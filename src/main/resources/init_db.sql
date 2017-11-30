@@ -15,7 +15,8 @@ CREATE TABLE users (
   email      VARCHAR(50) NOT NULL,
   birthday   TIMESTAMP   NOT NULL,
   CONSTRAINT primary_key_users PRIMARY KEY (id),
-  UNIQUE(email)
+  --UNIQUE(email)
+  CONSTRAINT users_email_unique UNIQUE(email)
 );
 
 CREATE TABLE event (

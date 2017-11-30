@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import ua.epam.spring.hometask.UserTestData;
@@ -27,6 +29,7 @@ import static ua.epam.spring.hometask.UserTestData.*;
         classes = AppConfig.class,
         loader = AnnotationConfigContextLoader.class
 )
+@Sql(scripts = "classpath:populate_db.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class DiscountAspectTest {
 
     @Autowired

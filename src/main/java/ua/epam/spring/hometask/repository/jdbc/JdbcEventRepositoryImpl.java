@@ -131,6 +131,7 @@ public class JdbcEventRepositoryImpl implements EventRepository {
 
                 Set<LocalDateTime> airDates = eventDetailsDTOs
                         .stream()
+                        .filter(eventDetailsDTO -> eventDetailsDTO.getAirDate()!=null)
                         .map(EventDetailsDTO::getAirDate)
                         .collect(Collectors.toSet());
                 event.setAirDates(new TreeSet<>(airDates));
@@ -138,9 +139,11 @@ public class JdbcEventRepositoryImpl implements EventRepository {
                 NavigableMap<LocalDateTime, Auditorium> auditoriums = new TreeMap<>();
 
                 eventDetailsDTOs.forEach(eventDetailsDTO -> {
-                    Auditorium a = new Auditorium();
-                    a.setName(eventDetailsDTO.getAuditoriumName());
-                    auditoriums.put(eventDetailsDTO.getAirDate(), a);
+                    if(eventDetailsDTO.getAuditoriumName()!=null){
+                        Auditorium a = new Auditorium();
+                        a.setName(eventDetailsDTO.getAuditoriumName());
+                        auditoriums.put(eventDetailsDTO.getAirDate(), a);
+                    }
                 });
                 event.setAuditoriums(auditoriums);
             });
