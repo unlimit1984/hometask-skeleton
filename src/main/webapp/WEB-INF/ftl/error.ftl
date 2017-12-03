@@ -16,6 +16,7 @@
     <h3>Error page</h3>
     <h3><a href="javascript: window.history.go(-1)">Back</a></h3>
     <p>Wrong request</p>
+    <p>${message!""}</p>
 </div>
 </body>
 
