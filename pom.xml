@@ -23,6 +23,8 @@
     </properties>
 
     <build>
+        <finalName>movie</finalName>
+        <defaultGoal>package</defaultGoal>
         <!--<resources>-->
         <!--<resource>-->
         <!--<directory>src/main/resources</directory>-->
