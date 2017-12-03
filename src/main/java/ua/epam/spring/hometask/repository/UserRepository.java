@@ -1,7 +1,6 @@
 package ua.epam.spring.hometask.repository;
 
 import ua.epam.spring.hometask.domain.User;
-import ua.epam.spring.hometask.util.exception.NotFoundException;
 
 import java.util.Collection;
 
@@ -10,7 +9,7 @@ import java.util.Collection;
  */
 public interface UserRepository {
     User save(User user);
-    void delete(User user) throws NotFoundException;
-    User get(long id) throws NotFoundException;
+    boolean delete(User user);
+    User get(long id);
     Collection<User> getAll();
 }

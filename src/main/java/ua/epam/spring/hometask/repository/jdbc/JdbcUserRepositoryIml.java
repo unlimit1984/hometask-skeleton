@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.domain.to.UserLuckyDate;
 import ua.epam.spring.hometask.repository.UserRepository;
-import ua.epam.spring.hometask.util.exception.NotFoundException;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -70,31 +69,27 @@ public class JdbcUserRepositoryIml implements UserRepository {
     }
 
     @Override
-    public void delete(User user) {
+    public boolean delete(User user) {
         Long id = user.getId();
         Objects.requireNonNull(id);
         jdbcTemplate.update("DELETE FROM user_lucky_dates WHERE user_id=?", id);
-        jdbcTemplate.update("DELETE FROM users WHERE id=?", id);
-
+        return jdbcTemplate.update("DELETE FROM users WHERE id=?", id) != 0;
     }
 
     @Override
     public User get(long id) {
         User u;
-        try {
-            u = jdbcTemplate.queryForObject("SELECT * FROM users WHERE id=?", new Object[]{id},
-                    (rs, rowNum) -> {
-                        User user = new User();
-                        user.setId(rs.getLong("id"));
-                        user.setFirstName(rs.getString("first_name"));
-                        user.setLastName(rs.getString("last_name"));
-                        user.setEmail(rs.getString("email"));
-                        user.setBirthday(rs.getTimestamp("birthday").toLocalDateTime().toLocalDate());
-                        return user;
-                    });
-        } catch (Exception e){
-            throw new NotFoundException("Not found entity User with id="+id);
-        }
+        u = jdbcTemplate.queryForObject("SELECT * FROM users WHERE id=?", new Object[]{id},
+                (rs, rowNum) -> {
+                    User user = new User();
+                    user.setId(rs.getLong("id"));
+                    user.setFirstName(rs.getString("first_name"));
+                    user.setLastName(rs.getString("last_name"));
+                    user.setEmail(rs.getString("email"));
+                    user.setBirthday(rs.getTimestamp("birthday").toLocalDateTime().toLocalDate());
+                    return user;
+                });
+
         List<UserLuckyDate> luckyDates = jdbcTemplate.query(
                 "SELECT * FROM user_lucky_dates WHERE user_id=?",
                 new Object[]{id},
@@ -105,7 +100,10 @@ public class JdbcUserRepositoryIml implements UserRepository {
                     );
                     return luckyDate;
                 });
-        u.setLuckyEvents(luckyDates.stream().map(UserLuckyDate::getLuckyDate).collect(Collectors.toSet()));
+        if (!luckyDates.isEmpty()) {
+            u.setLuckyEvents(luckyDates.stream().map(UserLuckyDate::getLuckyDate).collect(Collectors.toSet()));
+        }
+
         return u;
     }
 
