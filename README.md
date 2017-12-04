@@ -70,6 +70,10 @@ We have some additional service DiscountService for getting discount during purc
 2. __DONE__ Implement UserController and all necessary ftl views
 3. __DONE__ Implement EventController and all necessary ftl views
 4. __DONE__ Implement AuditoriumController and all necessary ftl views
+5. __IN_PROGRESS__ Implement BookingController and all necessary views
+6. __DONE__ Implement generic Exception handler (ExceptionController)
+7. __IN_PROGRESS__ Provide multipart upload file (users, events)
+
 
 
 ####How to run and test

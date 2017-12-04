@@ -12,7 +12,7 @@
 
 <body>
 <div class="container">
-    <h1><a href="./">Main page</a></h1>
+    <h1><a href="../">Main page</a></h1>
     <h3>Error page</h3>
     <h3><a href="javascript: window.history.go(-1)">Back</a></h3>
     <p>Wrong request</p>
