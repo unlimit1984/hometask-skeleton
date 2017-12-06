@@ -25,6 +25,7 @@
     <a href="users">Users</a><br>
     <a href="events">Events</a><br>
     <a href="auditoriums">Auditoriums</a><br>
+    <a href="tickets?eventId=0&dateTime=2018-01-01T10%3A00">Tickets</a><br>
 </div>
 </body>
 
