@@ -193,12 +193,18 @@
 
         <!--Freemarker-->
         <!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
-        <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-            <version>2.3.23</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.freemarker</groupId>-->
+            <!--<artifactId>freemarker</artifactId>-->
+            <!--<version>2.3.23</version>-->
+        <!--</dependency>-->
 
+        <!-- https://mvnrepository.com/artifact/no.api.freemarker/freemarker-java8 -->
+        <dependency>
+            <groupId>no.api.freemarker</groupId>
+            <artifactId>freemarker-java8</artifactId>
+            <version>1.2.0</version>
+        </dependency>
 
         <!--FindBugs-->
         <dependency>
