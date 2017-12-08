@@ -3,22 +3,40 @@ package ua.epam.spring.hometask.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.epam.spring.hometask.domain.Event;
+import ua.epam.spring.hometask.domain.form.EventForm;
 import ua.epam.spring.hometask.service.EventService;
 
+import java.beans.PropertyEditorSupport;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 @Controller
 public class EventController {
 
     @Autowired
     private EventService eventService;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(LocalDateTime.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) throws IllegalArgumentException {
+                setValue(LocalDateTime.parse(text, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")));
+            }
+
+            @Override
+            public String getAsText() throws IllegalArgumentException {
+                return DateTimeFormatter.ofPattern("yyyy-MM-dd").format((LocalDateTime) getValue());
+            }
+        });
+    }
 
     @RequestMapping("/event/id")
     public ModelAndView getById(@RequestParam long id) {
@@ -42,12 +60,17 @@ public class EventController {
     }
 
     @RequestMapping(value = "/event/addEvent", method = RequestMethod.POST)
-    public String submit(@ModelAttribute("event") Event event, BindingResult result) {
+    public String submit(@ModelAttribute("event") EventForm event, BindingResult result) {
         if (result.hasErrors()) {
             return "error";
         }
-
-        eventService.save(event);
+        Event createdEvent = new Event();
+        createdEvent.setId(event.getId());
+        createdEvent.setName(event.getName());
+        createdEvent.setBasePrice(event.getBasePrice());
+        createdEvent.setRating(event.getRating());
+        createdEvent.setAirDates(new TreeSet<>(event.getAirDates()));
+        eventService.save(createdEvent);
 
         return "redirect:/events";
     }
