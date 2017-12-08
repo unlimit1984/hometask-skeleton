@@ -14,18 +14,15 @@
         $(document).ready(function(){
 
             $('#addOneRow').on('click', function () {
-                var id = $(".ticket_input_row:last").attr('id');
-                var newId = parseInt(id)+1;
+
                 var html = $(".ticket_input_row:last")[0].outerHTML;
-
-                var regex1=/\[/;
-                var regex2=/\]/;
-                var regex = new RegExp(regex1.source+id+regex2.source, "g");
-                html = html.replace(regex, "["+newId+"]");
                 var appendTr = jQuery(html);
-                appendTr.attr('id', ++id).insertAfter(".ticket_input_row:last");
-            });
+                appendTr.insertAfter(".ticket_input_row:last");
 
+                $('.ticket_input_row').each(function(i, row){
+                    row.innerHTML = row.innerHTML.replace(/\[\d+\]/g, '['+i+']')
+                })
+            });
         });
     </script>
 </head>
@@ -50,7 +47,7 @@
                 </thead>
 
                 <tbody>
-                <tr class="ticket_input_row" id="0">
+                <tr class="ticket_input_row">
                     <td>
                         <input type="text" class="form-control" name="tickets[0].userId" placeholder="Enter user Id"
                                required>
