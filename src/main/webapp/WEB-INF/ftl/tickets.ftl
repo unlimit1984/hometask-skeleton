@@ -63,22 +63,6 @@
                                required>
                     </td>
                 </tr>
-                <#--<tr>-->
-                    <#--<td>-->
-                        <#--<input type="text" class="form-control" name="tickets[1].userId" placeholder="Enter user Id"-->
-                               <#--required>-->
-                    <#--</td>-->
-                    <#--<td>-->
-                        <#--<input type="datetime-local" class="form-control" name="tickets[1].dateTime"-->
-                               <#--placeholder="Enter date time"-->
-                               <#--value="${airDate}"-->
-                               <#--readonly>-->
-                    <#--</td>-->
-                    <#--<td>-->
-                        <#--<input type="text" class="form-control" name="tickets[1].seat" placeholder="Enter seat"-->
-                               <#--required>-->
-                    <#--</td>-->
-                <#--</tr>-->
                 </tbody>
             </table>
             <input type="hidden" name="eventId" value="${eventId}">

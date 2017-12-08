@@ -10,7 +10,7 @@ import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.domain.to.BookingTicketDTO;
-import ua.epam.spring.hometask.domain.to.BookingTicketsForm;
+import ua.epam.spring.hometask.domain.form.BookingTicketsForm;
 import ua.epam.spring.hometask.service.BookingService;
 import ua.epam.spring.hometask.service.EventService;
 import ua.epam.spring.hometask.service.UserService;

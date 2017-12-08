@@ -8,6 +8,22 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            $('#addOneRow').on('click', function () {
+
+                var html = $(".air_date_row:last")[0].outerHTML;
+                var appendTr = jQuery(html);
+                appendTr.insertAfter(".air_date_row:last");
+
+                $('.air_date_row').each(function (i, row) {
+                    row.innerHTML = row.innerHTML.replace(/\[\d+\]/g, '[' + i + ']')
+                })
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -49,7 +65,6 @@
             <div class="form-group">
                 <label for="ratingGroup">Rating:</label>
 
-
                 <div class="form-group" id="ratingGroup">
                     <label class="radio-inline">
                         <input ${((event.rating == 'LOW')?then('checked', ''))!''}
@@ -64,6 +79,15 @@
                                required ${((event.rating == 'HIGH')?then('checked', ''))!''}>HIGH
                     </label>
                 </div>
+            </div>
+            <div class="form-group">
+                <label>Air dates:</label>
+                <div class="air_date_row">
+                    <input type="datetime-local" class="form-control" name="airDates[0]"
+                           placeholder="Enter air date"
+                           required="required">
+                </div>
+                <button type="button" class="btn btn-success" id="addOneRow">+</button>
             </div>
 
 

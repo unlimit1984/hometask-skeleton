@@ -1,4 +1,6 @@
-package ua.epam.spring.hometask.domain.to;
+package ua.epam.spring.hometask.domain.form;
+
+import ua.epam.spring.hometask.domain.to.BookingTicketDTO;
 
 import java.util.List;
 
