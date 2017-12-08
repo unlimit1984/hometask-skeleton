@@ -12,44 +12,59 @@
 
 <body>
 <div class="container">
-    <h1><a href="./">Main page</a></h1>
-    <h3>Event list</h3>
-    <a href="./event/add">Add new</a>
+    <div class="jumbotron" style="padding: 1px 20px 20px 20px; margin: 0;">
+        <h2><a href="./">Main page</a></h2>
+        <hr>
+        <h3>Event list</h3>
+        <a href="./event/add">Add new</a>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <td>Id</td>
-            <th>Name</th>
-            <th>Base price</th>
-            <th>Rating</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <#list events as event>
-        <tr>
-            <td>${event.id}</td>
-            <td>${event.name}</td>
-            <td>${event.basePrice}</td>
-            <td>${event.rating}</td>
-            <td>
-                <div class="btn-group">
-                    <input type="button"
-                           class="btn btn-primary"
-                           onclick="location.href='./event/id?id=${event.id}'"
-                           value="Edit">
-                    <input type="button"
-                           class="btn btn-danger"
-                           onclick="location.href='./event/removeEvent?id=${event.id}'"
-                           value="Delete">
-                </div>
-            </td>
-
-        </tr>
-        </#list>
-        </tbody>
-    </table>
+        <table class="table">
+            <thead>
+            <tr>
+                <td>Id</td>
+                <th>Name</th>
+                <th>Base price</th>
+                <th>Rating</th>
+                <th>Action</th>
+                <th>Purchase</th>
+            </tr>
+            </thead>
+            <tbody>
+            <#list events as event>
+            <tr>
+                <td>${event.id}</td>
+                <td>${event.name}</td>
+                <td>${event.basePrice}</td>
+                <td>${event.rating}</td>
+                <td>
+                    <div class="btn-group">
+                        <input type="button"
+                               class="btn btn-primary"
+                               onclick="location.href='./event/id?id=${event.id}'"
+                               value="Edit">
+                        <input type="button"
+                               class="btn btn-danger"
+                               onclick="location.href='./event/removeEvent?id=${event.id}'"
+                               value="Delete">
+                    </div>
+                </td>
+                <td>
+                    <#list event.airDates as airDate>
+                        <div class="form-group">
+                            <label for="${airDate}">${airDate.format("dd.MM.yyyy HH:mm")}</label>
+                            <input type="button"
+                                   id="${airDate}"
+                                   class="btn btn-warning"
+                                   onclick="location.href='tickets?eventId=${event.id}&dateTime=${airDate}'"
+                                   value="Buy a ticket">
+                        </div>
+                    </#list>
+                </td>
+            </tr>
+            </#list>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 

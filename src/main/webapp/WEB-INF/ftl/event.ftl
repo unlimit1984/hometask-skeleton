@@ -12,65 +12,67 @@
 
 <body>
 <div class="container">
-    <h1><a href="../">Main page</a></h1>
-    <h3><a href="javascript: window.history.go(-1)">Back</a></h3>
-    <h3>Event</h3>
+    <div class="jumbotron" style="padding: 1px 20px 20px 20px; margin: 0;">
+        <h2><a href="../">Main page</a></h2>
+        <hr>
+        <h3><a href="javascript: window.history.go(-1)">Back</a></h3>
+        <h3>Event</h3>
 
-    <form action="addEvent" method="post">
-        <div class="form-group">
-            <label for="id">Id:</label>
-            <input type="text" class="form-control" id="id" name="id" readonly
-                   value="${(event.id)!""}">
-        </div>
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"
-                   required="required"
-                   value="${(event.name)!""}">
-        </div>
-        <div class="form-group">
-            <label for="basePrice">Base price:</label>
-            <input type="text" class="form-control" id="basePrice" name="basePrice" placeholder="Enter Base Price"
-                   required="required"
-                   value="${(event.basePrice)!""}">
-        </div>
-
-    <#--Previous text mode-->
-    <#--<div class="form-group">-->
-    <#--<label for="rating">Rating:</label>-->
-    <#--<input type="text" class="form-control" id="rating" name="rating" placeholder="Enter rating"-->
-    <#--required="required"-->
-    <#--value="${(event.rating)!""}">-->
-    <#--</div>-->
-
-
-        <div class="form-group">
-            <label for="ratingGroup">Rating:</label>
-
-
-            <div class="form-group" id="ratingGroup">
-                <label class="radio-inline">
-                    <input ${((event.rating == 'LOW')?then('checked', ''))!''}
-                            type="radio" name="rating" value="LOW" required>LOW
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="rating" value="MID"
-                           required ${((event.rating == 'MID')?then('checked', ''))!''}>MID
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="rating" value="HIGH"
-                           required ${((event.rating == 'HIGH')?then('checked', ''))!''}>HIGH
-                </label>
+        <form action="addEvent" method="post">
+            <div class="form-group">
+                <label for="id">Id:</label>
+                <input type="text" class="form-control" id="id" name="id" readonly
+                       value="${(event.id)!""}">
             </div>
-        </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"
+                       required="required"
+                       value="${(event.name)!""}">
+            </div>
+            <div class="form-group">
+                <label for="basePrice">Base price:</label>
+                <input type="text" class="form-control" id="basePrice" name="basePrice" placeholder="Enter Base Price"
+                       required="required"
+                       value="${(event.basePrice)!""}">
+            </div>
+
+        <#--Previous text mode-->
+        <#--<div class="form-group">-->
+        <#--<label for="rating">Rating:</label>-->
+        <#--<input type="text" class="form-control" id="rating" name="rating" placeholder="Enter rating"-->
+        <#--required="required"-->
+        <#--value="${(event.rating)!""}">-->
+        <#--</div>-->
 
 
-        <div class="btn-group">
-            <button type="button" class="btn btn-warning" onclick="location.href='../events'">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save</button>
-        </div>
-    </form>
+            <div class="form-group">
+                <label for="ratingGroup">Rating:</label>
 
+
+                <div class="form-group" id="ratingGroup">
+                    <label class="radio-inline">
+                        <input ${((event.rating == 'LOW')?then('checked', ''))!''}
+                                type="radio" name="rating" value="LOW" required>LOW
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="rating" value="MID"
+                               required ${((event.rating == 'MID')?then('checked', ''))!''}>MID
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="rating" value="HIGH"
+                               required ${((event.rating == 'HIGH')?then('checked', ''))!''}>HIGH
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-warning" onclick="location.href='../events'">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 

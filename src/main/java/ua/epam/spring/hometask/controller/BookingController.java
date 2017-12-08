@@ -16,7 +16,6 @@ import ua.epam.spring.hometask.service.EventService;
 import ua.epam.spring.hometask.service.UserService;
 
 import java.beans.PropertyEditorSupport;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -58,7 +57,8 @@ public class BookingController {
     public ModelAndView getBookedTickets(@RequestParam("eventId") long eventId,
                                          @RequestParam("dateTime") LocalDateTime dateTime) {
 
-        Set<Ticket> ticketSet = bookingService.getPurchasedTicketsForEvent(eventService.getById(eventId), dateTime);
+        Event event = eventService.getById(eventId);
+        Set<Ticket> ticketSet = bookingService.getPurchasedTicketsForEvent(event, dateTime);
         List<BookingTicketDTO> tickets = ticketSet.stream()
                 .map(t -> new BookingTicketDTO(
                         t.getId(),
@@ -69,31 +69,32 @@ public class BookingController {
                 .collect(Collectors.toList());
         ModelAndView mav = new ModelAndView("tickets");
         mav.addObject("ticketsToShow", tickets);
+        mav.addObject("eventId", eventId);
+        mav.addObject("airDate", dateTime);
 
         return mav;
     }
 
     @RequestMapping(value = "/tickets/book", method = RequestMethod.POST)
-    public String bookTickets(@ModelAttribute("ticketsForm") BookingTicketsForm ticketsForm, BindingResult result) {
+    public String bookTickets(@ModelAttribute("ticketsForm") BookingTicketsForm ticketsForm,
+                              @RequestParam long eventId,
+                              @RequestParam LocalDateTime airDate,
+                              BindingResult result) {
         if (result.hasErrors()) {
             throw new RuntimeException(result.toString());
             //return "error";
         }
 
-        //for booking we need the following info
-        //user
-        //event
-        //dateTime / airDate
-        //seat
+        Event event = eventService.getById(eventId);
         Set<Ticket> tickets = ticketsForm.getTickets()
                 .stream()
                 .map(t -> {
                     User user = userService.getById(t.getUserId());
-                    Event event = eventService.getById(t.getEventId());
+                    //Event event = eventService.getById(t.getEventId());
                     return new Ticket(user, event, t.getDateTime(), t.getSeat());
                 }).collect(Collectors.toSet());
         bookingService.bookTickets(tickets);
-        return "redirect:/tickets?eventId=0&dateTime=2018-01-01T10%3A00";
+        return "redirect:/tickets?eventId="+eventId+"&dateTime="+airDate;
 
     }
 }

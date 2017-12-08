@@ -12,26 +12,29 @@
 
 <body>
 <div class="container">
-    <h1><a href="./">Main page</a></h1>
-    <h3>Auditorium list</h3>
+    <div class="jumbotron" style="padding: 1px 20px 20px 20px; margin: 0;">
+        <h2><a href="./">Main page</a></h2>
+        <hr>
+        <h3>Auditorium list</h3>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Number of seats</th>
-        </tr>
-        </thead>
-        <tbody>
-        <#list auditoriums as auditorium>
-        <tr>
-            <td><a href="./auditorium?name=${auditorium.name}">${auditorium.name}</a></td>
-            <td>${auditorium.numberOfSeats}</td>
-        </tr>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Number of seats</th>
+            </tr>
+            </thead>
+            <tbody>
+            <#list auditoriums as auditorium>
+            <tr>
+                <td><a href="./auditorium?name=${auditorium.name}">${auditorium.name}</a></td>
+                <td>${auditorium.numberOfSeats}</td>
+            </tr>
 
-        </#list>
-        </tbody>
-    </table>
+            </#list>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 

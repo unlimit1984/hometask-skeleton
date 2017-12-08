@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.repository.EventRepository;
+import ua.epam.spring.hometask.util.exception.NotFoundException;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -44,26 +45,43 @@ public class EventServiceImpl implements EventService {
     @Nullable
     @Override
     public Event getByName(@Nonnull String name) {
-        return eventRepository.getAll()
+        Event result = eventRepository.getAll()
                 .stream()
                 .filter(event -> name.equals(event.getName()))
                 .findFirst()
                 .orElse(null);
+
+        if (result == null) {
+            throw new NotFoundException("Event with name=" + name + " wasn't found.");
+        }
+        return result;
     }
 
     @Override
     public Event save(@Nonnull Event event) {
-        return eventRepository.save(event);
+        Event result = eventRepository.save(event);
+        if (result == null) {
+            throw new NotFoundException("Event " + event + " wasn't created/updated.");
+        }
+        return result;
     }
 
     @Override
     public void remove(@Nonnull Event event) {
-        eventRepository.delete(event);
+        boolean found = eventRepository.delete(event);
+        if (!found) {
+            throw new NotFoundException("Event " + event + " wasn't found for deleting.");
+        }
     }
 
     @Override
     public Event getById(@Nonnull Long id) {
-        return eventRepository.get(id);
+
+        Event result = eventRepository.get(id);
+        if (result == null) {
+            throw new NotFoundException("Event with id=" + id + " wasn't found.");
+        }
+        return result;
     }
 
     @Nonnull

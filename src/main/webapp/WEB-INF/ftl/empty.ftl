@@ -12,11 +12,14 @@
 
 <body>
 <div class="container">
-    <h1><a href="../">Main page</a></h1>
-    <h3>Empty page</h3>
-    <h3><a href="javascript: window.history.go(-1)">Back</a></h3>
-    <p>Empty</p>
+    <div class="jumbotron" style="padding: 1px 20px 20px 20px; margin: 0;">
+        <h2><a href="../">Main page</a></h2>
+        <hr>
+        <h3>Empty page</h3>
+        <h3><a href="javascript: window.history.go(-1)">Back</a></h3>
+        <p>Empty</p>
 
+    </div>
 </div>
 </body>
 
