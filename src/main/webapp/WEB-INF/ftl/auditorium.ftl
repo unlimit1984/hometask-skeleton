@@ -12,23 +12,25 @@
 
 <body>
 <div class="container">
-    <h1><a href="./">Main page</a></h1>
-    <h3><a href="javascript: window.history.go(-1)">Back</a></h3>
-    <h3>Auditorium</h3>
+    <div class="jumbotron" style="padding: 1px 20px 20px 20px; margin: 0;">
+        <h2><a href="./">Main page</a></h2>
+        <hr>
+        <h3><a href="javascript: window.history.go(-1)">Back</a></h3>
+        <h3>Auditorium</h3>
 
-    <form>
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" class="form-control" id="name" placeholder="Enter name" disabled
-                   value="${auditorium.name}">
-        </div>
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" class="form-control" id="numberOfSeats" placeholder="Enter number of seats" disabled
-                   value="${auditorium.numberOfSeats}">
-        </div>
-    </form>
-
+        <form>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter name" disabled
+                       value="${auditorium.name}">
+            </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="numberOfSeats" placeholder="Enter number of seats" disabled
+                       value="${auditorium.numberOfSeats}">
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 

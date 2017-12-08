@@ -12,46 +12,49 @@
 
 <body>
 <div class="container">
-    <h1><a href="./">Main page</a></h1>
-    <h3>User list</h3>
-    <a href="./user/add">Add new</a>
+    <div class="jumbotron" style="padding: 1px 20px 20px 20px; margin: 0;">
+        <h2><a href="./">Main page</a></h2>
+        <hr>
+        <h3>User list</h3>
+        <a href="./user/add">Add new</a>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Birthday</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <#list users as user>
-        <tr>
-            <td><a href="./user/id?id=${user.id}">${user.id}</a></td>
-            <td>${user.firstName}</td>
-            <td>${user.lastName}</td>
-            <td><a href="./user/email?email=${user.email}">${user.email}</a></td>
-            <td>${user.birthday}</td>
-            <td>
-                <div class="btn-group">
-                    <input type="button"
-                           class="btn btn-primary"
-                           onclick="location.href='./user/id?id=${user.id}'"
-                           value="Edit">
-                    <input type="button"
-                           class="btn btn-danger"
-                           onclick="location.href='./user/removeUser?id=${user.id}'"
-                           value="Delete">
-                </div>
-            </td>
-        </tr>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Birthday</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <#list users as user>
+            <tr>
+                <td><a href="./user/id?id=${user.id}">${user.id}</a></td>
+                <td>${user.firstName}</td>
+                <td>${user.lastName}</td>
+                <td><a href="./user/email?email=${user.email}">${user.email}</a></td>
+                <td>${user.birthday}</td>
+                <td>
+                    <div class="btn-group">
+                        <input type="button"
+                               class="btn btn-primary"
+                               onclick="location.href='./user/id?id=${user.id}'"
+                               value="Edit">
+                        <input type="button"
+                               class="btn btn-danger"
+                               onclick="location.href='./user/removeUser?id=${user.id}'"
+                               value="Delete">
+                    </div>
+                </td>
+            </tr>
 
-        </#list>
-        </tbody>
-    </table>
+            </#list>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 

@@ -72,11 +72,11 @@ public class JdbcEventRepositoryImpl implements EventRepository {
     }
 
     @Override
-    public void delete(Event event) {
+    public boolean delete(Event event) {
         Long id = event.getId();
         Objects.requireNonNull(id);
         jdbcTemplate.update("DELETE FROM event_auditoriums WHERE event_id=?", event.getId());
-        jdbcTemplate.update("DELETE FROM event WHERE id=?", id);
+        return jdbcTemplate.update("DELETE FROM event WHERE id=?", id) != 0;
     }
 
     @Override
@@ -131,7 +131,7 @@ public class JdbcEventRepositoryImpl implements EventRepository {
 
                 Set<LocalDateTime> airDates = eventDetailsDTOs
                         .stream()
-                        .filter(eventDetailsDTO -> eventDetailsDTO.getAirDate()!=null)
+                        .filter(eventDetailsDTO -> eventDetailsDTO.getAirDate() != null)
                         .map(EventDetailsDTO::getAirDate)
                         .collect(Collectors.toSet());
                 event.setAirDates(new TreeSet<>(airDates));
@@ -139,7 +139,7 @@ public class JdbcEventRepositoryImpl implements EventRepository {
                 NavigableMap<LocalDateTime, Auditorium> auditoriums = new TreeMap<>();
 
                 eventDetailsDTOs.forEach(eventDetailsDTO -> {
-                    if(eventDetailsDTO.getAuditoriumName()!=null){
+                    if (eventDetailsDTO.getAuditoriumName() != null) {
                         Auditorium a = new Auditorium();
                         a.setName(eventDetailsDTO.getAuditoriumName());
                         auditoriums.put(eventDetailsDTO.getAirDate(), a);

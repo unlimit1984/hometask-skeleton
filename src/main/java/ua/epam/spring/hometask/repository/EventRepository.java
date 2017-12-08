@@ -9,7 +9,7 @@ import java.util.Collection;
  */
 public interface EventRepository {
     Event save(Event event);
-    void delete(Event event);
+    boolean delete(Event event);
     Event get(long id);
     Collection<Event> getAll();
 
