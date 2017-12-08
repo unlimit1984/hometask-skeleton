@@ -14,13 +14,16 @@
 
             $('#addOneRow').on('click', function () {
 
-                var html = $(".air_date_row:last")[0].outerHTML;
+                var html = $(".air_date_row")[0].outerHTML;
                 var appendTr = jQuery(html);
                 appendTr.insertAfter(".air_date_row:last");
 
-                $('.air_date_row').each(function (i, row) {
-                    row.innerHTML = row.innerHTML.replace(/\[\d+\]/g, '[' + i + ']')
-                })
+                $('.air_date_row').each(function(i, row) {
+                    $(row).find(':input').each(function(j, input) {
+                        input.name = input.name.replace(/\[\d+\]/g, '['+i+']')
+                    });
+                });
+
             });
         });
     </script>
