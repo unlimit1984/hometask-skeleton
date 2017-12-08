@@ -15,13 +15,15 @@
 
             $('#addOneRow').on('click', function () {
 
-                var html = $(".ticket_input_row:last")[0].outerHTML;
+                var html = $(".ticket_input_row")[0].outerHTML;
                 var appendTr = jQuery(html);
                 appendTr.insertAfter(".ticket_input_row:last");
 
-                $('.ticket_input_row').each(function(i, row){
-                    row.innerHTML = row.innerHTML.replace(/\[\d+\]/g, '['+i+']')
-                })
+                $('.ticket_input_row').each(function(i, row) {
+                    $(row).find(':input').each(function(j, input) {
+                        input.name = input.name.replace(/\[\d+\]/g, '['+i+']')
+                    });
+                });
             });
         });
     </script>
