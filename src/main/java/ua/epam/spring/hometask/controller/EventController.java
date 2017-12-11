@@ -6,22 +6,27 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
+import ua.epam.spring.hometask.domain.form.AirDateAuditoriumForm;
 import ua.epam.spring.hometask.domain.form.EventForm;
+import ua.epam.spring.hometask.service.AuditoriumService;
 import ua.epam.spring.hometask.service.EventService;
 
 import java.beans.PropertyEditorSupport;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class EventController {
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private AuditoriumService auditoriumService;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
@@ -36,6 +41,19 @@ public class EventController {
                 return DateTimeFormatter.ofPattern("yyyy-MM-dd").format((LocalDateTime) getValue());
             }
         });
+        binder.registerCustomEditor(Auditorium.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) throws IllegalArgumentException {
+                Auditorium auditorium = new Auditorium();
+                auditorium.setName(text);
+                setValue(auditorium);
+            }
+
+            @Override
+            public String getAsText() {
+                return ((Auditorium) getValue()).getName();
+            }
+        });
     }
 
     @RequestMapping("/event/id")
@@ -44,7 +62,23 @@ public class EventController {
         ModelAndView mav = new ModelAndView("event");
 
         Event event = eventService.getById(id);
-        mav.addObject("event", event);
+
+        List<AirDateAuditoriumForm> dateAuditoriumList = new ArrayList<>();
+        event.getAuditoriums().forEach((dateTime, auditorium) -> dateAuditoriumList.add(new AirDateAuditoriumForm(dateTime, auditorium)));
+
+        EventForm eventForm = new EventForm(
+                event.getId(),
+                event.getName(),
+                event.getBasePrice(),
+                event.getRating(),
+                dateAuditoriumList);
+
+
+        mav.addObject("event", eventForm);
+        mav.addObject("auditoriums", auditoriumService.getAll()
+                .stream()
+                .sorted(Comparator.comparing(Auditorium::getName))
+                .collect(Collectors.toList()));
 
         return mav;
     }
@@ -54,7 +88,11 @@ public class EventController {
 
         ModelAndView mav = new ModelAndView("event");
 
-        mav.addObject("event", new Event());
+        mav.addObject("event", new EventForm());
+        mav.addObject("auditoriums", auditoriumService.getAll()
+                .stream()
+                .sorted(Comparator.comparing(Auditorium::getName))
+                .collect(Collectors.toList()));
 
         return mav;
     }
@@ -69,7 +107,12 @@ public class EventController {
         createdEvent.setName(event.getName());
         createdEvent.setBasePrice(event.getBasePrice());
         createdEvent.setRating(event.getRating());
-        createdEvent.setAirDates(new TreeSet<>(event.getAirDates()));
+
+        NavigableMap<LocalDateTime, Auditorium> auditoriums = new TreeMap<>();
+        event.getAirDateAuditoriums().forEach(entry -> auditoriums.put(entry.getAirDate(), entry.getAuditorium()));
+
+        createdEvent.setAuditoriums(auditoriums);
+        createdEvent.setAirDates(new TreeSet<>(auditoriums.keySet()));
         eventService.save(createdEvent);
 
         return "redirect:/events";

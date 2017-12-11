@@ -18,9 +18,9 @@
                 var appendTr = jQuery(html);
                 appendTr.insertAfter(".air_date_row:last");
 
-                $('.air_date_row').each(function(i, row) {
-                    $(row).find(':input').each(function(j, input) {
-                        input.name = input.name.replace(/\[\d+\]/g, '['+i+']')
+                $('.air_date_row').each(function (i, row) {
+                    $(row).find(':input').each(function (j, input) {
+                        input.name = input.name.replace(/\[\d+\]/g, '[' + i + ']')
                     });
                 });
 
@@ -38,32 +38,26 @@
         <h3>Event</h3>
 
         <form action="addEvent" method="post">
+
             <div class="form-group">
                 <label for="id">Id:</label>
                 <input type="text" class="form-control" id="id" name="id" readonly
                        value="${(event.id)!""}">
             </div>
+
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"
                        required="required"
                        value="${(event.name)!""}">
             </div>
+
             <div class="form-group">
                 <label for="basePrice">Base price:</label>
                 <input type="text" class="form-control" id="basePrice" name="basePrice" placeholder="Enter Base Price"
                        required="required"
                        value="${(event.basePrice)!""}">
             </div>
-
-        <#--Previous text mode-->
-        <#--<div class="form-group">-->
-        <#--<label for="rating">Rating:</label>-->
-        <#--<input type="text" class="form-control" id="rating" name="rating" placeholder="Enter rating"-->
-        <#--required="required"-->
-        <#--value="${(event.rating)!""}">-->
-        <#--</div>-->
-
 
             <div class="form-group">
                 <label for="ratingGroup">Rating:</label>
@@ -83,13 +77,40 @@
                     </label>
                 </div>
             </div>
+
             <div class="form-group">
-                <label>Air dates:</label>
-                <div class="air_date_row">
-                    <input type="datetime-local" class="form-control" name="airDates[0]"
+                <label>Air dates and Auditoriums:</label>
+
+            <#assign length = ((event.airDateAuditoriums?size)!0)>
+            <#if length gt 0>
+                <#assign index=0>
+                <#list event.airDateAuditoriums as airAuditorium>
+                    <div class="air_date_row form-inline">
+                        <input type="datetime-local" class="form-control" name="airDateAuditoriums[${index}].airDate"
+                               placeholder="Enter air date"
+                               required="required"
+                               value="${airAuditorium.airDate}">
+                        <select class="form-control" name="airDateAuditoriums[${index}].auditorium">
+                            <#list auditoriums as auditorium>
+                                <option ${(airAuditorium.auditorium==auditorium)?then("selected", "")}>${auditorium.name}</option>
+                            </#list>
+                        </select>
+                    </div>
+                    <#assign index++>
+                </#list>
+            <#else>
+                <div class="air_date_row form-inline">
+                    <input type="datetime-local" class="form-control" name="airDateAuditoriums[0].airDate"
                            placeholder="Enter air date"
                            required="required">
+                    <select class="form-control" name="airDateAuditoriums[0].auditorium">
+                        <#list auditoriums as auditorium>
+                            <option>${auditorium.name}</option>
+                        </#list>
+                    </select>
                 </div>
+            </#if>
+
                 <button type="button" class="btn btn-success" id="addOneRow">+</button>
             </div>
 

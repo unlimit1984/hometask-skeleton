@@ -2,8 +2,6 @@ package ua.epam.spring.hometask.domain.form;
 
 import ua.epam.spring.hometask.domain.EventRating;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,9 +12,17 @@ public class EventForm {
     private String name;
     private double basePrice;
     private EventRating rating;
-    private List<LocalDateTime> airDates = new ArrayList<>();
+    private List<AirDateAuditoriumForm> airDateAuditoriums;
 
     public EventForm() {
+    }
+
+    public EventForm(Long id, String name, double basePrice, EventRating rating, List<AirDateAuditoriumForm> airDateAuditoriums) {
+        this.id = id;
+        this.name = name;
+        this.basePrice = basePrice;
+        this.rating = rating;
+        this.airDateAuditoriums = airDateAuditoriums;
     }
 
     public Long getId() {
@@ -51,11 +57,11 @@ public class EventForm {
         this.rating = rating;
     }
 
-    public List<LocalDateTime> getAirDates() {
-        return airDates;
+    public List<AirDateAuditoriumForm> getAirDateAuditoriums() {
+        return airDateAuditoriums;
     }
 
-    public void setAirDates(List<LocalDateTime> airDates) {
-        this.airDates = airDates;
+    public void setAirDateAuditoriums(List<AirDateAuditoriumForm> airDateAuditoriums) {
+        this.airDateAuditoriums = airDateAuditoriums;
     }
 }
