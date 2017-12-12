@@ -11,7 +11,7 @@
 
     <script>
 
-        $(document).ready(function(){
+        $(document).ready(function () {
 
             $('#addOneRow').on('click', function () {
 
@@ -19,9 +19,9 @@
                 var appendTr = jQuery(html);
                 appendTr.insertAfter(".ticket_input_row:last");
 
-                $('.ticket_input_row').each(function(i, row) {
-                    $(row).find(':input').each(function(j, input) {
-                        input.name = input.name.replace(/\[\d+\]/g, '['+i+']')
+                $('.ticket_input_row').each(function (i, row) {
+                    $(row).find(':input').each(function (j, input) {
+                        input.name = input.name.replace(/\[\d+\]/g, '[' + i + ']')
                     });
                 });
             });
@@ -38,7 +38,9 @@
         <h3>Ticket list</h3>
 
         <form action="./tickets/book" method="post">
+            <input type="hidden" name="eventId" value="${eventId}">
             <input type="hidden" name="airDate" value="${airDate}">
+
             <table class="table">
                 <thead>
                 <tr>
@@ -67,7 +69,7 @@
                 </tr>
                 </tbody>
             </table>
-            <input type="hidden" name="eventId" value="${eventId}">
+
             <div class="btn-group-vertical">
                 <button type="button" class="btn btn-success" id="addOneRow">+</button>
                 <button type="submit" class="btn btn-primary">Save</button>
@@ -97,6 +99,12 @@
             </#list>
             </tbody>
         </table>
+
+    <#assign length = ((ticketsToShow?size)!0)>
+    <#if length gt 0>
+        <a class="btn btn-link btn-xs" href="./tickets/pdf?eventId=${eventId}&dateTime=${airDate}" role="button">Download as PDF</a>
+    </#if>
+
     </div>
 </div>
 </body>
