@@ -1,15 +1,19 @@
 package ua.epam.spring.hometask.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.service.UserService;
 
 import java.beans.PropertyEditorSupport;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -62,7 +66,6 @@ public class UserController {
 //            throw new RuntimeException("my");
 //        }
 
-
         ModelAndView mav = new ModelAndView("user");
 
         User user = userService.getById(id);
@@ -104,6 +107,24 @@ public class UserController {
 
         return "redirect:/users";//getAll();
     }
+
+    @RequestMapping(value = "/user/addUsersByFile", method = RequestMethod.POST)
+    public String uploadUsers(@RequestParam("file") MultipartFile file) throws IOException {
+
+        if (!file.isEmpty()) {
+            String json = new String(file.getBytes());
+            System.out.println(json);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.findAndRegisterModules();
+
+            List<User> users = mapper.readValue(json, new TypeReference<List<User>>() {
+            });
+            users.forEach(u -> userService.save(u));
+        }
+
+        return "redirect:/users";
+    }
+
 
     @RequestMapping(value = "/user/removeUser")
     public String remove(@RequestParam("id") long userId) {
