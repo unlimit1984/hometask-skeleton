@@ -17,7 +17,6 @@
         <hr>
         <h3>User list</h3>
         <a href="./user/add">Add new</a>
-
         <table class="table">
             <thead>
             <tr>
@@ -54,6 +53,21 @@
             </#list>
             </tbody>
         </table>
+        <hr>
+        <form class="form-horizontal" action="user/addUsersByFile" enctype="multipart/form-data" method="post">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="usersFile">File to upload:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="file" name="file" id="usersFile">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-info">Upload</button>
+                </div>
+            </div>
+        </form>
+
     </div>
 </div>
 </body>
