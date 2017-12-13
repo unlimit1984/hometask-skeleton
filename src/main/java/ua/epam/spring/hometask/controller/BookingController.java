@@ -92,15 +92,7 @@ public class BookingController {
                                       HttpServletResponse response) throws Exception {
 
         Event event = eventService.getById(eventId);
-        Set<Ticket> ticketSet = bookingService.getPurchasedTicketsForEvent(event, dateTime);
-        List<BookingTicketDTO> tickets = ticketSet.stream()
-                .map(t -> new BookingTicketDTO(
-                        t.getId(),
-                        t.getUser().getId(),
-                        t.getEvent().getId(),
-                        t.getDateTime(),
-                        t.getSeat()))
-                .collect(Collectors.toList());
+        Set<Ticket> tickets = bookingService.getPurchasedTicketsForEvent(event, dateTime);
 
         String fileName = "tickets.pdf";
         final ServletContext servletContext = request.getSession().getServletContext();
@@ -110,9 +102,7 @@ public class BookingController {
 
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(fullPath));
-
         document.open();
-
         Paragraph paragraph = new Paragraph("Tickets");
         document.add(paragraph);
         document.add(new Paragraph(" "));
@@ -128,15 +118,13 @@ public class BookingController {
                     header.setPhrase(new Phrase(columnTitle));
                     table.addCell(header);
                 });
-
         tickets.forEach(t -> {
             table.addCell(String.valueOf(t.getId()));
-            table.addCell(String.valueOf(t.getUserId()));
-            table.addCell(String.valueOf(t.getEventId()));
+            table.addCell(String.valueOf(t.getUser().getId()));
+            table.addCell(String.valueOf(t.getEvent().getId()));
             table.addCell(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(t.getDateTime()));
             table.addCell(String.valueOf(t.getSeat()));
         });
-
         document.add(table);
         document.close();
 
@@ -144,12 +132,9 @@ public class BookingController {
         if (!file.exists()){
             throw new FileNotFoundException("file with path: " + fullPath + " was not found.");
         }
-
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
         response.setHeader("Content-Length", String.valueOf(file.length()));
-
-
         FileCopyUtils.copy(new FileInputStream(file), response.getOutputStream());
     }
 
