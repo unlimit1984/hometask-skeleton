@@ -64,6 +64,23 @@
             </#list>
             </tbody>
         </table>
+
+        <hr>
+
+        <form class="form-horizontal" action="event/addEventsByFile" enctype="multipart/form-data" method="post">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="eventsFile">File to upload:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="file" name="file" id="eventsFile">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-info">Upload</button>
+                </div>
+            </div>
+        </form>
+
     </div>
 </div>
 </body>
