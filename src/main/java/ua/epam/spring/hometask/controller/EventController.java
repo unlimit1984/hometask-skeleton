@@ -1,10 +1,13 @@
 package ua.epam.spring.hometask.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
@@ -14,6 +17,7 @@ import ua.epam.spring.hometask.service.AuditoriumService;
 import ua.epam.spring.hometask.service.EventService;
 
 import java.beans.PropertyEditorSupport;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -117,6 +121,24 @@ public class EventController {
 
         return "redirect:/events";
     }
+
+    @RequestMapping(value = "/event/addEventsByFile", method = RequestMethod.POST)
+    public String uploadEvents(@RequestParam("file") MultipartFile file) throws IOException {
+
+        if (!file.isEmpty()) {
+            String json = new String(file.getBytes());
+            System.out.println(json);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.findAndRegisterModules();
+
+            List<Event> events = mapper.readValue(json, new TypeReference<List<Event>>() {
+            });
+            events.forEach(e -> eventService.save(e));
+        }
+
+        return "redirect:/events";
+    }
+
 
     @RequestMapping("/events")
     public ModelAndView getAll() {
