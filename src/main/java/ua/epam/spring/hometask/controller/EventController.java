@@ -2,6 +2,7 @@ package ua.epam.spring.hometask.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.domain.Event;
+import ua.epam.spring.hometask.domain.EventDeserializer;
 import ua.epam.spring.hometask.domain.form.AirDateAuditoriumForm;
 import ua.epam.spring.hometask.domain.form.EventForm;
 import ua.epam.spring.hometask.service.AuditoriumService;
@@ -131,13 +133,51 @@ public class EventController {
             ObjectMapper mapper = new ObjectMapper();
             mapper.findAndRegisterModules();
 
+            SimpleModule module = new SimpleModule();
+            module.addDeserializer(Event.class, new EventDeserializer());
+            mapper.registerModule(module);
+
             List<Event> events = mapper.readValue(json, new TypeReference<List<Event>>() {
             });
-            events.forEach(e -> eventService.save(e));
+            events.forEach(event -> eventService.save(event));
+
+
         }
 
         return "redirect:/events";
     }
+
+
+//    @RequestMapping(value = "/event/addEventsByFile", method = RequestMethod.POST)
+//    public String uploadEvents(@RequestParam("file") MultipartFile file) throws IOException {
+//
+//        if (!file.isEmpty()) {
+//            String json = new String(file.getBytes());
+//            System.out.println(json);
+//            ObjectMapper mapper = new ObjectMapper();
+//            mapper.findAndRegisterModules();
+//
+//
+//            List<EventForm> events = mapper.readValue(json, new TypeReference<List<EventForm>>() {
+//            });
+//            events.forEach(event -> {
+//                Event createdEvent = new Event();
+//                createdEvent.setId(event.getId());
+//                createdEvent.setName(event.getName());
+//                createdEvent.setBasePrice(event.getBasePrice());
+//                createdEvent.setRating(event.getRating());
+//
+//                NavigableMap<LocalDateTime, Auditorium> auditoriums = new TreeMap<>();
+//                event.getAirDateAuditoriums().forEach(entry -> auditoriums.put(entry.getAirDate(), entry.getAuditorium()));
+//
+//                createdEvent.setAuditoriums(auditoriums);
+//                createdEvent.setAirDates(new TreeSet<>(auditoriums.keySet()));
+//                eventService.save(createdEvent);
+//            });
+//        }
+//
+//        return "redirect:/events";
+//    }
 
 
     @RequestMapping("/events")

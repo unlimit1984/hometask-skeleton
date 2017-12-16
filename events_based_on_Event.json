@@ -4,8 +4,8 @@
     "rating": "LOW",
     "auditoriums":
     {
-      "2020-02-28'T'19:30": {"name": "beta"},
-      "2020-03-28'T'20:00": {"name": "gama"}
+      "2020-02-28 19:30": {"name": "beta"},
+      "2020-03-28 20:00": {"name": "gama"}
     }
   },
   { "name": "EventJSON2",
@@ -13,8 +13,8 @@
     "rating": "HIGH",
     "auditoriums":
     {
-      "2020-01-01'T'15:00": {"name": "gama"},
-      "2020-06-01'T'10:00": {"name": "alpha"}
+      "2020-01-01 15:00": {"name": "gama"},
+      "2020-06-01 10:00": {"name": "alpha"}
     }
   }
 ]

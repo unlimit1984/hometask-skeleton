@@ -67,6 +67,7 @@
         <property name="suffix" value=".ftl"/>
     </bean>
 
+    <!--For multipart/form-data upload-->
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!-- setting maximum upload size -->
