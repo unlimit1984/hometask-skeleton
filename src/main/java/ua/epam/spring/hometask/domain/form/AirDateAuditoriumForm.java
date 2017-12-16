@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.domain.form;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import ua.epam.spring.hometask.domain.Auditorium;
 
 import java.time.LocalDateTime;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
  * Created by Vladimir_Vysokomorny on 08-Dec-17.
  */
 public class AirDateAuditoriumForm {
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime airDate;
     private Auditorium auditorium;
 
