@@ -73,7 +73,7 @@ We have some additional service DiscountService for getting discount during purc
 5. __DONE__ Implement BookingController and all necessary views
 6. __DONE__ Implement generic Exception handler (ExceptionController)
 7. __DONE__ Implement download PDF link for getting list of tickets
-8. __IN_PROGRESS__ Provide multipart upload file (users, events)
+8. __DONE__ Provide multipart upload file (users, events)
 
 
 

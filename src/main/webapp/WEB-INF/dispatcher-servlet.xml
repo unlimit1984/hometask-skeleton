@@ -29,7 +29,7 @@
     <!--Support for Aspects-->
     <aop:aspectj-autoproxy/>
 
-    <!--Turn @Controller into actual web controllers-->
+    <!--Turn @RequestMapping @Controller @Valid into actual web controllers-->
     <mvc:annotation-driven/>
 
     <bean id="birthdayStrategy" class="ua.epam.spring.hometask.service.strategy.BirthdayStrategy"/>
