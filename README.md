@@ -75,6 +75,16 @@ We have some additional service DiscountService for getting discount during purc
 7. __DONE__ Implement download PDF link for getting list of tickets
 8. __DONE__ Provide multipart upload file (users, events)
 
+###HW2
+
+1. __DONE__ Add maven dependencies for Spring security
+2. __IN_PROGRESS__ Add spring security xml (example: spring-security-context.xml)
+3. __IN_PROGRESS__ Add link for spring-security-context.xml to contextConfigLocation in web.xml
+4. __IN_PROGRESS__ Add security filter in web.xml
+
+
+
+
 
 
 ####How to run and test
