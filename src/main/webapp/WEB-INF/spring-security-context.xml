@@ -6,8 +6,22 @@
 		http://www.springframework.org/schema/security
 		http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <http auto-config="true" use-expressions="true">
+    <!--<http pattern="/login**" security="none"/>-->
+
+    <http use-expressions="true">
         <intercept-url pattern="/auditoriums**" access="hasAuthority('REGISTERED_USER')"/>
+        <!--<form-login />-->
+        <!--<logout/>-->
+        <form-login login-page="/login"
+                    default-target-url="/users"
+                    authentication-failure-url="/login?error=true"
+                    login-processing-url="/perform_login"
+        />
+        <logout logout-url="/logout"
+                logout-success-url="/login?logout=true"
+
+        />
+        <csrf disabled="true"/>
     </http>
 
     <authentication-manager>
