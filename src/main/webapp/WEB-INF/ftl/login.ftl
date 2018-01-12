@@ -36,10 +36,14 @@
                 <input id="password" type="password" class="form-control" name="password">
             </div>
             <br>
-        <#--<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>-->
+
             <div class="input-group">
                 <button type="submit" class="btn btn-primary">Login</button>
             </div>
+
+            <#--with CSRF-->
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
         </form>
         <br>
     </div>

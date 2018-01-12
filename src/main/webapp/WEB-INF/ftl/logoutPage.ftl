@@ -16,7 +16,16 @@
         <hr>
         <h3><a href="javascript: window.history.go(-1)">Back</a></h3>
         <h3>Logout</h3>
-        <h3><a href="logout">Logout</a></h3>
+
+        <#--without CSRF-->
+        <#--<h3><a href="logout">Logout</a></h3>-->
+
+        <#--with CSRF-->
+        <form action="logout" method="POST">
+            <input type="submit" value="Logout"/>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+
 
     </div>
 </div>

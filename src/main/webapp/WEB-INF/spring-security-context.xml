@@ -21,7 +21,7 @@
                 logout-success-url="/login?logout=true"
 
         />
-        <csrf disabled="true"/>
+        <csrf disabled="false"/>
     </http>
 
     <authentication-manager>
