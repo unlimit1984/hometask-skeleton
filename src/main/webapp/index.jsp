@@ -29,7 +29,17 @@
         <a href="auditoriums">Auditoriums</a><br>
         <hr>
         <a href="login">Login Page</a><br>
-        <a href="logout">Fast Logout </a><br>
+
+        <!-- without CSRF-->
+        <!--<a href="logout">Fast Logout </a><br>-->
+
+        <!--with CSRF-->
+        <form action="logout" method="POST">
+            <input type="submit" value="Logout"/>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+
+
         <a href="logoutPage">Logout Page</a><br>
         <%--<a href="tickets?eventId=0&dateTime=2018-01-01T10:00">Tickets</a><br>--%>
     </div>
