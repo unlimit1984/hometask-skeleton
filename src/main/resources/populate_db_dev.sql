@@ -14,8 +14,8 @@ DELETE FROM auditorium;
 --users
 -- INSERT INTO users (first_name, last_name, email, birthday) VALUES ('Vladimir0', 'Vys0', 'unlim0@mail.com', TIMESTAMP('1980-01-01 00:00:00'));
 -- INSERT INTO users (first_name, last_name, email, birthday) VALUES ('Vladimir1', 'Vys1', 'unlim1@mail.com', TIMESTAMP('1980-01-02 00:00:00'));
-INSERT INTO users (first_name, last_name, email, birthday) VALUES ('Vladimir0', 'Vys0', 'unlim0@mail.com', '1980-01-01 00:00:00');
-INSERT INTO users (first_name, last_name, email, birthday) VALUES ('Vladimir1', 'Vys1', 'unlim1@mail.com', '1980-01-02 00:00:00');
+INSERT INTO users (first_name, last_name, email, birthday, password) VALUES ('Vladimir0', 'Vys0', 'unlim0@mail.com', '1980-01-01 00:00:00', 'password');
+INSERT INTO users (first_name, last_name, email, birthday, password) VALUES ('Vladimir1', 'Vys1', 'unlim1@mail.com', '1980-01-02 00:00:00', 'password');
 
 --auditoriums
 INSERT INTO auditorium (name, number_of_seats) VALUES ('alpha', 10);

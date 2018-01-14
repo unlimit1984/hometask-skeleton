@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Yuriy_Tkach
@@ -24,6 +25,10 @@ public class User extends DomainObject {
     private NavigableSet<Ticket> tickets = new TreeSet<>();
 
     private Set<LocalDateTime> luckyEvents = new HashSet<>();
+
+    private String password;
+
+    private Set<Role> roles;
 
     public String getFirstName() {
         return firstName;
@@ -71,6 +76,26 @@ public class User extends DomainObject {
 
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public String getRolesToString(){
+        return roles.stream().map(Role::name).collect(Collectors.joining(","));
     }
 
     @Override

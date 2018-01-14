@@ -49,11 +49,41 @@
                        required="required"
                        value="${(user.birthday)!""}">
             </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password"
+                       required="required"
+                       value="${(user.password)!""}">
+            </div>
+            <div class="form-group" required="required">
+                <label for="roles">Roles:</label>
+                <div class="form-group" id="roles">
+
+                <#if user.rolesToString?? && (user.rolesToString)?contains("REGISTERED_USER")>
+                    <label class="checkbox-inline">
+                        <input name="roles" type="checkbox" value="REGISTERED_USER" checked>REGISTERED_USER</label>
+                <#else>
+                    <label class="checkbox-inline">
+                        <input name="roles" type="checkbox" value="REGISTERED_USER">REGISTERED_USER</label>
+                </#if>
+
+                <#if user.rolesToString?? && (user.rolesToString)?contains("BOOKING_MANAGER")>
+                    <label class="checkbox-inline">
+                        <input name="roles" type="checkbox" value="BOOKING_MANAGER" checked>BOOKING_MANAGER</label>
+                <#else>
+                    <label class="checkbox-inline">
+                        <input name="roles" type="checkbox" value="BOOKING_MANAGER">BOOKING_MANAGER</label>
+                </#if>
+                </div>
+            </div>
             <div class="btn-group">
                 <button type="button" class="btn btn-warning" onclick="location.href='../users'">Cancel</button>
             <#--<button type="button" class="btn btn-warning" onclick="location.href='javascript: window.history.go(-1)'">Cancel</button>-->
                 <button type="submit" class="btn btn-primary">Save</button>
             </div>
+            <!--with CSRF-->
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
         </form>
 
     </div>
