@@ -119,6 +119,8 @@
                 <button type="button" class="btn btn-warning" onclick="location.href='../events'">Cancel</button>
                 <button type="submit" class="btn btn-primary">Save</button>
             </div>
+            <!--with CSRF-->
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
     </div>
 </div>
