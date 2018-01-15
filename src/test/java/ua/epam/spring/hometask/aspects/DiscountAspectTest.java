@@ -43,8 +43,8 @@ public class DiscountAspectTest {
 
     @Test
     public void collectStatistics() throws Exception {
-        userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1));
-        userService.save(UserTestData.createNew(EMAIL2, USER_NAME2, LAST_NAME2, USER_BIRTHDAY2));
+        userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1, PASSWORD, ROLE_SET));
+        userService.save(UserTestData.createNew(EMAIL2, USER_NAME2, LAST_NAME2, USER_BIRTHDAY2, PASSWORD, ROLE_SET));
         User user1 = userService.getUserByEmail(EMAIL1);
         User user2 = userService.getUserByEmail(EMAIL2);
 
