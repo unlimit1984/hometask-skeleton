@@ -1,7 +1,5 @@
 package ua.epam.spring.hometask.domain;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -94,8 +92,16 @@ public class User extends DomainObject {
         this.roles = roles;
     }
 
-    public String getRolesToString(){
-        return roles.stream().map(Role::name).collect(Collectors.joining(","));
+    public String getRolesToString() {
+        if (roles == null) {
+            return "";
+        } else {
+            return roles
+                    .stream()
+                    .map(Role::name)
+                    .sorted(Comparator.naturalOrder())
+                    .collect(Collectors.joining(","));
+        }
     }
 
     @Override

@@ -50,7 +50,7 @@ public class BookingServiceTest {
 
     @Before
     public void setUp() {
-        userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1));
+        userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1, PASSWORD, ROLE_SET));
 
         ldt = LocalDateTime.now();
 

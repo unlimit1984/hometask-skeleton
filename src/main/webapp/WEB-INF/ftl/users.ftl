@@ -25,6 +25,7 @@
                 <th>Last Name</th>
                 <th>Email</th>
                 <th>Birthday</th>
+                <th>Roles</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -36,6 +37,7 @@
                 <td>${user.lastName}</td>
                 <td><a href="./user/email?email=${user.email}">${user.email}</a></td>
                 <td>${user.birthday}</td>
+                <td>${user.rolesToString}</td>
                 <td>
                     <div class="btn-group">
                         <input type="button"

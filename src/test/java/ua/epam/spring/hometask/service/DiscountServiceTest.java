@@ -50,8 +50,12 @@ public class DiscountServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1));//good
-        userService.save(UserTestData.createNew(EMAIL2, USER_NAME2, LAST_NAME2, USER_BIRTHDAY2));//bad
+        userService.save(
+                UserTestData.createNew(
+                        EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1, PASSWORD, ROLE_SET));//good
+        userService.save(
+                UserTestData.createNew(
+                        EMAIL2, USER_NAME2, LAST_NAME2, USER_BIRTHDAY2, PASSWORD, ROLE_SET));//bad
 
         Auditorium auditorium = auditoriumService.getByName("gama");
 
