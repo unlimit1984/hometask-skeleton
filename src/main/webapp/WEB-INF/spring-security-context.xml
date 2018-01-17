@@ -24,12 +24,28 @@
         <csrf disabled="false"/>
     </http>
 
+    <!--hardcoded user credentials-->
+    <!--<authentication-manager>-->
+        <!--<authentication-provider>-->
+            <!--<user-service>-->
+                <!--<user name="1" password="1" authorities="REGISTERED_USER "/>-->
+            <!--</user-service>-->
+        <!--</authentication-provider>-->
+    <!--</authentication-manager>-->
+
+    <!--1st approach-->
+    <beans:bean id="myUserDetailsService"
+                class="ua.epam.spring.hometask.security.UserDetailsServiceImpl"/>
     <authentication-manager>
-        <authentication-provider>
-            <user-service>
-                <user name="1" password="1" authorities="REGISTERED_USER "/>
-            </user-service>
-        </authentication-provider>
+        <authentication-provider user-service-ref='myUserDetailsService'/>
     </authentication-manager>
+
+    <!--2nd approach-->
+    <!--<beans:bean id="myAuthenticationProvider"-->
+                <!--class="ua.epam.spring.hometask.security.DAOAuthenticationProvider"/>-->
+    <!--<authentication-manager>-->
+        <!--<authentication-provider ref='myAuthenticationProvider'/>-->
+    <!--</authentication-manager>-->
+
 
 </beans:beans>
