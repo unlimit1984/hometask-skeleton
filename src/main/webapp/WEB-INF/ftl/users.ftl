@@ -56,7 +56,7 @@
             </tbody>
         </table>
         <hr>
-        <form class="form-horizontal" action="user/addUsersByFile" enctype="multipart/form-data" method="post">
+        <form class="form-horizontal" action="user/addUsersByFile?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data" method="post">
             <div class="form-group">
                 <label class="control-label col-sm-2" for="usersFile">File to upload:</label>
                 <div class="col-sm-10">
