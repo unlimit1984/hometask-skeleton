@@ -21,7 +21,8 @@
                 logout-success-url="/login?logout=true"
 
         />
-        <csrf disabled="false"/>
+        <!--This is by default, you can comment the line below -->
+        <!--<csrf disabled="false"/>-->
     </http>
 
     <!--hardcoded user credentials-->
