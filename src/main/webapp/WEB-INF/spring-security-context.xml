@@ -23,6 +23,20 @@
         />
         <!--This is by default, you can comment the line below -->
         <!--<csrf disabled="false"/>-->
+
+        <!--If you don't set remember-me-parameter, the default is 'remember-me' name - in login form-->
+        <!--The following option with hash based cookies impls-->
+        <remember-me key="unique-and-secret"
+                     remember-me-cookie="remember-me-cookie-name"
+                     token-validity-seconds="86400"
+                     remember-me-parameter="myRememberMe"/>
+
+        <!--The following option with database persistent storage impls (persistent_logins table in DB)-->
+        <!--<remember-me key="unique-and-secret"-->
+                     <!--token-validity-seconds="86400"-->
+                     <!--data-source-ref="dataSource"-->
+                     <!--remember-me-parameter="myRememberMe"/>-->
+
     </http>
 
     <!--hardcoded user credentials-->

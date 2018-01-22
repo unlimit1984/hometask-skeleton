@@ -85,6 +85,8 @@ We have some additional service DiscountService for getting discount during purc
 6. __DONE__ Add custom login/logout pages
 7. __DONE__ Add roles for User entity and implement tests
 8. __DONE__ Add UserDetailsService
+9. __DONE__ Add Remember-Me Authentication for Hash based and DB persistent storage implementations
+
 
 
 

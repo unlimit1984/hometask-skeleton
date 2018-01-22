@@ -13,9 +13,21 @@
             /WEB-INF/spring-security-context.xml
         </param-value>
     </context-param>
+
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+
+    <!--1st approach for changing session's timeout-->
+    <listener>
+        <listener-class>ua.epam.spring.hometask.security.MovieSessionListener</listener-class>
+    </listener>
+
+    <!--2nd approach-->
+    <!--Optional block in case of specific timeout not equals 30 minutes in Apache Tomcat-->
+    <!--<session-config>-->
+        <!--<session-timeout>1</session-timeout>-->
+    <!--</session-config>-->
 
     <servlet>
         <servlet-name>dispatcher</servlet-name>
