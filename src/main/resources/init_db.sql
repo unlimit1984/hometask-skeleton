@@ -14,7 +14,11 @@ CREATE TABLE users (
   last_name  VARCHAR(50) NOT NULL,
   email      VARCHAR(50) NOT NULL,
   birthday   TIMESTAMP   NOT NULL,
-  CONSTRAINT primary_key_users PRIMARY KEY (id)
+  password   VARCHAR(50) NOT NULL,
+  roles      VARCHAR(200) DEFAULT 'REGISTERED_USER' NOT NULL,
+  CONSTRAINT primary_key_users PRIMARY KEY (id),
+  --UNIQUE(email)
+  CONSTRAINT users_email_unique UNIQUE(email)
 );
 
 CREATE TABLE event (
@@ -73,3 +77,10 @@ CREATE TABLE user_discount_audit (
   CONSTRAINT primary_key_user_discount_audit PRIMARY KEY (user_id, discount_name)
 );
 
+-- for Remember-Me
+CREATE TABLE persistent_logins (
+  username  VARCHAR(64) NOT NULL,
+  series    VARCHAR(64) PRIMARY KEY,
+  token     VARCHAR(64) NOT NULL,
+  last_used TIMESTAMP   NOT NULL
+);

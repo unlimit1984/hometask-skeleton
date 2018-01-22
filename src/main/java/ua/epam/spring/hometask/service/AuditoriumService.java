@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import ua.epam.spring.hometask.domain.Auditorium;
+import ua.epam.spring.hometask.util.exception.NotFoundException;
 
 /**
  * @author Yuriy_Tkach
@@ -17,7 +18,7 @@ public interface AuditoriumService {
      * 
      * @return set of all auditoriums
      */
-    public @Nonnull Set<Auditorium> getAll();
+    @Nonnull Set<Auditorium> getAll();
 
     /**
      * Finding auditorium by name
@@ -26,6 +27,6 @@ public interface AuditoriumService {
      *            Name of the auditorium
      * @return found auditorium or <code>null</code>
      */
-    public @Nullable Auditorium getByName(@Nonnull String name);
+    @Nullable Auditorium getByName(@Nonnull String name) throws NotFoundException;
 
 }

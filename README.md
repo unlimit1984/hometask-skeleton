@@ -30,6 +30,7 @@ Each potential User with name, email and id can book a ticket on Event using Boo
 
 We have some additional service DiscountService for getting discount during purchases.
 
+##Spring Core
 
 ###HW1
 
@@ -61,3 +62,45 @@ We have some additional service DiscountService for getting discount during purc
 1. install maven
 2. go to project folder by "cd" command in Terminal (Mac) or any Command Line Commander (Windows)
 3. mvn clean test
+
+##Spring Advanced
+###HW1
+
+1. __DONE__ Configure dispatcher servlet and Spring MVC Context
+2. __DONE__ Implement UserController and all necessary ftl views
+3. __DONE__ Implement EventController and all necessary ftl views
+4. __DONE__ Implement AuditoriumController and all necessary ftl views
+5. __DONE__ Implement BookingController and all necessary views
+6. __DONE__ Implement generic Exception handler (ExceptionController)
+7. __DONE__ Implement download PDF link for getting list of tickets
+8. __DONE__ Provide multipart upload file (users, events)
+
+###HW2
+
+1. __DONE__ Add maven dependencies for Spring security
+2. __DONE__ Add spring security xml (example: spring-security-context.xml)
+3. __DONE__ Wire all spring contexts properly
+4. __DONE__ Add security filter in web.xml
+5. __DONE__ Add csrf support
+6. __DONE__ Add custom login/logout pages
+7. __DONE__ Add roles for User entity and implement tests
+8. __DONE__ Add UserDetailsService
+9. __DONE__ Add Remember-Me Authentication for Hash based and DB persistent storage implementations
+
+
+
+
+
+
+
+####How to run and test
+1. install maven
+2. install tomcat9
+3. go to tomcat9/bin folder
+4. using Command Line execute catalina.bat start
+5. go to project folder
+6. execute command: mvn clean package
+7. alternatively for ignoring tests execute: mvn clean package -DskipTests
+8. put generated project/target/movie.war file in tomcat9/webapps folder
+9. open url in browser: http://localhost:8080/movie/
+10. have fun by creating and modifying users, events and tickets

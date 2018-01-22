@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.epam.spring.hometask.domain.Auditorium;
 import ua.epam.spring.hometask.repository.AuditoriumRepository;
+import ua.epam.spring.hometask.util.exception.NotFoundException;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,10 +33,15 @@ public class AuditoriumServiceImpl implements AuditoriumService {
     @Nullable
     @Override
     public Auditorium getByName(@Nonnull String name) {
-        return repository.getAll()
+        Auditorium result = repository.getAll()
                 .stream()
                 .filter(auditorium -> name.equals(auditorium.getName()))
                 .findFirst()
                 .orElse(null);
+
+        if (result == null) {
+            throw new NotFoundException("Auditorium with name=" + name + " wasn't found.");
+        }
+        return result;
     }
 }

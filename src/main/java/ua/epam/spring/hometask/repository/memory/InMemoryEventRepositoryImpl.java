@@ -38,8 +38,9 @@ public class InMemoryEventRepositoryImpl implements EventRepository {
     }
 
     @Override
-    public void delete(Event event) {
-        repository.remove(event.getId());
+    public boolean delete(Event event) {
+        Event deletedEvent = repository.remove(event.getId());
+        return deletedEvent != null;
     }
 
     @Override

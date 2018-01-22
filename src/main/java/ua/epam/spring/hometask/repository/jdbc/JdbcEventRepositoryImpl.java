@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.repository.jdbc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -27,6 +28,7 @@ public class JdbcEventRepositoryImpl implements EventRepository {
 
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired//we can avoid it because of Spring 4.3
     public JdbcEventRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -42,7 +44,6 @@ public class JdbcEventRepositoryImpl implements EventRepository {
             KeyHolder keyHolder = new GeneratedKeyHolder();
             result = jdbcTemplate.update(con -> {
                 PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-//                PreparedStatement ps = con.prepareStatement(sql, new String[]{"id"});
                 ps.setString(1, event.getName());
                 ps.setDouble(2, event.getBasePrice());
                 ps.setString(3, event.getRating().name());
@@ -50,7 +51,7 @@ public class JdbcEventRepositoryImpl implements EventRepository {
             }, keyHolder);
             event.setId(keyHolder.getKey().longValue());
         } else {
-            String sql = "UPDATE event SET name=?, base_price=?, rating=?, where id=" + event.getId();
+            String sql = "UPDATE event SET name=?, base_price=?, rating=? where id=" + event.getId();
             result = jdbcTemplate.update(sql, params);
         }
 
@@ -71,11 +72,11 @@ public class JdbcEventRepositoryImpl implements EventRepository {
     }
 
     @Override
-    public void delete(Event event) {
+    public boolean delete(Event event) {
         Long id = event.getId();
         Objects.requireNonNull(id);
         jdbcTemplate.update("DELETE FROM event_auditoriums WHERE event_id=?", event.getId());
-        jdbcTemplate.update("DELETE FROM event WHERE id=?", id);
+        return jdbcTemplate.update("DELETE FROM event WHERE id=?", id) != 0;
     }
 
     @Override
@@ -130,6 +131,7 @@ public class JdbcEventRepositoryImpl implements EventRepository {
 
                 Set<LocalDateTime> airDates = eventDetailsDTOs
                         .stream()
+                        .filter(eventDetailsDTO -> eventDetailsDTO.getAirDate() != null)
                         .map(EventDetailsDTO::getAirDate)
                         .collect(Collectors.toSet());
                 event.setAirDates(new TreeSet<>(airDates));
@@ -137,9 +139,11 @@ public class JdbcEventRepositoryImpl implements EventRepository {
                 NavigableMap<LocalDateTime, Auditorium> auditoriums = new TreeMap<>();
 
                 eventDetailsDTOs.forEach(eventDetailsDTO -> {
-                    Auditorium a = new Auditorium();
-                    a.setName(eventDetailsDTO.getAuditoriumName());
-                    auditoriums.put(eventDetailsDTO.getAirDate(), a);
+                    if (eventDetailsDTO.getAuditoriumName() != null) {
+                        Auditorium a = new Auditorium();
+                        a.setName(eventDetailsDTO.getAuditoriumName());
+                        auditoriums.put(eventDetailsDTO.getAirDate(), a);
+                    }
                 });
                 event.setAuditoriums(auditoriums);
             });

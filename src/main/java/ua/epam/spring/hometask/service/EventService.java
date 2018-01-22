@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import ua.epam.spring.hometask.domain.Event;
+import ua.epam.spring.hometask.util.exception.NotFoundException;
 
 import java.time.Clock;
 import java.time.LocalDate;
@@ -27,16 +28,16 @@ public interface EventService extends AbstractDomainObjectService<Event> {
      * @return found event or <code>null</code>
      */
     @Nullable
-    Event getByName(@Nonnull String name);
+    Event getByName(@Nonnull String name) throws NotFoundException;
 
     @Override
-    Event save(@Nonnull Event object);
+    Event save(@Nonnull Event object) throws NotFoundException;
 
     @Override
-    void remove(@Nonnull Event object);
+    void remove(@Nonnull Event object) throws NotFoundException;
 
     @Override
-    Event getById(@Nonnull Long id);
+    Event getById(@Nonnull Long id) throws NotFoundException;
 
     @Nonnull
     @Override

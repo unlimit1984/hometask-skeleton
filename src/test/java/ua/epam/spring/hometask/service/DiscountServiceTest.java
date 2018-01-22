@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import ua.epam.spring.hometask.EventTestData;
@@ -16,20 +18,18 @@ import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.User;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
 import static ua.epam.spring.hometask.EventTestData.*;
 import static ua.epam.spring.hometask.UserTestData.*;
 
-//@ContextConfiguration({"classpath:spring-test.xml"})
 @ContextConfiguration(
         classes = AppConfig.class,
         loader = AnnotationConfigContextLoader.class
 )
 @RunWith(SpringJUnit4ClassRunner.class)
+@Sql(scripts = "classpath:populate_db.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class DiscountServiceTest {
 
     @Autowired
@@ -50,8 +50,12 @@ public class DiscountServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1));//good
-        userService.save(UserTestData.createNew(EMAIL2, USER_NAME2, LAST_NAME2, USER_BIRTHDAY2));//bad
+        userService.save(
+                UserTestData.createNew(
+                        EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1, PASSWORD, ROLE_SET));//good
+        userService.save(
+                UserTestData.createNew(
+                        EMAIL2, USER_NAME2, LAST_NAME2, USER_BIRTHDAY2, PASSWORD, ROLE_SET));//bad
 
         Auditorium auditorium = auditoriumService.getByName("gama");
 
