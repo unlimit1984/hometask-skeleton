@@ -3,7 +3,6 @@ package ua.epam.spring.hometask.service;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -20,7 +19,6 @@ import java.util.stream.Stream;
  * Created by Vladimir on 13.10.2017.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration({"classpath:spring-test.xml"})
 @ContextConfiguration(
         classes = AppConfig.class,
         loader = AnnotationConfigContextLoader.class

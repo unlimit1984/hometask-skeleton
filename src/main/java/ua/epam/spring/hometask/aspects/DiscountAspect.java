@@ -5,9 +5,9 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import ua.epam.spring.hometask.domain.User;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -16,10 +16,8 @@ import java.util.TreeMap;
  * Created by Vladimir on 22.10.2017.
  */
 @Aspect
+@Component
 public class DiscountAspect {
-
-    /*InMemory impl*/
-//    private Map<User, Integer> counter = new HashMap<>();
 
     private JdbcTemplate jdbcTemplate;
 
@@ -54,14 +52,6 @@ public class DiscountAspect {
                     "UPDATE user_discount_audit SET count = count+1 WHERE user_id=? AND discount_name=?",
                     user.getId(),
                     strategyClass.getSimpleName());
-
-
-
-            /*InMemory impl*/
-//            if (!counter.containsKey(user)) {
-//                counter.put(user, 0);
-//            }
-//            counter.put(user, counter.get(user) + 1);
         }
     }
 
@@ -112,18 +102,12 @@ public class DiscountAspect {
             System.out.println(count + " - " + discountName);
         });
 
-        System.out.println("---------------------");
+        System.out.println("-----------------");
 
         getDiscountEventsGroupedByUser().forEach((id, userEventInfo) -> {
             System.out.println("user_id: " + id);
             userEventInfo.forEach((discountName, count) -> System.out.println(count + " - " + discountName));
         });
-
-
-        /*InMemory impl*/
-//        int count = counter.values().stream().mapToInt(Integer::byteValue).sum();
-//        System.out.println(count + " - total amount of discounts");
-//        counter.forEach((user, integer) -> System.out.println(integer + " - " + user));
     }
 
 }

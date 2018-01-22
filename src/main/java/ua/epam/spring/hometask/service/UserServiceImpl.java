@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.repository.UserRepository;
+import ua.epam.spring.hometask.util.exception.NotFoundException;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -25,26 +26,42 @@ public class UserServiceImpl implements UserService {
     @Nullable
     @Override
     public User getUserByEmail(@Nonnull String email) {
-        return userRepository.getAll()
+        User result = userRepository.getAll()
                 .stream()
                 .filter(u -> email.equals(u.getEmail()))
                 .findFirst()
                 .orElse(null);
+
+        if (result == null) {
+            throw new NotFoundException("User with email=" + email + " wasn't found.");
+        }
+        return result;
     }
 
     @Override
     public User save(@Nonnull User object) {
-        return userRepository.save(object);
+        User result = userRepository.save(object);
+        if (result == null) {
+            throw new NotFoundException("User " + object + " wasn't created/updated.");
+        }
+        return result;
     }
 
     @Override
     public void remove(@Nonnull User object) {
-        userRepository.delete(object);
+        boolean found = userRepository.delete(object);
+        if (!found) {
+            throw new NotFoundException("User " + object + " wasn't found for deleting.");
+        }
     }
 
     @Override
     public User getById(@Nonnull Long id) {
-        return userRepository.get(id);
+        User result = userRepository.get(id);
+        if (result == null) {
+            throw new NotFoundException("User with id=" + id + " wasn't found.");
+        }
+        return result;
     }
 
     @Nonnull

@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.repository.jdbc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -23,6 +24,7 @@ public class JdbcTicketRepository implements TicketRepository {
 
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired//we can avoid it because of Spring 4.3
     public JdbcTicketRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

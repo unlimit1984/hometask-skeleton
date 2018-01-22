@@ -9,7 +9,7 @@ import java.util.Collection;
  */
 public interface UserRepository {
     User save(User user);
-    void delete(User user);
+    boolean delete(User user);
     User get(long id);
     Collection<User> getAll();
 }

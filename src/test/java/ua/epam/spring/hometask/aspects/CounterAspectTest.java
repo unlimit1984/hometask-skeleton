@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.aspects;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,7 @@ import ua.epam.spring.hometask.service.AuditoriumService;
 import ua.epam.spring.hometask.service.BookingService;
 import ua.epam.spring.hometask.service.EventService;
 import ua.epam.spring.hometask.service.UserService;
+import ua.epam.spring.hometask.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -78,7 +80,7 @@ public class CounterAspectTest {
         eventService.save(EventTestData.createNew(EVENT_NAME2, EVENT_PRICE2, EVENT_RATING2, EVENT_AIR_DATES2, auditoriumMap2));
         eventService.save(EventTestData.createNew(EVENT_NAME3, EVENT_PRICE3, EVENT_RATING3, EVENT_AIR_DATES3, auditoriumMap3));
 
-        userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1));
+        userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1, PASSWORD, ROLE_SET));
     }
 
     @Test
@@ -97,13 +99,22 @@ public class CounterAspectTest {
                 new Ticket(userService.getUserByEmail(EMAIL1), event2, NOW, 2L)
         ));
 
-        eventService.getByName("event0");
+        try {
+            eventService.getByName("event0");
+            Assert.fail("NotFoundException is expecting");
+        } catch (NotFoundException e) {
+        }
+
         eventService.getByName(EVENT_NAME1);// event1-byName - 2
         eventService.getByName(EVENT_NAME1);// event1-byName - 3
         eventService.getByName(EVENT_NAME2);// event2-byName - 2
         eventService.getByName(EVENT_NAME2);// event2-byName- 3
         eventService.getByName(EVENT_NAME2);// event2-byName - 4
-        eventService.getByName("event3");
+        try {
+            eventService.getByName("event3");
+            Assert.fail("NotFoundException is expecting");
+        } catch (NotFoundException e) {
+        }
 
         bookingService.getTicketsPrice(event1, AIR_DATE1, USER1, new HashSet<>(Arrays.asList(1L, 2L, 3L)));
         bookingService.getTicketsPrice(event2, AIR_DATE2, USER1, new HashSet<>(Arrays.asList(1L, 2L, 3L)));
