@@ -50,6 +50,12 @@
                 <label class="checkbox-inline">
                     <input type="checkbox" onclick="myFunction()">Show password</label>
             </div>
+            <div class="input-group">
+                <label class="checkbox-inline">
+                    <#--Default name for Remember-Me is "remember-me"-->
+                    <#--<input type="checkbox" name="remember-me">Remember-Me</label>-->
+                    <input type="checkbox" name="myRememberMe">Remember-Me</label>
+            </div>
 
             <br>
 
