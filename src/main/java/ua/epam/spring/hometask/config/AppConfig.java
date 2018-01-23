@@ -1,9 +1,6 @@
 package ua.epam.spring.hometask.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -19,6 +16,7 @@ import java.util.List;
  * Created by Vladimir on 19.10.2017.
  */
 @Configuration
+@Import(SecurityConfig.class)
 @EnableAspectJAutoProxy
 @ComponentScan({
         "ua.epam.spring.hometask.repository.jdbc",
