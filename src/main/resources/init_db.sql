@@ -14,7 +14,7 @@ CREATE TABLE users (
   last_name  VARCHAR(50) NOT NULL,
   email      VARCHAR(50) NOT NULL,
   birthday   TIMESTAMP   NOT NULL,
-  password   VARCHAR(50) NOT NULL,
+  password   VARCHAR(60) NOT NULL,
   roles      VARCHAR(200) DEFAULT 'REGISTERED_USER' NOT NULL,
   CONSTRAINT primary_key_users PRIMARY KEY (id),
   --UNIQUE(email)

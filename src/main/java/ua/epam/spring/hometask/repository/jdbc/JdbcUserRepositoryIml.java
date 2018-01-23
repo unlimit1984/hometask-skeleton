@@ -38,9 +38,9 @@ public class JdbcUserRepositoryIml implements UserRepository {
         int result;
         Timestamp birthday = Timestamp.valueOf(LocalDateTime.of(user.getBirthday(), LocalTime.ofSecondOfDay(0)));
         String roles;
-        if(user.getRoles()==null){
-            roles=Role.REGISTERED_USER.name();
-        } else{
+        if (user.getRoles() == null) {
+            roles = Role.REGISTERED_USER.name();
+        } else {
             roles = user.getRoles().stream().map(Enum::name).collect(Collectors.joining(","));
         }
         if (user.isNew()) {
@@ -59,6 +59,16 @@ public class JdbcUserRepositoryIml implements UserRepository {
             }, keyHolder);
             user.setId(keyHolder.getKey().longValue());
 
+        } else if (user.getPassword() == null) {
+            String sql = "UPDATE users SET first_name=?, last_name=?, email=?, birthday=?, roles=? WHERE id=?";
+            result = jdbcTemplate.update(sql,
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getEmail(),
+                    birthday,
+                    roles,
+                    user.getId());
+
         } else {
             String sql = "UPDATE users SET first_name=?, last_name=?, email=?, birthday=?, password=?, roles=? WHERE id=?";
             result = jdbcTemplate.update(sql,
@@ -69,6 +79,7 @@ public class JdbcUserRepositoryIml implements UserRepository {
                     user.getPassword(),
                     roles,
                     user.getId());
+
         }
 
         if (user.getLuckyEvents() != null && user.getLuckyEvents().size() > 0) {

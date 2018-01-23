@@ -51,9 +51,8 @@
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password"
-                       required="required"
-                       value="${(user.password)!""}">
+                <input type="password" class="form-control" id="password" name="password"
+                ${(user.id??)?then("", "placeholder=\"Enter password\" required=\"required\"")}>
             </div>
             <div class="form-group" required="required">
                 <label for="roles">Roles:</label>

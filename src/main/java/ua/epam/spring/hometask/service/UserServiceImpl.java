@@ -1,7 +1,9 @@
 package ua.epam.spring.hometask.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.repository.UserRepository;
 import ua.epam.spring.hometask.util.exception.NotFoundException;
@@ -16,11 +18,14 @@ import java.util.Collection;
 @Service
 public class UserServiceImpl implements UserService {
 
-    UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
+
+    private UserRepository userRepository;
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository) {
+    public void setUserRepository(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Nullable
@@ -40,6 +45,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(@Nonnull User object) {
+        if (StringUtils.isEmpty(object.getPassword())) {
+            object.setPassword(null);
+        } else{
+            object.setPassword(passwordEncoder.encode(object.getPassword()));
+        }
         User result = userRepository.save(object);
         if (result == null) {
             throw new NotFoundException("User " + object + " wasn't created/updated.");
