@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
  * Created by Vladimir_Vysokomorny on 08-Dec-17.
  */
 public class AirDateAuditoriumForm {
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    /*2nd approach with EventForm for uploading event's file*/
+    //@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime airDate;
     private Auditorium auditorium;
 

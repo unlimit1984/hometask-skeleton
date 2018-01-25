@@ -124,6 +124,7 @@ public class EventController {
         return "redirect:/events";
     }
 
+        /*1st approach with EventDeserializer*/
     @RequestMapping(value = "/event/addEventsByFile", method = RequestMethod.POST)
     public String uploadEvents(@RequestParam("file") MultipartFile file) throws IOException {
 
@@ -147,7 +148,7 @@ public class EventController {
         return "redirect:/events";
     }
 
-
+    /*2nd approach with @JsonFormat(pattern = "yyyy-MM-dd HH:mm") in AirDateAuditoriumForm*/
 //    @RequestMapping(value = "/event/addEventsByFile", method = RequestMethod.POST)
 //    public String uploadEvents(@RequestParam("file") MultipartFile file) throws IOException {
 //
