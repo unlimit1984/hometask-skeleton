@@ -9,16 +9,23 @@
 
 
 CREATE TABLE users (
-  id         BIGINT      NOT NULL GENERATED ALWAYS AS IDENTITY ( START WITH 0, INCREMENT BY 1),
-  first_name VARCHAR(50) NOT NULL,
-  last_name  VARCHAR(50) NOT NULL,
-  email      VARCHAR(50) NOT NULL,
-  birthday   TIMESTAMP   NOT NULL,
-  password   VARCHAR(60) NOT NULL,
+  id         BIGINT                                 NOT NULL GENERATED ALWAYS AS IDENTITY ( START WITH 0, INCREMENT BY 1),
+  first_name VARCHAR(50)                            NOT NULL,
+  last_name  VARCHAR(50)                            NOT NULL,
+  email      VARCHAR(50)                            NOT NULL,
+  birthday   TIMESTAMP                              NOT NULL,
+  password   VARCHAR(60)                            NOT NULL,
   roles      VARCHAR(200) DEFAULT 'REGISTERED_USER' NOT NULL,
   CONSTRAINT primary_key_users PRIMARY KEY (id),
   --UNIQUE(email)
-  CONSTRAINT users_email_unique UNIQUE(email)
+  CONSTRAINT users_email_unique UNIQUE (email)
+);
+
+CREATE TABLE user_accounts (
+  id      BIGINT           NOT NULL GENERATED ALWAYS AS IDENTITY ( START WITH 0, INCREMENT BY 1),
+  user_id BIGINT REFERENCES users (id),
+  money   DOUBLE PRECISION NOT NULL,
+  CONSTRAINT primary_key_user_accounts PRIMARY KEY (id)
 );
 
 CREATE TABLE event (

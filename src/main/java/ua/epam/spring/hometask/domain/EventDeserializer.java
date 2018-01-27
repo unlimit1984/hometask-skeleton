@@ -15,6 +15,7 @@ import java.util.*;
 /**
  * Created by Vladimir_Vysokomorny on 15-Dec-17.
  */
+/*1st approach use custom Deserializer and native Form class for uploading Event's file*/
 public class EventDeserializer extends JsonDeserializer<Event> {
 
     @Override
