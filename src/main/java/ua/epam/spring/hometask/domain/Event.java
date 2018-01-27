@@ -15,6 +15,8 @@ public class Event extends DomainObject {
 
     private double basePrice;
 
+    private double ticketPrice;
+
     private EventRating rating;
 
     private NavigableMap<LocalDateTime, Auditorium> auditoriums = new TreeMap<>();
@@ -145,6 +147,14 @@ public class Event extends DomainObject {
 
     public void setBasePrice(double basePrice) {
         this.basePrice = basePrice;
+    }
+
+    public double getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public void setTicketPrice(double ticketPrice) {
+        this.ticketPrice = ticketPrice;
     }
 
     public EventRating getRating() {
