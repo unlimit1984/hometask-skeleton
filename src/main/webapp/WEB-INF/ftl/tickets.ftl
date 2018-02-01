@@ -74,6 +74,9 @@
                 <button type="button" class="btn btn-success" id="addOneRow">+</button>
                 <button type="submit" class="btn btn-primary">Save</button>
             </div>
+            <!--with CSRF-->
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
         </form>
 
         <table class="table">
