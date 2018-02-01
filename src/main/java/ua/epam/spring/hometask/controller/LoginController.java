@@ -1,16 +1,17 @@
 package ua.epam.spring.hometask.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by Vladimir_Vysokomorny on 20-Dec-17.
  */
 @Controller
+@SessionAttributes("userAccount")
 public class LoginController {
 
     //@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -33,6 +34,16 @@ public class LoginController {
         return "logoutPage";
     }
 
+    @RequestMapping(value="/showlogin", method = RequestMethod.GET)
+    public String printUser(ModelMap model) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName(); //get logged in username
+
+        model.addAttribute("username", name);
+        return "showlogin";
+
+    }
 
 //    @RequestMapping(value = "/login", method = RequestMethod.POST)
 //    public void submit(){

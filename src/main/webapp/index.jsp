@@ -24,7 +24,7 @@
     <div class="jumbotron" style="padding: 1px 20px 20px 20px; margin: 0;">
         <h2><a href="./">Main page</a></h2>
         <hr>
-        <a href="users">Users</a><br>
+        <a href="users">Users</a> (<a href="showlogin">show me</a>, <a href="accounts">accounts</a>)<br>
         <a href="events">Events and Tickets</a><br>
         <a href="auditoriums">Auditoriums</a><br>
         <hr>
