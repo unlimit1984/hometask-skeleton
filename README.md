@@ -87,7 +87,9 @@ We have some additional service DiscountService for getting discount during purc
 8. __DONE__ Add UserDetailsService
 9. __DONE__ Add Remember-Me Authentication for Hash based and DB persistent storage implementations
 10. __DONE__ Implement password encoding during authentication and adding new User
-11. __IN_PROGRESS__ Add UserAccount entity
+11. __DONE__ Add UserAccount entity
+12. __DONE__ Add user info page
+13. __IN_PROGRESS__ Add AccountController and implement UserAccountService
 
 
 
