@@ -23,7 +23,7 @@ public class JdbcUserAccountRepositoryImpl implements UserAccountRepository {
     }
 
     @Override
-    public UserAccount save(UserAccount userAccount) {
+    public UserAccount save(UserAccount userAccount, long userId) {
         int result;
         if (userAccount.isNew()) {
             KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -48,14 +48,14 @@ public class JdbcUserAccountRepositoryImpl implements UserAccountRepository {
     }
 
     @Override
-    public boolean delete(UserAccount userAccount) {
+    public boolean delete(UserAccount userAccount, long userId) {
         Long id = userAccount.getId();
         Objects.requireNonNull(id);
         return jdbcTemplate.update("DELETE FROM user_accounts WHERE id=?", id) != 0;
     }
 
     @Override
-    public UserAccount get(long id) {
+    public UserAccount get(long id, long userId) {
         return jdbcTemplate.queryForObject(
                 "SELECT * FROM user_accounts WHERE id=?",
                 new Object[]{id},
@@ -63,7 +63,7 @@ public class JdbcUserAccountRepositoryImpl implements UserAccountRepository {
     }
 
     @Override
-    public Collection<UserAccount> getAll() {
+    public Collection<UserAccount> getAll(long userId) {
         return jdbcTemplate.query(
                 "SELECT * FROM user_accounts",
                 UserAccountRowMapper());
