@@ -44,7 +44,7 @@
                        value="${(user.email)!""}">
             </div>
             <div class="form-group">
-                <label for="birthday">Email:</label>
+                <label for="birthday">Birthday:</label>
                 <input type="date" class="form-control" id="birthday" name="birthday" placeholder="Enter birthday"
                        required="required"
                        value="${(user.birthday)!""}">
