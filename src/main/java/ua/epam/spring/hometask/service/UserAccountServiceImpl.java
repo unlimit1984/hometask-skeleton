@@ -1,32 +1,51 @@
 package ua.epam.spring.hometask.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.epam.spring.hometask.domain.UserAccount;
+import ua.epam.spring.hometask.repository.UserAccountRepository;
+import ua.epam.spring.hometask.util.exception.NotFoundException;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
 
 @Service
-public class UserAccountServiceImpl implements UserAccountService{
+public class UserAccountServiceImpl implements UserAccountService {
+
+    @Autowired
+    private UserAccountRepository accountRepository;
 
     @Override
     public UserAccount save(@Nonnull UserAccount object, long userId) {
-        return null;
+        UserAccount result = accountRepository.save(object, userId);
+        if (result == null) {
+            throw new NotFoundException("Account " + object + " for user_id=" + userId + " wasn't created/updated.");
+        }
+        return result;
     }
 
     @Override
     public void remove(@Nonnull UserAccount object, long userId) {
+        boolean found = accountRepository.delete(object, userId);
+        if (!found) {
+            throw new NotFoundException("Account " + object + " for user_id=" + userId + " wasn't found for deleting.");
+        }
 
     }
 
     @Override
     public UserAccount getById(@Nonnull Long id, long userId) {
-        return null;
+        UserAccount result = accountRepository.get(id, userId);
+        if (result == null) {
+            throw new NotFoundException("Account with id=" + id + " and user_id=" + userId + " wasn't found.");
+        }
+        return result;
+
     }
 
     @Nonnull
     @Override
     public Collection<UserAccount> getAll(long userId) {
-        return null;
+        return accountRepository.getAll(userId);
     }
 }
