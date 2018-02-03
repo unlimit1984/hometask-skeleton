@@ -43,4 +43,12 @@ public class UserAccount extends DomainObject{
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "UserAccount{" +
+                "userId=" + userId +
+                ", money=" + money +
+                '}';
+    }
 }
