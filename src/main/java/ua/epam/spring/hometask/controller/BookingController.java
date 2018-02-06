@@ -1,10 +1,15 @@
 package ua.epam.spring.hometask.controller;
 
-import com.itextpdf.text.*;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
@@ -15,7 +20,9 @@ import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.domain.form.BookingTicketsForm;
+import ua.epam.spring.hometask.domain.form.PurchasingTicketsForm;
 import ua.epam.spring.hometask.domain.to.BookingTicketDTO;
+import ua.epam.spring.hometask.domain.to.PurchasingTicketDTO;
 import ua.epam.spring.hometask.service.BookingService;
 import ua.epam.spring.hometask.service.EventService;
 import ua.epam.spring.hometask.service.UserService;
@@ -24,7 +31,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.beans.PropertyEditorSupport;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -64,8 +74,8 @@ public class BookingController {
 
 
     @RequestMapping("/tickets")
-    public ModelAndView getBookedTickets(@RequestParam("eventId") long eventId,
-                                         @RequestParam("dateTime") LocalDateTime dateTime) {
+    public ModelAndView getPurchasedTickets(@RequestParam("eventId") long eventId,
+                                            @RequestParam("dateTime") LocalDateTime dateTime) {
 
         Event event = eventService.getById(eventId);
         Set<Ticket> ticketSet = bookingService.getPurchasedTicketsForEvent(event, dateTime);
@@ -78,7 +88,7 @@ public class BookingController {
                         t.getSeat()))
                 .collect(Collectors.toList());
         ModelAndView mav = new ModelAndView("tickets");
-        mav.addObject("ticketsToShow", tickets);
+        mav.addObject("purchasedTickets", tickets);
         mav.addObject("eventId", eventId);
         mav.addObject("airDate", dateTime);
 
@@ -86,10 +96,10 @@ public class BookingController {
     }
 
     @RequestMapping("/tickets/pdf")
-    public void getBookedTicketsInPdf(@RequestParam("eventId") long eventId,
-                                      @RequestParam("dateTime") LocalDateTime dateTime,
-                                      HttpServletRequest request,
-                                      HttpServletResponse response) throws Exception {
+    public void getPurchasedTicketsInPdf(@RequestParam("eventId") long eventId,
+                                         @RequestParam("dateTime") LocalDateTime dateTime,
+                                         HttpServletRequest request,
+                                         HttpServletResponse response) throws Exception {
 
         Event event = eventService.getById(eventId);
         Set<Ticket> tickets = bookingService.getPurchasedTicketsForEvent(event, dateTime);
@@ -98,7 +108,7 @@ public class BookingController {
         final ServletContext servletContext = request.getSession().getServletContext();
         final File tempDirectory = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
         final String temperotyFilePath = tempDirectory.getAbsolutePath();
-        final String fullPath = temperotyFilePath+"\\"+fileName;
+        final String fullPath = temperotyFilePath + "\\" + fileName;
 
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(fullPath));
@@ -129,13 +139,48 @@ public class BookingController {
         document.close();
 
         File file = new File(fullPath);
-        if (!file.exists()){
+        if (!file.exists()) {
             throw new FileNotFoundException("file with path: " + fullPath + " was not found.");
         }
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
         response.setHeader("Content-Length", String.valueOf(file.length()));
         FileCopyUtils.copy(new FileInputStream(file), response.getOutputStream());
+    }
+
+    @RequestMapping(value = "/tickets/showPrice", method = RequestMethod.POST)
+    public ModelAndView getPurchasingTickets(@ModelAttribute("ticketsForm") PurchasingTicketsForm ticketsForm,
+                                             @RequestParam long eventId,
+                                             @RequestParam LocalDateTime airDate,
+                                             BindingResult result) {
+        if (result.hasErrors()) {
+            throw new RuntimeException(result.toString());
+        }
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        User user = userService.getUserByEmail(email);
+
+        Event event = eventService.getById(eventId);
+
+        double price = bookingService.getTicketsPrice(event, airDate, user, ticketsForm.getSeats());
+
+        List<PurchasingTicketDTO> tickets =
+                ticketsForm.getSeats()
+                        .stream()
+                        .map(seat -> new PurchasingTicketDTO(event.getName(), airDate, seat)).collect(Collectors.toList());
+
+        ModelAndView mav = new ModelAndView("book");
+        mav.addObject("purchasingTickets", tickets);
+        mav.addObject("eventId", eventId);
+        mav.addObject("airDate", airDate);
+        mav.addObject("price", price);
+
+        return mav;
+
+
+//        return "redirect:/tickets?eventId=" + eventId + "&dateTime=" + airDate;
+
     }
 
 

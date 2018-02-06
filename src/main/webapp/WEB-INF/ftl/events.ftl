@@ -56,7 +56,7 @@
                                    id="${airDate}"
                                    class="btn btn-warning"
                                    onclick="location.href='tickets?eventId=${event.id}&dateTime=${airDate}'"
-                                   value="Buy a ticket">
+                                   value="Order tickets">
                         </div>
                     </#list>
                 </td>
