@@ -37,7 +37,7 @@
         <h3><a href="./events">Back</a></h3>
         <h3>Ticket list</h3>
 
-        <form action="./tickets/book" method="post">
+        <form action="./tickets/showPrice" method="post">
             <input type="hidden" name="eventId" value="${eventId}">
             <input type="hidden" name="airDate" value="${airDate}">
 
@@ -72,12 +72,14 @@
 
             <div class="btn-group-vertical">
                 <button type="button" class="btn btn-success" id="addOneRow">+</button>
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary">Check price</button>
             </div>
             <!--with CSRF-->
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
         </form>
+
+        <h3>Purchased tickets</h3>
 
         <table class="table">
             <thead>
@@ -90,7 +92,7 @@
             </tr>
             </thead>
             <tbody>
-            <#list ticketsToShow as ticket>
+            <#list purchasedTickets as ticket>
             <tr>
                 <td>${ticket.id}</td>
                 <td>${ticket.userId}</td>
@@ -103,7 +105,7 @@
             </tbody>
         </table>
 
-    <#assign length = ((ticketsToShow?size)!0)>
+    <#assign length = ((purchasedTickets?size)!0)>
     <#if length gt 0>
         <a class="btn btn-link btn-xs" href="./tickets/pdf?eventId=${eventId}&dateTime=${airDate}" role="button">Download as PDF</a>
     </#if>
