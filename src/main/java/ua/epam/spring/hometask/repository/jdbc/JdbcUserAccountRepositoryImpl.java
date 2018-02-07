@@ -30,17 +30,19 @@ public class JdbcUserAccountRepositoryImpl implements UserAccountRepository {
             KeyHolder keyHolder = new GeneratedKeyHolder();
 
             result = jdbcTemplate.update(con -> {
-                String sql = "INSERT INTO user_accounts (user_id, money) VALUES (?, ?)";
+                String sql = "INSERT INTO user_accounts (user_id, name, money) VALUES (?, ?, ?)";
                 PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 ps.setLong(1, userAccount.getUserId());
-                ps.setDouble(2, userAccount.getMoney());
+                ps.setString(2, userAccount.getName());
+                ps.setDouble(3, userAccount.getMoney());
                 return ps;
             }, keyHolder);
             userAccount.setId(keyHolder.getKey().longValue());
         } else {
-            String sql = "UPDATE user_accounts SET user_id=?, money=? WHERE id=?";
+            String sql = "UPDATE user_accounts SET user_id=?, name=?, money=? WHERE id=?";
             result = jdbcTemplate.update(sql,
                     userAccount.getUserId(),
+                    userAccount.getName(),
                     userAccount.getMoney(),
                     userAccount.getId());
         }
@@ -75,6 +77,7 @@ public class JdbcUserAccountRepositoryImpl implements UserAccountRepository {
             UserAccount userAccount = new UserAccount();
             userAccount.setId(rs.getLong("id"));
             userAccount.setUserId(rs.getLong("user_id"));
+            userAccount.setName(rs.getString("name"));
             userAccount.setMoney(rs.getDouble("money"));
             return userAccount;
         };

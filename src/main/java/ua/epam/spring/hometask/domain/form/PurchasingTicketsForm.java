@@ -1,24 +1,15 @@
 package ua.epam.spring.hometask.domain.form;
 
-import java.util.Set;
+import java.util.List;
 
 public class PurchasingTicketsForm {
-    private Set<Long> seats;
+    private List<Long> seats;
 
-    public Set<Long> getSeats() {
+    public List<Long> getSeats() {
         return seats;
     }
 
-    public void setSeats(Set<Long> seats) {
+    public void setSeats(List<Long> seats) {
         this.seats = seats;
     }
-//    private List<PurchasingTicketDTO> purchasingTickets;
-//
-//    public List<PurchasingTicketDTO> getPurchasingTickets() {
-//        return purchasingTickets;
-//    }
-//
-//    public void setPurchasingTickets(List<PurchasingTicketDTO> purchasingTickets) {
-//        this.purchasingTickets = purchasingTickets;
-//    }
 }
