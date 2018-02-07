@@ -49,8 +49,17 @@
 
             <h4>Total cost: ${price}</h4>
 
+            <div class="form-group">
+                <label for="accountId">Select list:</label>
+                <select class="form-control" id="accountId">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+            </div>
+
             <div class="btn-group-vertical">
-                <button type="button" class="btn btn-success" id="addOneRow">+</button>
                 <button type="submit" class="btn btn-primary">Buy</button>
             </div>
 
