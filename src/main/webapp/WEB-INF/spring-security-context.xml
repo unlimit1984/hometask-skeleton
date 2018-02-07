@@ -12,6 +12,7 @@
         <intercept-url pattern="/auditoriums**" access="hasAuthority('REGISTERED_USER')"/>
         <intercept-url pattern="/showlogin" access="hasAuthority('REGISTERED_USER')"/>
         <intercept-url pattern="/account**/**" access="hasAuthority('REGISTERED_USER')"/>
+        <intercept-url pattern="/ticket**/**" access="hasAuthority('REGISTERED_USER')"/>
 
         <!--<form-login />-->
         <!--<logout/>-->
