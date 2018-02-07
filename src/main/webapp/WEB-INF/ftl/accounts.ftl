@@ -22,6 +22,7 @@
             <tr>
                 <th>Id</th>
                 <th>User Id</th>
+                <th>Name</th>
                 <th>Money</th>
                 <th>Action</th>
             </tr>
@@ -31,7 +32,8 @@
             <tr>
                 <td>${account.id}</td>
                 <td><a href="./account/id?id=${account.userId}">${account.userId}</a></td>
-                <td>${account.money}</td>
+                <td>${account.name}</td>
+                <td>${account.money?string(",##0.00")}</td>
                 <td>
                     <div class="btn-group">
                         <input type="button"

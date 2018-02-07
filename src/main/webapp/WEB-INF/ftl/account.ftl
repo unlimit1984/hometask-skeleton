@@ -25,13 +25,19 @@
                 <input type="text" class="form-control" id="id" name="id" readonly
                        value="${(account.id)!""}">
             </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name"
+                       required="required"
+                       value="${(account.name)!""}">
+            </div>
 
             <div class="form-group">
                 <label for="money">Money:</label>
                 <input type="text" class="form-control" id="money" name="money"
                        required="required"
                        pattern="(\d{1,5})([\.])(\d{2})"
-                       value="${(account.money)!""}">
+                       value="${(account.money?string(",##0.00"))!"100.00"}">
             </div>
 
             <div class="btn-group">
