@@ -4,7 +4,7 @@
     <groupId>com.epam.spring.core</groupId>
     <artifactId>hometask-skeleton</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>Spring Core Hometask Skeleton</name>
+    <name>Movie manager</name>
     <description>A skeleton project for the students of Spring Core MOOC course that can be used to do the hometask
         assignment
     </description>

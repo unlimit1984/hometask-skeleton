@@ -14,7 +14,7 @@ public class BirthdayStrategy implements DiscountStrategy {
     @Override
     public byte getPercentDiscount(User user, Event event, LocalDateTime dateTime, long numberOfTickets) {
 
-        if (user.getBirthday() != null) {
+        if (user != null && user.getBirthday() != null) {
             LocalDate userBirthday = user.getBirthday();
             LocalDate date = dateTime.toLocalDate();
             date = LocalDate.of(userBirthday.getYear(), date.getMonth().getValue(), date.getDayOfMonth());

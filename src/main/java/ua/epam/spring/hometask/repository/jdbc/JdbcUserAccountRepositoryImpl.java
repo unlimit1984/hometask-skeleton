@@ -24,22 +24,25 @@ public class JdbcUserAccountRepositoryImpl implements UserAccountRepository {
 
     @Override
     public UserAccount save(UserAccount userAccount, long userId) {
+        userAccount.setUserId(userId);
         int result;
         if (userAccount.isNew()) {
             KeyHolder keyHolder = new GeneratedKeyHolder();
 
             result = jdbcTemplate.update(con -> {
-                String sql = "INSERT INTO user_accounts (user_id, money) VALUES (?, ?)";
+                String sql = "INSERT INTO user_accounts (user_id, name, money) VALUES (?, ?, ?)";
                 PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 ps.setLong(1, userAccount.getUserId());
-                ps.setDouble(2, userAccount.getMoney());
+                ps.setString(2, userAccount.getName());
+                ps.setDouble(3, userAccount.getMoney());
                 return ps;
             }, keyHolder);
             userAccount.setId(keyHolder.getKey().longValue());
         } else {
-            String sql = "UPDATE user_accounts SET user_id=?, money=? WHERE id=?";
+            String sql = "UPDATE user_accounts SET user_id=?, name=?, money=? WHERE id=?";
             result = jdbcTemplate.update(sql,
                     userAccount.getUserId(),
+                    userAccount.getName(),
                     userAccount.getMoney(),
                     userAccount.getId());
         }
@@ -51,21 +54,21 @@ public class JdbcUserAccountRepositoryImpl implements UserAccountRepository {
     public boolean delete(UserAccount userAccount, long userId) {
         Long id = userAccount.getId();
         Objects.requireNonNull(id);
-        return jdbcTemplate.update("DELETE FROM user_accounts WHERE id=?", id) != 0;
+        return jdbcTemplate.update("DELETE FROM user_accounts WHERE id=? and user_id=?", id, userId) != 0;
     }
 
     @Override
     public UserAccount get(long id, long userId) {
         return jdbcTemplate.queryForObject(
-                "SELECT * FROM user_accounts WHERE id=?",
-                new Object[]{id},
+                "SELECT * FROM user_accounts WHERE id=? and user_id=?",
+                new Object[]{id, userId},
                 UserAccountRowMapper());
     }
 
     @Override
     public Collection<UserAccount> getAll(long userId) {
-        return jdbcTemplate.query(
-                "SELECT * FROM user_accounts",
+        return jdbcTemplate.query("SELECT * FROM user_accounts WHERE user_id=?",
+                new Object[]{userId},
                 UserAccountRowMapper());
     }
 
@@ -74,6 +77,7 @@ public class JdbcUserAccountRepositoryImpl implements UserAccountRepository {
             UserAccount userAccount = new UserAccount();
             userAccount.setId(rs.getLong("id"));
             userAccount.setUserId(rs.getLong("user_id"));
+            userAccount.setName(rs.getString("name"));
             userAccount.setMoney(rs.getDouble("money"));
             return userAccount;
         };
