@@ -4,11 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Vladimir_Vysokomorny on 15-Jan-18.

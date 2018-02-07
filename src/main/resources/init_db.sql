@@ -24,8 +24,10 @@ CREATE TABLE users (
 CREATE TABLE user_accounts (
   id      BIGINT           NOT NULL GENERATED ALWAYS AS IDENTITY ( START WITH 0, INCREMENT BY 1),
   user_id BIGINT REFERENCES users (id),
+  name       VARCHAR(50) NOT NULL,
   money   DOUBLE PRECISION NOT NULL,
-  CONSTRAINT primary_key_user_accounts PRIMARY KEY (id)
+  CONSTRAINT primary_key_user_accounts PRIMARY KEY (id),
+  CONSTRAINT user_accounts_name_unique UNIQUE (name)
 );
 
 CREATE TABLE event (

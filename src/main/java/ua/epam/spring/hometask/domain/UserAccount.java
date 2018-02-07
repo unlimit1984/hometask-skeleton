@@ -2,13 +2,15 @@ package ua.epam.spring.hometask.domain;
 
 public class UserAccount extends DomainObject{
     private Long userId;
+    private String name;
     private double money;
 
     public UserAccount() {
     }
 
-    public UserAccount(Long userId, double money) {
+    public UserAccount(Long userId, String name, double money) {
         this.userId = userId;
+        this.name = name;
         this.money = money;
     }
 
@@ -18,6 +20,14 @@ public class UserAccount extends DomainObject{
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public double getMoney() {
@@ -42,5 +52,14 @@ public class UserAccount extends DomainObject{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "UserAccount{" +
+                "userId=" + userId +
+                ", name='" + name + '\'' +
+                ", money=" + money +
+                '}';
     }
 }

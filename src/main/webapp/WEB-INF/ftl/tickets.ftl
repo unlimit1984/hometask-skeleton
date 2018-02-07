@@ -37,64 +37,62 @@
         <h3><a href="./events">Back</a></h3>
         <h3>Ticket list</h3>
 
-        <form action="./tickets/book" method="post">
+        <form action="./tickets/showPrice" method="post">
             <input type="hidden" name="eventId" value="${eventId}">
             <input type="hidden" name="airDate" value="${airDate}">
 
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>User Id</th>
-                    <th>Date Time</th>
-                    <th>Seat</th>
-                </tr>
-                </thead>
+            <div class="row">
+                <div class="col-lg-5">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Date Time</th>
+                            <th>Seat</th>
+                        </tr>
+                        </thead>
 
-                <tbody>
-                <tr class="ticket_input_row">
-                    <td>
-                        <input type="text" class="form-control" name="tickets[0].userId" placeholder="Enter user Id"
-                               required>
-                    </td>
-                    <td>
-                        <input type="datetime-local" class="form-control" name="tickets[0].dateTime"
-                               placeholder="Enter date time"
-                               value="${airDate}"
-                               readonly>
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" name="tickets[0].seat" placeholder="Enter seat"
-                               required>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                        <tbody>
+                        <tr class="ticket_input_row">
+                            <td>
+                            ${airDate.format("dd.MM.yyyy HH:mm")}
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" name="seats[0]" placeholder="Enter seat"
+                                       required>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-7"></div>
+            </div>
 
             <div class="btn-group-vertical">
                 <button type="button" class="btn btn-success" id="addOneRow">+</button>
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary">Check price</button>
             </div>
             <!--with CSRF-->
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
         </form>
 
+        <h3>Purchased tickets</h3>
+
         <table class="table">
             <thead>
             <tr>
                 <th>Id</th>
-                <th>User Id</th>
-                <th>Event Id</th>
+                <th>Event</th>
                 <th>Date Time</th>
                 <th>Seat</th>
             </tr>
             </thead>
             <tbody>
-            <#list ticketsToShow as ticket>
+
+            <#list purchasedTickets as ticket>
             <tr>
                 <td>${ticket.id}</td>
-                <td>${ticket.userId}</td>
-                <td>${ticket.eventId}</td>
+                <td>${ticket.eventName}</td>
                 <td>${ticket.dateTime.format("dd.MM.yyyy HH:mm")}</td>
                 <td>${ticket.seat}</td>
             </tr>
@@ -103,7 +101,7 @@
             </tbody>
         </table>
 
-    <#assign length = ((ticketsToShow?size)!0)>
+    <#assign length = ((purchasedTickets?size)!0)>
     <#if length gt 0>
         <a class="btn btn-link btn-xs" href="./tickets/pdf?eventId=${eventId}&dateTime=${airDate}" role="button">Download as PDF</a>
     </#if>

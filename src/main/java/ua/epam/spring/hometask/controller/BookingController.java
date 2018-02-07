@@ -1,10 +1,15 @@
 package ua.epam.spring.hometask.controller;
 
-import com.itextpdf.text.*;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
@@ -14,8 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.User;
-import ua.epam.spring.hometask.domain.form.BookingTicketsForm;
-import ua.epam.spring.hometask.domain.to.BookingTicketDTO;
+import ua.epam.spring.hometask.domain.form.PurchasingTicketsForm;
+import ua.epam.spring.hometask.domain.to.PurchasedTicketDTO;
+import ua.epam.spring.hometask.domain.to.PurchasingTicketDTO;
 import ua.epam.spring.hometask.service.BookingService;
 import ua.epam.spring.hometask.service.EventService;
 import ua.epam.spring.hometask.service.UserService;
@@ -24,9 +30,13 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.beans.PropertyEditorSupport;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -64,21 +74,27 @@ public class BookingController {
 
 
     @RequestMapping("/tickets")
-    public ModelAndView getBookedTickets(@RequestParam("eventId") long eventId,
-                                         @RequestParam("dateTime") LocalDateTime dateTime) {
+    public ModelAndView getPurchasedTickets(@RequestParam("eventId") long eventId,
+                                            @RequestParam("dateTime") LocalDateTime dateTime) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        User user = userService.getUserByEmail(email);
 
         Event event = eventService.getById(eventId);
-        Set<Ticket> ticketSet = bookingService.getPurchasedTicketsForEvent(event, dateTime);
-        List<BookingTicketDTO> tickets = ticketSet.stream()
-                .map(t -> new BookingTicketDTO(
+        List<PurchasedTicketDTO> userTicketsForEvent = bookingService
+                .getPurchasedTicketsForEvent(event, dateTime)
+                .stream()
+                .filter(t -> t.getUser().equals(user))
+                .map(t -> new PurchasedTicketDTO(
                         t.getId(),
-                        t.getUser().getId(),
-                        t.getEvent().getId(),
+                        t.getEvent().getName(),
                         t.getDateTime(),
                         t.getSeat()))
                 .collect(Collectors.toList());
+
         ModelAndView mav = new ModelAndView("tickets");
-        mav.addObject("ticketsToShow", tickets);
+        mav.addObject("purchasedTickets", userTicketsForEvent);
         mav.addObject("eventId", eventId);
         mav.addObject("airDate", dateTime);
 
@@ -86,19 +102,29 @@ public class BookingController {
     }
 
     @RequestMapping("/tickets/pdf")
-    public void getBookedTicketsInPdf(@RequestParam("eventId") long eventId,
-                                      @RequestParam("dateTime") LocalDateTime dateTime,
-                                      HttpServletRequest request,
-                                      HttpServletResponse response) throws Exception {
+    public void getPurchasedTicketsInPdf(@RequestParam("eventId") long eventId,
+                                         @RequestParam("dateTime") LocalDateTime dateTime,
+                                         HttpServletRequest request,
+                                         HttpServletResponse response) throws Exception {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        User user = userService.getUserByEmail(email);
+
 
         Event event = eventService.getById(eventId);
-        Set<Ticket> tickets = bookingService.getPurchasedTicketsForEvent(event, dateTime);
+        Set<Ticket> tickets = bookingService
+                .getPurchasedTicketsForEvent(event, dateTime)
+                .stream()
+                .filter(t -> t.getUser().equals(user))
+                .collect(Collectors.toSet());
+
 
         String fileName = "tickets.pdf";
         final ServletContext servletContext = request.getSession().getServletContext();
         final File tempDirectory = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
-        final String temperotyFilePath = tempDirectory.getAbsolutePath();
-        final String fullPath = temperotyFilePath+"\\"+fileName;
+        final String temporaryFilePath = tempDirectory.getAbsolutePath();
+        final String fullPath = temporaryFilePath + "\\" + fileName;
 
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(fullPath));
@@ -129,7 +155,7 @@ public class BookingController {
         document.close();
 
         File file = new File(fullPath);
-        if (!file.exists()){
+        if (!file.exists()) {
             throw new FileNotFoundException("file with path: " + fullPath + " was not found.");
         }
         response.setContentType("application/pdf");
@@ -138,9 +164,45 @@ public class BookingController {
         FileCopyUtils.copy(new FileInputStream(file), response.getOutputStream());
     }
 
+    @RequestMapping(value = "/tickets/showPrice", method = RequestMethod.POST)
+    public ModelAndView getPurchasingTickets(@ModelAttribute("ticketsForm") PurchasingTicketsForm ticketsForm,
+                                             @RequestParam long eventId,
+                                             @RequestParam LocalDateTime airDate,
+                                             BindingResult result) {
+        if (result.hasErrors()) {
+            throw new RuntimeException(result.toString());
+        }
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        User user = userService.getUserByEmail(email);
+
+
+
+        Event event = eventService.getById(eventId);
+        double price = bookingService.getTicketsPrice(event, airDate, user, new HashSet<>(ticketsForm.getSeats()));
+
+        List<PurchasingTicketDTO> tickets =
+                ticketsForm.getSeats()
+                        .stream()
+                        .map(seat -> new PurchasingTicketDTO(event.getName(), airDate, seat)).collect(Collectors.toList());
+
+        ModelAndView mav = new ModelAndView("book");
+        mav.addObject("purchasingTickets", tickets);
+        mav.addObject("eventId", eventId);
+        mav.addObject("airDate", airDate);
+        mav.addObject("price", price);
+
+        return mav;
+
+
+//        return "redirect:/tickets?eventId=" + eventId + "&dateTime=" + airDate;
+
+    }
+
 
     @RequestMapping(value = "/tickets/book", method = RequestMethod.POST)
-    public String bookTickets(@ModelAttribute("ticketsForm") BookingTicketsForm ticketsForm,
+    public String bookTickets(@ModelAttribute("ticketsForm") PurchasingTicketsForm ticketsForm,
                               @RequestParam long eventId,
                               @RequestParam LocalDateTime airDate,
                               BindingResult result) {
@@ -149,14 +211,16 @@ public class BookingController {
             //return "error";
         }
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        User user = userService.getUserByEmail(email);
+
+
         Event event = eventService.getById(eventId);
-        Set<Ticket> tickets = ticketsForm.getTickets()
-                .stream()
-                .map(t -> {
-                    User user = userService.getById(t.getUserId());
-                    //Event event = eventService.getById(t.getEventId());
-                    return new Ticket(user, event, t.getDateTime(), t.getSeat());
-                }).collect(Collectors.toSet());
+        Set<Ticket> tickets = ticketsForm.getSeats().stream()
+                .map(seat -> new Ticket(user,event,airDate,seat))
+                .collect(Collectors.toSet());
+
         bookingService.bookTickets(tickets);
         return "redirect:/tickets?eventId=" + eventId + "&dateTime=" + airDate;
 
