@@ -19,11 +19,13 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.User;
+import ua.epam.spring.hometask.domain.UserAccount;
 import ua.epam.spring.hometask.domain.form.PurchasingTicketsForm;
 import ua.epam.spring.hometask.domain.to.PurchasedTicketDTO;
 import ua.epam.spring.hometask.domain.to.PurchasingTicketDTO;
 import ua.epam.spring.hometask.service.BookingService;
 import ua.epam.spring.hometask.service.EventService;
+import ua.epam.spring.hometask.service.UserAccountService;
 import ua.epam.spring.hometask.service.UserService;
 
 import javax.servlet.ServletContext;
@@ -36,6 +38,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -56,6 +59,9 @@ public class BookingController {
 
     @Autowired
     private BookingService bookingService;
+
+    @Autowired
+    private UserAccountService accountService;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
@@ -178,51 +184,50 @@ public class BookingController {
         User user = userService.getUserByEmail(email);
 
 
-
         Event event = eventService.getById(eventId);
-        double price = bookingService.getTicketsPrice(event, airDate, user, new HashSet<>(ticketsForm.getSeats()));
 
         List<PurchasingTicketDTO> tickets =
                 ticketsForm.getSeats()
                         .stream()
                         .map(seat -> new PurchasingTicketDTO(event.getName(), airDate, seat)).collect(Collectors.toList());
+        double price = bookingService.getTicketsPrice(event, airDate, user, new HashSet<>(ticketsForm.getSeats()));
+
+        Collection<UserAccount> accounts = accountService.getAll(user.getId());
 
         ModelAndView mav = new ModelAndView("book");
-        mav.addObject("purchasingTickets", tickets);
         mav.addObject("eventId", eventId);
         mav.addObject("airDate", airDate);
+        mav.addObject("purchasingTickets", tickets);
         mav.addObject("price", price);
+        mav.addObject("accounts", accounts);
 
         return mav;
-
-
-//        return "redirect:/tickets?eventId=" + eventId + "&dateTime=" + airDate;
-
     }
-
 
     @RequestMapping(value = "/tickets/book", method = RequestMethod.POST)
     public String bookTickets(@ModelAttribute("ticketsForm") PurchasingTicketsForm ticketsForm,
+                              @RequestParam("accountId") long accountId,
+                              @RequestParam("price") long price,
                               @RequestParam long eventId,
                               @RequestParam LocalDateTime airDate,
                               BindingResult result) {
         if (result.hasErrors()) {
             throw new RuntimeException(result.toString());
-            //return "error";
         }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         User user = userService.getUserByEmail(email);
 
-
         Event event = eventService.getById(eventId);
         Set<Ticket> tickets = ticketsForm.getSeats().stream()
-                .map(seat -> new Ticket(user,event,airDate,seat))
+                .map(seat -> new Ticket(user, event, airDate, seat))
                 .collect(Collectors.toSet());
 
-        bookingService.bookTickets(tickets);
-        return "redirect:/tickets?eventId=" + eventId + "&dateTime=" + airDate;
 
+        UserAccount account = accountService.getById(accountId, user.getId());
+        bookingService.bookTickets(tickets, user.getId(), account, price);
+
+        return "redirect:/tickets?eventId=" + eventId + "&dateTime=" + airDate;
     }
 }

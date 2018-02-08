@@ -6,6 +6,6 @@ import java.util.Collection;
 import java.util.Set;
 
 public interface TicketRepository {
-    void bookTickets(Set<Ticket> tickets);
+    boolean bookTickets(Set<Ticket> tickets);
     Collection<Ticket> getAll();
 }

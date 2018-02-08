@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.epam.spring.hometask.domain.*;
 import ua.epam.spring.hometask.repository.TicketRepository;
@@ -16,6 +17,9 @@ public class BookingServiceImpl implements BookingService {
     private TicketRepository ticketRepository;
     private DiscountService discountService;
     private AuditoriumService auditoriumService;
+
+    @Autowired
+    private UserAccountService accountService;
 
     public BookingServiceImpl(TicketRepository ticketRepository, DiscountService discountService, AuditoriumService auditoriumService) {
         this.ticketRepository = ticketRepository;
@@ -48,8 +52,11 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public void bookTickets(@Nonnull Set<Ticket> tickets) {
-        ticketRepository.bookTickets(tickets);
+    public void bookTickets(@Nonnull Set<Ticket> tickets, long userId, UserAccount account, double price) {
+        if(ticketRepository.bookTickets(tickets)){
+            account.buy(price);
+            accountService.save(account,userId);
+        }
     }
 
     @Nonnull
