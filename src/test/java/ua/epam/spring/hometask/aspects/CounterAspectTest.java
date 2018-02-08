@@ -13,9 +13,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import ua.epam.spring.hometask.EventTestData;
 import ua.epam.spring.hometask.UserTestData;
 import ua.epam.spring.hometask.config.AppConfig;
-import ua.epam.spring.hometask.domain.Auditorium;
-import ua.epam.spring.hometask.domain.Event;
-import ua.epam.spring.hometask.domain.Ticket;
+import ua.epam.spring.hometask.domain.*;
 import ua.epam.spring.hometask.service.AuditoriumService;
 import ua.epam.spring.hometask.service.BookingService;
 import ua.epam.spring.hometask.service.EventService;
@@ -54,6 +52,7 @@ public class CounterAspectTest {
     @Autowired
     private AuditoriumService auditoriumService;
 
+    private UserAccount userAccount;
     private Auditorium auditorium;
     private NavigableMap<LocalDateTime, Auditorium> auditoriumMap1;
     private NavigableMap<LocalDateTime, Auditorium> auditoriumMap2;
@@ -83,10 +82,14 @@ public class CounterAspectTest {
         eventService.save(EventTestData.createNew(EVENT_NAME3, EVENT_PRICE3, EVENT_RATING3, EVENT_AIR_DATES3, auditoriumMap3));
 
         userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1, PASSWORD, ROLE_SET));
+
+        userAccount = new UserAccount(userService.getUserByEmail(EMAIL1).getId(), "userAcc", 100);
     }
 
     @Test
     public void printStatistics() throws Exception {
+
+        User user = userService.getUserByEmail(EMAIL1);
 
         Event event1 = eventService.getByName(EVENT_NAME1);// event1-byName - 1
         Event event2 = eventService.getByName(EVENT_NAME2);// event2-byName - 1
@@ -122,11 +125,11 @@ public class CounterAspectTest {
         bookingService.getTicketsPrice(event2, AIR_DATE2, USER1, new HashSet<>(Arrays.asList(1L, 2L, 3L)));
         bookingService.getTicketsPrice(event2, AIR_DATE2, USER1, new HashSet<>(Arrays.asList(1L, 2L, 3L)));
 
-        bookingService.bookTickets(tickets);
-        bookingService.bookTickets(tickets);
+        bookingService.bookTickets(tickets, user.getId(), userAccount, 10);
+        bookingService.bookTickets(tickets, user.getId(), userAccount, 10);
 
-        bookingService.bookTickets(tickets2);
-        bookingService.bookTickets(tickets2);
+        bookingService.bookTickets(tickets2, user.getId(), userAccount, 10);
+        bookingService.bookTickets(tickets2, user.getId(), userAccount, 10);
 
         counterAspect.printStatistics();
 

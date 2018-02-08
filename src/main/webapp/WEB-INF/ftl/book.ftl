@@ -47,17 +47,21 @@
                 </tbody>
             </table>
 
-            <h4>Total cost: ${price}</h4>
-
-            <div class="form-group">
-                <label for="accountId">Select list:</label>
-                <select class="form-control" id="accountId">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                </select>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label for="accountId">Select account for payment:</label>
+                        <select class="form-control" id="accountId" name="accountId" required>
+                    <#list accounts as account>
+                        <option value="${account.id}">${account.name} - ${account.money?string(",##0.00")}</option>
+                    </#list>
+                        </select>
+                    </div>
+                </div>
             </div>
+
+            <h4>Total cost: ${price}</h4>
+            <input type="hidden" name="price" value="${price}">
 
             <div class="btn-group-vertical">
                 <button type="submit" class="btn btn-primary">Buy</button>
