@@ -27,7 +27,7 @@
                 <thead>
                 <tr>
                     <th>Event</th>
-                    <th>Date Time</th>
+                    <th>Air Date</th>
                     <th>Seat</th>
                 </tr>
                 </thead>
