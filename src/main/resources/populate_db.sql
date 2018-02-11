@@ -6,6 +6,7 @@ DELETE FROM event_auditoriums;
 DELETE FROM user_lucky_dates;
 --
 DELETE FROM ticket;
+DELETE FROM user_accounts;
 DELETE FROM users;
 DELETE FROM event;
 DELETE FROM auditorium;
