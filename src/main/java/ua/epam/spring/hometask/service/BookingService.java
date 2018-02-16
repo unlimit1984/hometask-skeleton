@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.User;
+import ua.epam.spring.hometask.domain.UserAccount;
 
 /**
  * @author Yuriy_Tkach
@@ -40,7 +41,8 @@ public interface BookingService {
      * @param tickets
      *            Set of tickets
      */
-    public void bookTickets(@Nonnull Set<Ticket> tickets);
+    //public void bookTickets(@Nonnull Set<Ticket> tickets);
+    public void bookTickets(@Nonnull Set<Ticket> tickets, long userId, UserAccount account, double price);
 
     /**
      * Getting all purchased tickets for event on specific air date and time
