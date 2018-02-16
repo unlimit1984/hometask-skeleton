@@ -12,9 +12,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import ua.epam.spring.hometask.EventTestData;
 import ua.epam.spring.hometask.UserTestData;
 import ua.epam.spring.hometask.config.AppConfig;
-import ua.epam.spring.hometask.domain.Auditorium;
-import ua.epam.spring.hometask.domain.Event;
-import ua.epam.spring.hometask.domain.Ticket;
+import ua.epam.spring.hometask.domain.*;
 import ua.epam.spring.hometask.service.AuditoriumService;
 import ua.epam.spring.hometask.service.BookingService;
 import ua.epam.spring.hometask.service.EventService;
@@ -52,6 +50,8 @@ public class LuckyWinnerAspectTest {
     @Autowired
     LuckyWinnerAspect luckyWinnerAspect;
 
+    private UserAccount userAccount;
+
     @Before
     public void setUp() {
         NavigableMap<LocalDateTime, Auditorium> auditoriums = new TreeMap<>();
@@ -71,11 +71,15 @@ public class LuckyWinnerAspectTest {
 
         userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1, PASSWORD, ROLE_SET));
         userService.save(UserTestData.createNew(EMAIL2, USER_NAME2, LAST_NAME2, USER_BIRTHDAY1, PASSWORD, ROLE_SET));
+
+        userAccount = new UserAccount(userService.getUserByEmail(EMAIL1).getId(), "userAcc", 100);
     }
 
 
     @Test
     public void tryCatchLuck() throws Exception {
+
+        User user = userService.getUserByEmail(EMAIL1);
 
         Event event1 = eventService.getByName(EVENT_NAME1);
         Event event2 = eventService.getByName(EVENT_NAME2);
@@ -96,17 +100,17 @@ public class LuckyWinnerAspectTest {
                 new Ticket(userService.getUserByEmail(EMAIL2), event1, ldt, 4L)
         ));
 
-        bookingService.bookTickets(tickets1);
-        bookingService.bookTickets(tickets2);
-        bookingService.bookTickets(tickets3);
-        bookingService.bookTickets(tickets3);
-        bookingService.bookTickets(tickets3);
-        bookingService.bookTickets(tickets3);
-        bookingService.bookTickets(tickets3);
-        bookingService.bookTickets(tickets3);
-        bookingService.bookTickets(tickets3);
-        bookingService.bookTickets(tickets3);
-        bookingService.bookTickets(tickets3);
+        bookingService.bookTickets(tickets1, user.getId(), userAccount, 10);
+        bookingService.bookTickets(tickets2, user.getId(), userAccount, 10);
+        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
+        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
+        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
+        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
+        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
+        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
+        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
+        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
+        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
 
         luckyWinnerAspect.printStatistics();
 

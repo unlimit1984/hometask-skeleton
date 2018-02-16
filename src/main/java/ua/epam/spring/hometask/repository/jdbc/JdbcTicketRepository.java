@@ -30,7 +30,8 @@ public class JdbcTicketRepository implements TicketRepository {
     }
 
     @Override
-    public void bookTickets(Set<Ticket> tickets) {
+    public boolean bookTickets(Set<Ticket> tickets) {
+        boolean isBooked = false;
         if (validateTickets(tickets)) {
             String sql = "INSERT INTO ticket(user_id, event_id, date_time, seat) VALUES(?,?,?,?)";
             List<Object[]> batchArgs =
@@ -43,8 +44,9 @@ public class JdbcTicketRepository implements TicketRepository {
                                     ticket.getSeat()})
                             .collect(Collectors.toList());
 
-            jdbcTemplate.batchUpdate(sql, batchArgs);
+            return jdbcTemplate.batchUpdate(sql, batchArgs).length > 0;
         }
+        return isBooked;
     }
 
     private boolean validateTickets(Set<Ticket> tickets) {
@@ -62,7 +64,7 @@ public class JdbcTicketRepository implements TicketRepository {
             }
 
             //check duplicates
-            if(purchasedTickets.contains(t)){
+            if (purchasedTickets.contains(t)) {
                 return false;
             }
 
@@ -143,7 +145,8 @@ public class JdbcTicketRepository implements TicketRepository {
             return result;
         });
     }
-    private Event getEventById(long id){
+
+    private Event getEventById(long id) {
         return jdbcTemplate.queryForObject("SELECT * FROM event where id=?", new Object[]{id}, (rs, rowNum1) -> {
             Event e = new Event();
             e.setId(rs.getLong("id"));

@@ -45,10 +45,4 @@ public class LoginController {
 
     }
 
-//    @RequestMapping(value = "/login", method = RequestMethod.POST)
-//    public void submit(){
-//
-//    }
-
-
 }

@@ -26,10 +26,12 @@ public class InMemoryTicketRepositoryImpl implements TicketRepository {
 
 
     @Override
-    public void bookTickets(Set<Ticket> tickets) {
+    public boolean bookTickets(Set<Ticket> tickets) {
         if (validateTickets(tickets)) {
             repository.putAll(tickets.stream().collect(Collectors.toMap(o -> counter.getAndIncrement(), Function.identity())));
+            return true;
         }
+        return false;
     }
 
     @Override

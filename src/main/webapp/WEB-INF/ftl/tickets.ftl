@@ -46,7 +46,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>Date Time</th>
+                            <th>Air Date</th>
                             <th>Seat</th>
                         </tr>
                         </thead>
@@ -83,7 +83,7 @@
             <tr>
                 <th>Id</th>
                 <th>Event</th>
-                <th>Date Time</th>
+                <th>Air Date</th>
                 <th>Seat</th>
             </tr>
             </thead>

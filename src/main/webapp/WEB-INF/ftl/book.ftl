@@ -27,7 +27,7 @@
                 <thead>
                 <tr>
                     <th>Event</th>
-                    <th>Date Time</th>
+                    <th>Air Date</th>
                     <th>Seat</th>
                 </tr>
                 </thead>
@@ -47,10 +47,23 @@
                 </tbody>
             </table>
 
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label for="accountId">Select account for payment:</label>
+                        <select class="form-control" id="accountId" name="accountId" required>
+                    <#list accounts as account>
+                        <option value="${account.id}">${account.name} - ${account.money?string(",##0.00")}</option>
+                    </#list>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <h4>Total cost: ${price}</h4>
+            <input type="hidden" name="price" value="${price}">
 
             <div class="btn-group-vertical">
-                <button type="button" class="btn btn-success" id="addOneRow">+</button>
                 <button type="submit" class="btn btn-primary">Buy</button>
             </div>
 

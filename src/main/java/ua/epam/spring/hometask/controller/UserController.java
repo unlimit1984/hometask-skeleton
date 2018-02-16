@@ -61,11 +61,6 @@ public class UserController {
     @RequestMapping("/user/id")
     public ModelAndView getById(@RequestParam long id) {
 
-//        testing ExceptionController class
-//        if (true) {
-//            throw new RuntimeException("my");
-//        }
-
         ModelAndView mav = new ModelAndView("user");
 
         User user = userService.getById(id);
