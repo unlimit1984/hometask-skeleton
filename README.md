@@ -1,6 +1,6 @@
-#Movie Theater Manager
+# Movie Theater Manager
 
-####Short description
+### Short description
 Application allows to manage creating Events in different Auditoriums.
 You can:
 * create Event
@@ -92,13 +92,6 @@ We have some additional service DiscountService for getting discount during purc
 13. __DONE__ Add AccountController and implement UserAccountService
 14. __DONE__ Add all necessary views for account and booking process
 15. __IN_PROGRESS__ Fix all tests and aspects
-
-
-
-
-
-
-
 
 
 

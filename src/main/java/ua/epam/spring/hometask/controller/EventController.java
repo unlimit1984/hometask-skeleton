@@ -124,7 +124,7 @@ public class EventController {
         return "redirect:/events";
     }
 
-        /*1st approach with EventDeserializer*/
+    /*1st approach with EventDeserializer*/
     @RequestMapping(value = "/event/addEventsByFile", method = RequestMethod.POST)
     public String uploadEvents(@RequestParam("file") MultipartFile file) throws IOException {
 
