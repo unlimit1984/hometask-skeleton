@@ -1,6 +1,10 @@
 #Movie Theater Manager
 
-####Short description
+* [Short description](#short-descr)
+* [How to run and test](#quick-install)
+
+
+## Short description
 Application allows to manage creating Events in different Auditoriums.
 You can:
 * create Event
@@ -30,7 +34,7 @@ Each potential User with name, email and id can book a ticket on Event using Boo
 
 We have some additional service DiscountService for getting discount during purchases.
 
-##Spring Core
+## Spring Core
 
 ###HW1
 
@@ -77,7 +81,15 @@ We have some additional service DiscountService for getting discount during purc
 
 
 
-####How to run and test
+## How to run and test
+
+__Option__ (FAST)
+1. install maven
+2. go to project folder
+3. mvn tomcat7:run
+4. go http://localhost:8080/movie
+
+__Option__ (LONG)
 1. install maven
 2. install tomcat9
 3. go to tomcat9/bin folder
