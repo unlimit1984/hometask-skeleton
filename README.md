@@ -1,6 +1,7 @@
 #Movie Theater Manager
 
 * [Short description](#short-descr)
+* [How to download](#quick-download)
 * [How to run and test](#quick-install)
 
 
@@ -33,6 +34,10 @@ Each potential User with name, email and id can book a ticket on Event using Boo
 * save
 
 We have some additional service DiscountService for getting discount during purchases.
+
+## How to download
+* install git
+* git clone https://github.com/unlimit1984/movie-manager.git
 
 ## Spring Core
 
