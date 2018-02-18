@@ -1,8 +1,9 @@
 #Movie Theater Manager
 
-* [Short description](#short-descr)
-* [How to download](#quick-download)
-* [How to run and test](#quick-install)
+* [Short description](#short-description)
+* [How to download](#how-to-download)
+* [How to test](#how-to-test)
+* [How to run](#how-to-run)
 
 
 ## Short description
@@ -67,11 +68,6 @@ We have some additional service DiscountService for getting discount during purc
 7. __DONE__ Add sql scripts for initialization and populating DB
 8. __DONE__ Implement DAO object to store all Aspect counters into the database
 
-####How to test
-1. install maven
-2. go to project folder by "cd" command in Terminal (Mac) or any Command Line Commander (Windows)
-3. mvn clean test
-
 ##Spring Advanced
 ###HW1
 
@@ -85,8 +81,12 @@ We have some additional service DiscountService for getting discount during purc
 8. __DONE__ Provide multipart upload file (users, events)
 
 
+## How to test
+1. install maven
+2. go to project folder by "cd" command in Terminal (Mac) or any Command Line Commander (Windows)
+3. mvn clean test
 
-## How to run and test
+## How to run
 
 __Option__ (FAST)
 1. install maven
