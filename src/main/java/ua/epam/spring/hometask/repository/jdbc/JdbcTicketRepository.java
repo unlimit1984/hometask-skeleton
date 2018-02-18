@@ -31,22 +31,22 @@ public class JdbcTicketRepository implements TicketRepository {
 
     @Override
     public boolean bookTickets(Set<Ticket> tickets) {
-        boolean isBooked = false;
-        if (validateTickets(tickets)) {
-            String sql = "INSERT INTO ticket(user_id, event_id, date_time, seat) VALUES(?,?,?,?)";
-            List<Object[]> batchArgs =
-                    tickets
-                            .stream()
-                            .map(ticket -> new Object[]{
-                                    ticket.getUser().getId(),
-                                    ticket.getEvent().getId(),
-                                    Timestamp.valueOf(ticket.getDateTime()),
-                                    ticket.getSeat()})
-                            .collect(Collectors.toList());
-
-            return jdbcTemplate.batchUpdate(sql, batchArgs).length > 0;
+        if (!validateTickets(tickets)) {
+            return false;
         }
-        return isBooked;
+
+        String sql = "INSERT INTO ticket(user_id, event_id, date_time, seat) VALUES(?,?,?,?)";
+        List<Object[]> batchArgs =
+                tickets
+                        .stream()
+                        .map(ticket -> new Object[]{
+                                ticket.getUser().getId(),
+                                ticket.getEvent().getId(),
+                                Timestamp.valueOf(ticket.getDateTime()),
+                                ticket.getSeat()})
+                        .collect(Collectors.toList());
+
+        return jdbcTemplate.batchUpdate(sql, batchArgs).length > 0;
     }
 
     private boolean validateTickets(Set<Ticket> tickets) {
