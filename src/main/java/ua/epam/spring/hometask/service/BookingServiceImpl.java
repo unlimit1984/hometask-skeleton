@@ -2,6 +2,8 @@ package ua.epam.spring.hometask.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import ua.epam.spring.hometask.domain.*;
 import ua.epam.spring.hometask.repository.TicketRepository;
 
@@ -51,12 +53,32 @@ public class BookingServiceImpl implements BookingService {
 
     }
 
+    @Transactional
     @Override
     public void bookTickets(@Nonnull Set<Ticket> tickets, long userId, UserAccount account, double price) {
-        if(ticketRepository.bookTickets(tickets)){
-            account.buy(price);
-            accountService.save(account,userId);
+
+
+        UserAccount acc = accountService.getById(account.getId(), userId);
+        //check that account has enough money
+        if (!account.canBuy(price)) {
+            throw new RuntimeException("Account " + account + " doesn't have enough money to buy tickets");
         }
+
+        //try to book tickets
+        if (!ticketRepository.bookTickets(tickets)) {
+            throw new RuntimeException("Can't book tickets for userId: " + userId + " via account: " + account + ". Price: " + price);
+        }
+
+        //withdraw money
+        account.buy(price);
+
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
+        accountService.save(account, userId);
     }
 
     @Nonnull
