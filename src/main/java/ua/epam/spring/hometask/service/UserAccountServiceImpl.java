@@ -2,6 +2,7 @@ package ua.epam.spring.hometask.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.epam.spring.hometask.domain.UserAccount;
 import ua.epam.spring.hometask.repository.UserAccountRepository;
 import ua.epam.spring.hometask.util.exception.NotFoundException;
@@ -9,12 +10,14 @@ import ua.epam.spring.hometask.util.exception.NotFoundException;
 import javax.annotation.Nonnull;
 import java.util.Collection;
 
+@Transactional(readOnly = true)
 @Service
 public class UserAccountServiceImpl implements UserAccountService {
 
     @Autowired
     private UserAccountRepository accountRepository;
 
+    @Transactional
     @Override
     public UserAccount save(@Nonnull UserAccount object, long userId) {
         UserAccount result = accountRepository.save(object, userId);
@@ -24,6 +27,7 @@ public class UserAccountServiceImpl implements UserAccountService {
         return result;
     }
 
+    @Transactional
     @Override
     public void remove(@Nonnull UserAccount object, long userId) {
         boolean found = accountRepository.delete(object, userId);
