@@ -15,6 +15,10 @@ DELETE FROM auditorium;
 INSERT INTO users (first_name, last_name, email, birthday, password) VALUES ('Vladimir0', 'Vys0', 'unlim0@mail.com', '1980-01-01 00:00:00', '$2a$12$KiAaFnYXRWjvp8ScuN2/WuYL.yIwQbSyRg1wFmvAwrhrThzqXFsri');
 INSERT INTO users (first_name, last_name, email, birthday, password) VALUES ('Vladimir1', 'Vys1', 'unlim1@mail.com', '1980-01-02 00:00:00', '$2a$12$KiAaFnYXRWjvp8ScuN2/WuYL.yIwQbSyRg1wFmvAwrhrThzqXFsri');
 
+--user's accounts
+INSERT INTO user_accounts(user_id, name, money) VALUES(0, 'acc0', 110);
+INSERT INTO user_accounts(user_id, name, money) VALUES(1, 'acc1', 120);
+
 --auditoriums
 INSERT INTO auditorium (name, number_of_seats) VALUES ('alpha', 10);
 INSERT INTO auditorium_seats (auditorium_name, vip_seat) VALUES ('alpha', 1);
