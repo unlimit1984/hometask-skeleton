@@ -53,10 +53,12 @@ public class BookingServiceImpl implements BookingService {
 
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional
     @Override
     public void bookTickets(@Nonnull Set<Ticket> tickets, long userId, UserAccount account, double price) {
 
+
+        UserAccount acc = accountService.getById(account.getId(), userId);
         //check that account has enough money
         if (!account.canBuy(price)) {
             throw new RuntimeException("Account " + account + " doesn't have enough money to buy tickets");
