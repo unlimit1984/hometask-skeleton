@@ -93,6 +93,15 @@ We have some additional service DiscountService for getting discount during purc
 14. __DONE__ Add all necessary views for account and booking process
 15. __IN_PROGRESS__ Fix all tests and aspects
 
+###HW3
+1. __DONE__ Fix csrf for uploading ticket's file
+2. __DONE__ Fix CounterAspect test
+3. __DONE__ Add UserAccount infrastructure (entity, repository, service, controller, views)
+4. __DONE__ Implement booking process
+5. __DONE__ Add transaction support
+6. __DONE__ Add cascade deleting
+7. __DONE__ Wire users and accounts
+8. __IN_PROGRESS__ Implement gaps in UserAccountServiceTest
 
 
 ####How to run and test
