@@ -1,11 +1,14 @@
 package ua.epam.spring.hometask.service;
 
 import ua.epam.spring.hometask.domain.UserAccount;
+import ua.epam.spring.hometask.util.exception.PaymentException;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
 
 public interface UserAccountService {
+
+    void buy(UserAccount userAccount, double price) throws PaymentException;
 
     UserAccount save(@Nonnull UserAccount object, long userId);
 
