@@ -23,6 +23,12 @@ public class JdbcUserAccountRepositoryImpl implements UserAccountRepository {
     }
 
     @Override
+    public boolean buy(UserAccount userAccount, double price) {
+        String sql = "UPDATE user_accounts SET money=money-" + price + " WHERE id=? AND money>=" + price;
+        return 1 == jdbcTemplate.update(sql, userAccount.getId());
+    }
+
+    @Override
     public UserAccount save(UserAccount userAccount, long userId) {
         userAccount.setUserId(userId);
         int result;
