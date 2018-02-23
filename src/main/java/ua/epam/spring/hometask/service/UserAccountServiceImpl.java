@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.epam.spring.hometask.domain.UserAccount;
 import ua.epam.spring.hometask.repository.UserAccountRepository;
 import ua.epam.spring.hometask.util.exception.NotFoundException;
+import ua.epam.spring.hometask.util.exception.PaymentException;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
@@ -16,6 +17,14 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Autowired
     private UserAccountRepository accountRepository;
+
+    @Transactional
+    @Override
+    public void buy(UserAccount userAccount, double price) throws PaymentException {
+        if (!accountRepository.buy(userAccount, price)) {
+            throw new PaymentException("Account " + userAccount + " doesn't have enough money to buy tickets!");
+        }
+    }
 
     @Transactional
     @Override
