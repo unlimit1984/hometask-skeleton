@@ -54,7 +54,7 @@ CREATE TABLE ticket (
   --2nd approach to create foreign key with named constraint
   CONSTRAINT ticket_userid_ref FOREIGN KEY (user_id) REFERENCES users (id)
     ON DELETE CASCADE,
-  CONSTRAINT ticket_eventid_ref FOREIGN KEY (user_id) REFERENCES event (id)
+  CONSTRAINT ticket_eventid_ref FOREIGN KEY (event_id) REFERENCES event (id)
     ON DELETE CASCADE
 );
 
