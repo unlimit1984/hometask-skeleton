@@ -100,17 +100,17 @@ public class LuckyWinnerAspectTest {
                 new Ticket(userService.getUserByEmail(EMAIL2), event1, ldt, 4L)
         ));
 
-        bookingService.bookTickets(tickets1, user.getId(), userAccount, 10);
-        bookingService.bookTickets(tickets2, user.getId(), userAccount, 10);
-        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
-        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
-        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
-        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
-        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
-        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
-        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
-        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
-        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
+//        bookingService.bookTickets(tickets1, user.getId(), userAccount, 10);
+//        bookingService.bookTickets(tickets2, user.getId(), userAccount, 10);
+//        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
+//        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
+//        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
+//        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
+//        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
+//        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
+//        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
+//        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
+//        bookingService.bookTickets(tickets3, user.getId(), userAccount, 10);
 
         luckyWinnerAspect.printStatistics();
 
