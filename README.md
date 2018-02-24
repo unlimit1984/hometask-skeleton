@@ -2,7 +2,7 @@ Movie Theater Manager
 =====================
 
 [![Build Status](https://travis-ci.org/unlimit1984/movie-manager.svg?branch=master)](https://travis-ci.org/unlimit1984/movie-manager)
-[![Coverage Status](https://coveralls.io/repos/github/unlimit1984/movie-manager/badge.svg)](https://coveralls.io/github/unlimit1984/movie-manager)
+[![Coverage Status](https://coveralls.io/repos/github/unlimit1984/movie-manager/badge.svg?branch=hw4)](https://coveralls.io/github/unlimit1984/movie-manager?branch=hw4)
 
 
 ### Short description
