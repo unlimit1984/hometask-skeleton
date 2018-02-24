@@ -17,8 +17,10 @@ CREATE TABLE users (
   password   VARCHAR(60) NOT NULL,
   roles      VARCHAR(200) DEFAULT 'REGISTERED_USER' NOT NULL,
   CONSTRAINT primary_key_users PRIMARY KEY (id),
+  --1st approach to make column unique
   --UNIQUE(email)
-  CONSTRAINT users_email_unique UNIQUE(email)
+  --2n approach to make column unique
+  CONSTRAINT users_email_unique UNIQUE (email)
 );
 
 CREATE TABLE event (
@@ -31,11 +33,18 @@ CREATE TABLE event (
 
 CREATE TABLE ticket (
   id        BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY ( START WITH 0, INCREMENT BY 1),
-  user_id   BIGINT REFERENCES users (id),
-  event_id  BIGINT REFERENCES event (id),
+  --1st approach to create foreign key
+  --   user_id   BIGINT REFERENCES users (id),
+  user_id   BIGINT NOT NULL,
+  event_id  BIGINT NOT NULL,
   date_time TIMESTAMP       DEFAULT CURRENT_TIMESTAMP,
   seat      BIGINT NOT NULL,
-  CONSTRAINT primary_key_ticket PRIMARY KEY (id)
+  CONSTRAINT primary_key_ticket PRIMARY KEY (id),
+  --2nd approach to create foreign key with named constraint
+  CONSTRAINT ticket_userid_ref FOREIGN KEY (user_id) REFERENCES users (id)
+    ON DELETE CASCADE,
+  CONSTRAINT ticket_eventid_ref FOREIGN KEY (event_id) REFERENCES event (id)
+    ON DELETE CASCADE
 );
 
 CREATE TABLE auditorium (
@@ -45,9 +54,11 @@ CREATE TABLE auditorium (
 
 --Wiring tables
 CREATE TABLE user_lucky_dates (
-  user_id        BIGINT REFERENCES users (id),
+  user_id        BIGINT    NOT NULL,
   lucky_datetime TIMESTAMP NOT NULL,
-  CONSTRAINT primary_key_lucky PRIMARY KEY (user_id, lucky_datetime)
+  CONSTRAINT primary_key_lucky PRIMARY KEY (user_id, lucky_datetime),
+  CONSTRAINT user_lucky_dates_userid_ref FOREIGN KEY (user_id) REFERENCES users (id)
+    ON DELETE CASCADE
 );
 CREATE TABLE event_auditoriums (
   event_id        BIGINT      NOT NULL REFERENCES event (id),
@@ -71,10 +82,12 @@ CREATE TABLE event_counter_audit (
 );
 
 CREATE TABLE user_discount_audit (
-  user_id       BIGINT      NOT NULL REFERENCES users (id),
+  user_id       BIGINT      NOT NULL,
   discount_name VARCHAR(50) NOT NULL,
   count         INTEGER     NOT NULL,
-  CONSTRAINT primary_key_user_discount_audit PRIMARY KEY (user_id, discount_name)
+  CONSTRAINT primary_key_user_discount_audit PRIMARY KEY (user_id, discount_name),
+  CONSTRAINT user_discount_audit_userid_ref FOREIGN KEY (user_id) REFERENCES users (id)
+    ON DELETE CASCADE
 );
 
 -- for Remember-Me
