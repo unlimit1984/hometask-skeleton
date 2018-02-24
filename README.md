@@ -2,10 +2,16 @@ Movie Theater Manager
 =====================
 
 [![Build Status](https://travis-ci.org/unlimit1984/movie-manager.svg?branch=master)](https://travis-ci.org/unlimit1984/movie-manager)
-[![Coverage Status](https://coveralls.io/repos/github/unlimit1984/movie-manager/badge.svg?branch=hw4)](https://coveralls.io/github/unlimit1984/movie-manager?branch=hw4)
+[![Coverage Status](https://coveralls.io/repos/github/unlimit1984/movie-manager/badge.svg)](https://coveralls.io/github/unlimit1984/movie-manager)
 
+* [Short description](#short-description)
+* [How to download](#how-to-download)
+* [How to test](#how-to-test)
+* [How to run](#how-to-run)
+* [Spring core HW](#spring-core)
+* [Spring advanced HW](#spring-advanced)
 
-### Short description
+## Short description
 Application allows to manage creating Events in different Auditoriums.
 You can:
 * create Event
@@ -35,7 +41,36 @@ Each potential User with name, email and id can book a ticket on Event using Boo
 
 We have some additional service DiscountService for getting discount during purchases.
 
-##Spring Core
+## How to download
+* install git
+* git clone https://github.com/unlimit1984/movie-manager.git
+
+## How to test
+1. install maven
+2. go to project folder by "cd" command in Terminal (Mac) or any Command Line Commander (Windows)
+3. mvn clean test
+
+## How to run
+
+__Option__ (FAST)
+1. install maven
+2. go to project folder
+3. mvn tomcat7:run
+4. go http://localhost:8080/movie
+
+__Option__ (LONG)
+1. install maven
+2. install tomcat9
+3. go to tomcat9/bin folder
+4. using Command Line execute catalina.bat start
+5. go to project folder
+6. execute command: mvn clean package
+7. alternatively for ignoring tests execute: mvn clean package -DskipTests
+8. put generated project/target/movie.war file in tomcat9/webapps folder
+9. open url in browser: http://localhost:8080/movie/
+10. have fun by creating and modifying users, events and tickets
+
+## Spring Core
 
 ###HW1
 
@@ -63,12 +98,7 @@ We have some additional service DiscountService for getting discount during purc
 7. __DONE__ Add sql scripts for initialization and populating DB
 8. __DONE__ Implement DAO object to store all Aspect counters into the database
 
-####How to test
-1. install maven
-2. go to project folder by "cd" command in Terminal (Mac) or any Command Line Commander (Windows)
-3. mvn clean test
-
-##Spring Advanced
+## Spring Advanced
 ###HW1
 
 1. __DONE__ Configure dispatcher servlet and Spring MVC Context
@@ -107,16 +137,3 @@ We have some additional service DiscountService for getting discount during purc
 6. __DONE__ Add cascade deleting
 7. __DONE__ Wire users and accounts
 8. __IN_PROGRESS__ Implement gaps in UserAccountServiceTest
-
-
-####How to run and test
-1. install maven
-2. install tomcat9
-3. go to tomcat9/bin folder
-4. using Command Line execute catalina.bat start
-5. go to project folder
-6. execute command: mvn clean package
-7. alternatively for ignoring tests execute: mvn clean package -DskipTests
-8. put generated project/target/movie.war file in tomcat9/webapps folder
-9. open url in browser: http://localhost:8080/movie/
-10. have fun by creating and modifying users, events and tickets
