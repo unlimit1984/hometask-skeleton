@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.service;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import ua.epam.spring.hometask.domain.*;
 import ua.epam.spring.hometask.repository.TicketRepository;
@@ -23,6 +24,7 @@ public class BookingServiceImpl implements BookingService {
         this.auditoriumService = auditoriumService;
     }
 
+    @PreAuthorize("hasAuthority('BOOKING_MANAGER')")
     @Override
     public double getTicketsPrice(@Nonnull Event event, @Nonnull LocalDateTime dateTime, @Nullable User user, @Nonnull Set<Long> seats) {
         double movieRateIndex = 1;
@@ -47,11 +49,13 @@ public class BookingServiceImpl implements BookingService {
 
     }
 
+    @PreAuthorize("hasAuthority('BOOKING_MANAGER')")
     @Override
     public void bookTickets(@Nonnull Set<Ticket> tickets) {
         ticketRepository.bookTickets(tickets);
     }
 
+    @PreAuthorize("hasAuthority('BOOKING_MANAGER')")
     @Nonnull
     @Override
     public Set<Ticket> getPurchasedTicketsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime) {

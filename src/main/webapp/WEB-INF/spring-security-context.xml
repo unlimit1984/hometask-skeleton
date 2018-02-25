@@ -8,6 +8,8 @@
 
     <!--<http pattern="/login**" security="none"/>-->
 
+    <global-method-security pre-post-annotations="enabled"/>
+
     <http use-expressions="true">
         <intercept-url pattern="/auditoriums**" access="hasAuthority('REGISTERED_USER')"/>
         <!--<form-login />-->
