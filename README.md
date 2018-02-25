@@ -1,4 +1,5 @@
-#Movie Theater Manager
+Movie Theater Manager
+=====================
 
 [![Build Status](https://travis-ci.org/unlimit1984/movie-manager.svg?branch=hw2)](https://travis-ci.org/unlimit1984/movie-manager)
 
