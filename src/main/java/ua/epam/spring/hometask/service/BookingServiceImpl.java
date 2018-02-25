@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.epam.spring.hometask.domain.*;
@@ -29,6 +30,7 @@ public class BookingServiceImpl implements BookingService {
         this.auditoriumService = auditoriumService;
     }
 
+    @PreAuthorize("hasAuthority('BOOKING_MANAGER')")
     @Override
     public double getTicketsPrice(@Nonnull Event event, @Nonnull LocalDateTime dateTime, @Nullable User user, @Nonnull Set<Long> seats) {
         double movieRateIndex = 1;
@@ -53,6 +55,7 @@ public class BookingServiceImpl implements BookingService {
 
     }
 
+    @PreAuthorize("hasAuthority('BOOKING_MANAGER')")
     @Transactional
     @Override
     public void bookTickets(@Nonnull Set<Ticket> tickets, long userId, UserAccount account, double price) {
@@ -62,6 +65,7 @@ public class BookingServiceImpl implements BookingService {
         accountService.buy(account, price);
     }
 
+    @PreAuthorize("hasAuthority('BOOKING_MANAGER')")
     @Nonnull
     @Override
     public Set<Ticket> getPurchasedTicketsForEvent(@Nonnull Event event, @Nonnull LocalDateTime dateTime) {
