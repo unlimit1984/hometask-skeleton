@@ -1,6 +1,16 @@
 #Movie Theater Manager
 
-####Short description
+[![Build Status](https://travis-ci.org/unlimit1984/movie-manager.svg?branch=hw2)](https://travis-ci.org/unlimit1984/movie-manager)
+
+
+* [Short description](#short-description)
+* [How to download](#how-to-download)
+* [How to test](#how-to-test)
+* [How to run](#how-to-run)
+* [Spring core HW](#spring-core)
+* [Spring advanced HW](#spring-advanced)
+
+## Short description
 Application allows to manage creating Events in different Auditoriums.
 You can:
 * create Event
@@ -30,7 +40,11 @@ Each potential User with name, email and id can book a ticket on Event using Boo
 
 We have some additional service DiscountService for getting discount during purchases.
 
-##Spring Core
+## How to download
+* install git
+* git clone https://github.com/unlimit1984/movie-manager.git
+
+## Spring Core
 
 ###HW1
 
@@ -58,12 +72,7 @@ We have some additional service DiscountService for getting discount during purc
 7. __DONE__ Add sql scripts for initialization and populating DB
 8. __DONE__ Implement DAO object to store all Aspect counters into the database
 
-####How to test
-1. install maven
-2. go to project folder by "cd" command in Terminal (Mac) or any Command Line Commander (Windows)
-3. mvn clean test
-
-##Spring Advanced
+## Spring Advanced
 ###HW1
 
 1. __DONE__ Configure dispatcher servlet and Spring MVC Context
@@ -88,13 +97,20 @@ We have some additional service DiscountService for getting discount during purc
 9. __DONE__ Add Remember-Me Authentication for Hash based and DB persistent storage implementations
 10. __IN_PROGRESS__ Implement password encoding during authentication
 
+## How to test
+1. install maven
+2. go to project folder by "cd" command in Terminal (Mac) or any Command Line Commander (Windows)
+3. mvn clean test
 
+## How to run
 
+__Option__ (FAST)
+1. install maven
+2. go to project folder
+3. mvn tomcat7:run
+4. go http://localhost:8080/movie
 
-
-
-
-####How to run and test
+__Option__ (LONG)
 1. install maven
 2. install tomcat9
 3. go to tomcat9/bin folder
