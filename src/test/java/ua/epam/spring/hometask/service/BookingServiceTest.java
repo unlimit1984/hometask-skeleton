@@ -29,6 +29,8 @@ import static ua.epam.spring.hometask.UserTestData.*;
         loader = AnnotationConfigContextLoader.class
 )
 
+//AB: added - i've used this test to verify FreeMarker configuration
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:populate_db.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class BookingServiceTest {

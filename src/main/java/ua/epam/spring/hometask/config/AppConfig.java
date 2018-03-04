@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.config;
 
+import freemarker.template.Version;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -52,6 +53,13 @@ public class AppConfig {
     @Bean
     public DiscountStrategy ticketCountStrategy() {
         return new TicketCountStrategy();
+    }
+
+    // AB: added (2.3.23 - the latest version could be used (perhaps related to my workstation))
+    // AB: you can try to use 2.3.26 on yours
+    @Bean
+    freemarker.template.Configuration freeMarkerConfig() {
+        return new freemarker.template.Configuration(new Version(2, 3, 23));
     }
 
 }

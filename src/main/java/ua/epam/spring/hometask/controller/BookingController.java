@@ -100,6 +100,8 @@ public class BookingController {
         final String temperotyFilePath = tempDirectory.getAbsolutePath();
         final String fullPath = temperotyFilePath+"\\"+fileName;
 
+
+        //AB: added - it's not critical, but would be better to have separate class with the logic below
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(fullPath));
         document.open();
