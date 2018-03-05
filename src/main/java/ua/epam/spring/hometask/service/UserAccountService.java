@@ -16,6 +16,8 @@ public interface UserAccountService {
 
     UserAccount getById(@Nonnull Long id, long userId);
 
+    UserAccount getByName(String name, long userId);
+
     @Nonnull
     Collection<UserAccount> getAll(long userId);
 }

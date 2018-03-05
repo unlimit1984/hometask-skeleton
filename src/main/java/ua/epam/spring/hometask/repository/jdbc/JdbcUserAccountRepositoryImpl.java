@@ -72,6 +72,14 @@ public class JdbcUserAccountRepositoryImpl implements UserAccountRepository {
     }
 
     @Override
+    public UserAccount getByName(String name, long userId) {
+        return jdbcTemplate.queryForObject(
+                "SELECT * FROM user_accounts WHERE name=? and user_id=?",
+                new Object[]{name, userId},
+                UserAccountRowMapper());
+    }
+
+    @Override
     public Collection<UserAccount> getAll(long userId) {
         return jdbcTemplate.query("SELECT * FROM user_accounts WHERE user_id=?",
                 new Object[]{userId},
