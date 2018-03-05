@@ -13,7 +13,7 @@
 <body>
 <div class="container">
     <div class="jumbotron" style="padding: 1px 20px 20px 20px; margin: 0;">
-        <h2><a href="../">Main page</a></h2>
+        <h2><a href="./">Main page</a></h2>
         <hr>
         <h3>Error page</h3>
         <h3><a href="javascript: window.history.go(-1)">Back</a></h3>

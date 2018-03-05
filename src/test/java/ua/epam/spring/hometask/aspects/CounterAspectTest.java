@@ -125,11 +125,11 @@ public class CounterAspectTest {
         bookingService.getTicketsPrice(event2, AIR_DATE2, USER1, new HashSet<>(Arrays.asList(1L, 2L, 3L)));
         bookingService.getTicketsPrice(event2, AIR_DATE2, USER1, new HashSet<>(Arrays.asList(1L, 2L, 3L)));
 
-        bookingService.bookTickets(tickets, user.getId(), userAccount, 10);
-        bookingService.bookTickets(tickets, user.getId(), userAccount, 10);
-
-        bookingService.bookTickets(tickets2, user.getId(), userAccount, 10);
-        bookingService.bookTickets(tickets2, user.getId(), userAccount, 10);
+//        bookingService.bookTickets(tickets, user.getId(), userAccount, 10);
+//        bookingService.bookTickets(tickets, user.getId(), userAccount, 10);
+//
+//        bookingService.bookTickets(tickets2, user.getId(), userAccount, 10);
+//        bookingService.bookTickets(tickets2, user.getId(), userAccount, 10);
 
         counterAspect.printStatistics();
 

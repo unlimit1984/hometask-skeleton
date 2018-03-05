@@ -1,6 +1,17 @@
-# Movie Theater Manager
+Movie Theater Manager
+=====================
 
-### Short description
+[![Build Status](https://travis-ci.org/unlimit1984/movie-manager.svg?branch=hw3)](https://travis-ci.org/unlimit1984/movie-manager)
+
+
+* [Short description](#short-description)
+* [How to download](#how-to-download)
+* [How to test](#how-to-test)
+* [How to run](#how-to-run)
+* [Spring core HW](#spring-core)
+* [Spring advanced HW](#spring-advanced)
+
+## Short description
 Application allows to manage creating Events in different Auditoriums.
 You can:
 * create Event
@@ -30,15 +41,19 @@ Each potential User with name, email and id can book a ticket on Event using Boo
 
 We have some additional service DiscountService for getting discount during purchases.
 
-##Spring Core
+## How to download
+* install git
+* git clone https://github.com/unlimit1984/movie-manager.git
 
-###HW1
+## Spring Core
+
+### HW1
 
 1. __DONE__ Add_UserServiceImpl, UserRepository interface and memory implementation
 2. __DONE__ Add EventServiceImpl, EventRepository interface and memory implementation
 3. __DONE__ All services should be provided by tests
 
-###HW2
+### HW2
 1. __DONE__ Add AuditoriumServiceImpl, AuditoriumRepository and memory implementation
 2. __DONE__ Add BookingServiceImpl, TicketRepository and memory implementation
 3. __DONE__ Add simple DiscountServiceImpl. 10% for buying more 10 tickets, 20% for 20 tickets and 30% for more than 50 tickets. At the next versions (HW3) Discount service will be improved by strategies
@@ -49,7 +64,7 @@ We have some additional service DiscountService for getting discount during purc
 8. __DONE__ Add DiscountAspect and provide tests
 9. __DONE__ Add LuckyWinnerAspect and provide tests
 
-###HW3
+### HW3
 1. __DONE__ Fix Discount service logic by adding two strategies: TicketCountStrategy and BirthdayStrategy
 3. __DONE__ Fix pointcuts in Aspects. Now they targets interfaces
 4. __DONE__ Fix DiscountAspect by calculating how many times each discount was given total and for user
@@ -58,13 +73,9 @@ We have some additional service DiscountService for getting discount during purc
 7. __DONE__ Add sql scripts for initialization and populating DB
 8. __DONE__ Implement DAO object to store all Aspect counters into the database
 
-####How to test
-1. install maven
-2. go to project folder by "cd" command in Terminal (Mac) or any Command Line Commander (Windows)
-3. mvn clean test
+## Spring Advanced
 
-##Spring Advanced
-###HW1
+### HW1
 
 1. __DONE__ Configure dispatcher servlet and Spring MVC Context
 2. __DONE__ Implement UserController and all necessary ftl views
@@ -75,7 +86,7 @@ We have some additional service DiscountService for getting discount during purc
 7. __DONE__ Implement download PDF link for getting list of tickets
 8. __DONE__ Provide multipart upload file (users, events)
 
-###HW2
+### HW2
 
 1. __DONE__ Add maven dependencies for Spring security
 2. __DONE__ Add spring security xml (example: spring-security-context.xml)
@@ -93,7 +104,7 @@ We have some additional service DiscountService for getting discount during purc
 14. __DONE__ Add all necessary views for account and booking process
 15. __IN_PROGRESS__ Fix all tests and aspects
 
-###HW3
+### HW3
 1. __DONE__ Fix csrf for uploading ticket's file
 2. __DONE__ Fix CounterAspect test
 3. __DONE__ Add UserAccount infrastructure (entity, repository, service, controller, views)
@@ -103,8 +114,20 @@ We have some additional service DiscountService for getting discount during purc
 7. __DONE__ Wire users and accounts
 8. __IN_PROGRESS__ Implement gaps in UserAccountServiceTest
 
+## How to test
+1. install maven
+2. go to project folder by "cd" command in Terminal (Mac) or any Command Line Commander (Windows)
+3. mvn clean test
 
-####How to run and test
+## How to run
+
+__Option__ (FAST)
+1. install maven
+2. go to project folder
+3. mvn tomcat7:run
+4. go http://localhost:8080/movie
+
+__Option__ (LONG)
 1. install maven
 2. install tomcat9
 3. go to tomcat9/bin folder

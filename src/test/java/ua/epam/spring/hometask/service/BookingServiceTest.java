@@ -13,6 +13,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import ua.epam.spring.hometask.UserTestData;
 import ua.epam.spring.hometask.config.AppConfig;
 import ua.epam.spring.hometask.domain.*;
+import ua.epam.spring.hometask.util.exception.BookingException;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import static org.junit.Assert.fail;
 import static ua.epam.spring.hometask.EventTestData.EVENT_PRICE1;
 import static ua.epam.spring.hometask.EventTestData.EVENT_PRICE2;
 import static ua.epam.spring.hometask.UserTestData.*;
@@ -55,9 +57,9 @@ public class BookingServiceTest {
     @Before
     public void setUp() {
         userService.save(UserTestData.createNew(EMAIL1, USER_NAME1, LAST_NAME1, USER_BIRTHDAY1, PASSWORD, ROLE_SET));
-
-        userAccount = new UserAccount(userService.getUserByEmail(EMAIL1).getId(), "userAcc", 100);
-
+        long userId = userService.getUserByEmail(EMAIL1).getId();
+        userAccount = new UserAccount(userId, "userAcc", 100);
+        accountService.save(userAccount, userId);
         ldt = LocalDateTime.now();
 
         auditorium1 = new Auditorium();
@@ -139,7 +141,12 @@ public class BookingServiceTest {
                 new Ticket(user, event, ldt, 3L),
                 new Ticket(user, event, ldt, 4L)
         ));
-        bookingService.bookTickets(tickets, user.getId(), userAccount, 10);
+
+        try {
+            bookingService.bookTickets(tickets, user.getId(), userAccount, 10);
+            fail("Duplicating booking should throw BookingException");
+        } catch (BookingException e) {
+        }
 
         Assert.assertEquals(2, bookingService.getPurchasedTicketsForEvent(event, ldt).size());
     }
