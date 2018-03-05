@@ -10,6 +10,7 @@ Movie Theater Manager
 * [How to run](#how-to-run)
 * [Spring core HW](#spring-core)
 * [Spring advanced HW](#spring-advanced)
+* [User guide](#user-guide)
 
 ## Short description
 Application allows to manage creating Events in different Auditoriums.
@@ -138,3 +139,9 @@ __Option__ (LONG)
 8. put generated project/target/movie.war file in tomcat9/webapps folder
 9. open url in browser: http://localhost:8080/movie/
 10. have fun by creating and modifying users, events and tickets
+
+## User guide
+1. Login using unlim0@mail.com/password or unlim1@mail.com/password
+2. Don't forget to add BOOKING_MANAGER role to user, otherwise you will get "Access denied"
+3. Logout and login again
+4. Try to order tickets
