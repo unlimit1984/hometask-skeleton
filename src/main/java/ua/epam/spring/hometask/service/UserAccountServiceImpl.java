@@ -56,6 +56,17 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     }
 
+    @Override
+    public UserAccount getByName(String name, long userId) {
+        UserAccount result = accountRepository.getByName(name, userId);
+        if (result == null) {
+            throw new NotFoundException("Account with name=" + name + " and user_id=" + userId + " wasn't found.");
+        }
+        return result;
+
+    }
+
+
     @Nonnull
     @Override
     public Collection<UserAccount> getAll(long userId) {

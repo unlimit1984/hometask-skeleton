@@ -9,5 +9,6 @@ public interface UserAccountRepository {
     UserAccount save(UserAccount userAccount, long userId);
     boolean delete(UserAccount userAccount, long userId);
     UserAccount get(long id, long userId);
+    UserAccount getByName(String name, long userId);
     Collection<UserAccount> getAll(long userId);
 }
