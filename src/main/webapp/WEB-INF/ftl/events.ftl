@@ -67,7 +67,8 @@
 
         <hr>
 
-        <form class="form-horizontal" action="event/addEventsByFile?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data" method="post">
+        <#--<form class="form-horizontal" action="event/addEventsByFile?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data" method="post">-->
+        <form class="form-horizontal" action="event/addEventsByFile" enctype="multipart/form-data" method="post">
             <div class="form-group">
                 <label class="control-label col-sm-2" for="eventsFile">File to upload:</label>
                 <div class="col-sm-10">

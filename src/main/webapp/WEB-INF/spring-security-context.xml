@@ -29,6 +29,7 @@
         />
         <!--This is by default, you can comment the line below -->
         <!--<csrf disabled="false"/>-->
+        <csrf disabled="true"/>
 
         <!--If you don't set remember-me-parameter, the default is 'remember-me' name - in login form-->
         <!--The following option with hash based cookies impls-->

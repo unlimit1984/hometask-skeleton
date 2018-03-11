@@ -72,7 +72,7 @@
                 <button type="submit" class="btn btn-primary">Check price</button>
             </div>
             <!--with CSRF-->
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <#--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
 
         </form>
 
