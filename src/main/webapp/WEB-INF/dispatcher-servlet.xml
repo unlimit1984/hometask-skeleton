@@ -12,6 +12,7 @@
 
     <!--Support for Spring components-->
     <context:component-scan base-package="ua.epam.spring.hometask.controller"/>
+    <context:component-scan base-package="ua.epam.spring.hometask.web.rest"/>
 
     <!--Turn @RequestMapping @Controller @Valid into actual web controllers-->
     <mvc:annotation-driven/>

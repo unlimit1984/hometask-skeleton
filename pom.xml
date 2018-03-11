@@ -323,6 +323,19 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <!-- For SOAP Web services -->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.ws</groupId>-->
+            <!--<artifactId>spring-ws-core</artifactId>-->
+            <!--<version>3.0.0.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>wsdl4j</groupId>-->
+            <!--<artifactId>wsdl4j</artifactId>-->
+            <!--<version>1.6.3</version>-->
+        <!--</dependency>-->
+
+
     </dependencies>
 
 
