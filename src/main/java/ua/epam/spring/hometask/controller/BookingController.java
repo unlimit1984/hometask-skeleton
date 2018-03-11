@@ -27,6 +27,7 @@ import ua.epam.spring.hometask.service.BookingService;
 import ua.epam.spring.hometask.service.EventService;
 import ua.epam.spring.hometask.service.UserAccountService;
 import ua.epam.spring.hometask.service.UserService;
+import ua.epam.spring.hometask.util.pdf.PdfUtil;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -132,33 +133,7 @@ public class BookingController {
         final String temporaryFilePath = tempDirectory.getAbsolutePath();
         final String fullPath = temporaryFilePath + "\\" + fileName;
 
-        Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream(fullPath));
-        document.open();
-        Paragraph paragraph = new Paragraph("Tickets");
-        document.add(paragraph);
-        document.add(new Paragraph(" "));
-
-        PdfPTable table = new PdfPTable(5);
-        table.setWidthPercentage(100);
-
-        Stream.of("Ticket Id", "User Id", "Event Id", "Air Date", "Seat")
-                .forEach(columnTitle -> {
-                    PdfPCell header = new PdfPCell();
-                    header.setBackgroundColor(BaseColor.LIGHT_GRAY);
-                    header.setBorderWidth(2);
-                    header.setPhrase(new Phrase(columnTitle));
-                    table.addCell(header);
-                });
-        tickets.forEach(t -> {
-            table.addCell(String.valueOf(t.getId()));
-            table.addCell(String.valueOf(t.getUser().getId()));
-            table.addCell(String.valueOf(t.getEvent().getId()));
-            table.addCell(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(t.getDateTime()));
-            table.addCell(String.valueOf(t.getSeat()));
-        });
-        document.add(table);
-        document.close();
+        PdfUtil.writeTickets(tickets,fullPath);
 
         File file = new File(fullPath);
         if (!file.exists()) {
