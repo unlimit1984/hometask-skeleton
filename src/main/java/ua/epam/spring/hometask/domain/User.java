@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.domain;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -8,6 +9,7 @@ import java.util.stream.Collectors;
 /**
  * @author Yuriy_Tkach
  */
+@XmlRootElement
 public class User extends DomainObject {
 
     private String firstName;
@@ -68,6 +70,9 @@ public class User extends DomainObject {
         this.luckyEvents = luckyEvents;
     }
 
+    //    @XmlElement
+    //2nd approach to turn on java.time support for proper converting to/from XML
+//    @XmlJavaTypeAdapter(LocalDateXmlAdapter.class)
     public LocalDate getBirthday() {
         return birthday;
     }

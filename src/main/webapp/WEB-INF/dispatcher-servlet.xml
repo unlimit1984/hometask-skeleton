@@ -15,7 +15,35 @@
     <context:component-scan base-package="ua.epam.spring.hometask.web.rest"/>
 
     <!--Turn @RequestMapping @Controller @Valid into actual web controllers-->
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
+
+        <mvc:message-converters register-defaults="false">
+            <!--JSON-->
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+            <!--PDF-->
+            <bean class="ua.epam.spring.hometask.web.rest.converters.PdfHttpMessageConverter"/>
+
+            <!--XML-->
+            <!--<bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter"/>-->
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean id="contentNegotiationManager"
+          class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="favorPathExtension" value="false"/>
+        <property name="favorParameter" value="true"/>
+        <property name="parameterName" value="mediaType"/>
+        <property name="ignoreAcceptHeader" value="false"/>
+        <property name="defaultContentType" value="application/json"/>
+        <property name="useJaf" value="false"/>
+
+        <property name="mediaTypes">
+            <map>
+                <entry key="json" value="application/json"/>
+                <entry key="pdf" value="application/pdf"/>
+            </map>
+        </property>
+    </bean>
 
     <!--Freemarker config -->
     <!--<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">-->

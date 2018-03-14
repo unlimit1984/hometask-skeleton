@@ -9,15 +9,18 @@ import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.domain.UserAccount;
+import ua.epam.spring.hometask.domain.to.TicketList;
 import ua.epam.spring.hometask.service.BookingService;
 import ua.epam.spring.hometask.service.EventService;
 import ua.epam.spring.hometask.service.UserAccountService;
 import ua.epam.spring.hometask.service.UserService;
 import ua.epam.spring.hometask.web.rest.dto.BookingDetails;
 
+import javax.servlet.http.HttpServletResponse;
 import java.beans.PropertyEditorSupport;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -54,7 +57,7 @@ public class BookingRestController {
     }
 
 
-    @GetMapping("/purchased/{eventId}/{dateTime}")
+    @GetMapping(value = "/purchased/{eventId}/{dateTime}", produces = {"application/json"})
     public List<Ticket> getPurchasedTickets(@PathVariable("eventId") long eventId,
                                             @PathVariable("dateTime") LocalDateTime dateTime) {
 
@@ -70,6 +73,29 @@ public class BookingRestController {
 
         return result;
     }
+
+    @GetMapping(value = "/purchased/{eventId}/{dateTime}", produces = {"application/pdf"})
+    public TicketList getPurchasedTicketsInPdf(@PathVariable("eventId") long eventId,
+                                               @PathVariable("dateTime") LocalDateTime dateTime,
+                                               HttpServletResponse response) {
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=tickets.pdf");
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        User user = userService.getUserByEmail(email);
+
+        Event event = eventService.getById(eventId);
+        Set<Ticket> tickets = bookingService
+                .getPurchasedTicketsForEvent(event, dateTime)
+                .stream()
+                .filter(t -> t.getUser().equals(user))
+                .collect(Collectors.toSet());
+        TicketList result = new TicketList();
+        result.setTickets(new ArrayList<>(tickets));
+        return result;
+    }
+
 
     @PostMapping("/getPrice/{eventId}/{dateTime}")
     public double getPrice(@PathVariable("eventId") long eventId,

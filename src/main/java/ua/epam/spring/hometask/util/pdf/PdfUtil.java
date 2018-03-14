@@ -1,16 +1,17 @@
 package ua.epam.spring.hometask.util.pdf;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import ua.epam.spring.hometask.domain.Ticket;
+import ua.epam.spring.hometask.domain.to.TicketList;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -28,6 +29,31 @@ public class PdfUtil {
         document.add(paragraph);
         document.add(new Paragraph(" "));
 
+        PdfPTable table = getPdfPTable(tickets);
+        document.add(table);
+        document.close();
+    }
+
+    public static ByteArrayInputStream toBaos(TicketList ticketList) throws DocumentException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        Document document = new Document();
+        PdfWriter.getInstance(document, baos);
+        document.open();
+        Paragraph paragraph = new Paragraph("Tickets");
+        document.add(paragraph);
+        document.add(new Paragraph(" "));
+
+        Set<Ticket> tickets = new HashSet<>(ticketList.getTickets());
+        PdfPTable table = getPdfPTable(tickets);
+
+        document.add(table);
+        document.close();
+
+        return new ByteArrayInputStream(baos.toByteArray());
+    }
+
+    private static PdfPTable getPdfPTable(Set<Ticket> tickets) {
         PdfPTable table = new PdfPTable(5);
         table.setWidthPercentage(100);
 
@@ -46,7 +72,6 @@ public class PdfUtil {
             table.addCell(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(t.getDateTime()));
             table.addCell(String.valueOf(t.getSeat()));
         });
-        document.add(table);
-        document.close();
+        return table;
     }
 }

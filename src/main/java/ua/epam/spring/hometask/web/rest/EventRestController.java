@@ -77,8 +77,6 @@ public class EventRestController {
             String json = new String(file.getBytes());
             System.out.println(json);
             ObjectMapper mapper = new ObjectMapper();
-            mapper.findAndRegisterModules();
-
             SimpleModule module = new SimpleModule();
             module.addDeserializer(Event.class, new EventDeserializer());
             mapper.registerModule(module);

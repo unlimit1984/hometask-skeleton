@@ -115,6 +115,17 @@ We have some additional service DiscountService for getting discount during purc
 7. __DONE__ Wire users and accounts
 8. __IN_PROGRESS__ Implement gaps in UserAccountServiceTest
 
+### HW4
+1. __DONE__ Implement user rest endpoint
+2. __DONE__ Implement event rest endpoint
+3. __DONE__ Implement booking rest endpoint
+4. __DONE__ Configure ContentNegotiationViewResolver via MVC namespace
+5. __DONE__ Implement PdfHttpMessageConverter
+6. __DONE__ Add two converters: JSON and PDF
+7. __DONE__ Extract all pdf logic in PdfUtil class
+8. __DONE__ Add live tests for UserRestController and BookingRestController
+ 
+
 ## How to test
 1. install maven
 2. go to project folder by "cd" command in Terminal (Mac) or any Command Line Commander (Windows)

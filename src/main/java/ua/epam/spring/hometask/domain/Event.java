@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.domain;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -7,6 +8,7 @@ import java.util.*;
 /**
  * @author Yuriy_Tkach
  */
+@XmlRootElement
 public class Event extends DomainObject {
 
     private String name;

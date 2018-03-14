@@ -12,8 +12,9 @@ DELETE FROM auditorium;
 
 --users
 --'password' = encoded '$2a$12$KiAaFnYXRWjvp8ScuN2/WuYL.yIwQbSyRg1wFmvAwrhrThzqXFsri'
-INSERT INTO users (first_name, last_name, email, birthday, password) VALUES ('Vladimir0', 'Vys0', 'unlim0@mail.com', '1980-01-01 00:00:00', '$2a$12$KiAaFnYXRWjvp8ScuN2/WuYL.yIwQbSyRg1wFmvAwrhrThzqXFsri');
-INSERT INTO users (first_name, last_name, email, birthday, password) VALUES ('Vladimir1', 'Vys1', 'unlim1@mail.com', '1980-01-02 00:00:00', '$2a$12$KiAaFnYXRWjvp8ScuN2/WuYL.yIwQbSyRg1wFmvAwrhrThzqXFsri');
+INSERT INTO users (first_name, last_name, email, birthday, password, roles) VALUES ('Vladimir0', 'Vys0', 'unlim0@mail.com', '1980-01-01 00:00:00', '$2a$12$KiAaFnYXRWjvp8ScuN2/WuYL.yIwQbSyRg1wFmvAwrhrThzqXFsri', 'BOOKING_MANAGER,REGISTERED_USER');
+INSERT INTO users (first_name, last_name, email, birthday, password) VALUES ('Vladimir1', 'Vys1', 'unlim1@mail.com', '1990-01-02 00:00:00', '$2a$12$KiAaFnYXRWjvp8ScuN2/WuYL.yIwQbSyRg1wFmvAwrhrThzqXFsri');
+-- INSERT INTO users (first_name, last_name, email, birthday, password, roles) VALUES ('Vladimir2', 'Vys2', 'unlim2@mail.com', '2000-01-01 00:00:00', '$2a$12$KiAaFnYXRWjvp8ScuN2/WuYL.yIwQbSyRg1wFmvAwrhrThzqXFsri', 'BOOKING_MANAGER,REGISTERED_USER');
 
 --user's accounts
 INSERT INTO user_accounts(user_id, name, money) VALUES(0, 'acc0', 110);
@@ -41,3 +42,7 @@ INSERT INTO event_auditoriums (event_id, auditorium_name, air_date) VALUES (0, '
 INSERT INTO event_auditoriums (event_id, auditorium_name, air_date) VALUES (1, 'alpha', '2018-02-01 10:00:00');
 INSERT INTO event_auditoriums (event_id, auditorium_name, air_date) VALUES (1, 'beta', '2018-02-02 12:00:00');
 INSERT INTO event_auditoriums (event_id, auditorium_name, air_date) VALUES (1, 'gama', '2018-02-03 14:00:00');
+
+--tickets
+INSERT INTO ticket(user_id, event_id, date_time, seat) VALUES(0, 0, '2018-01-01 10:00:00', 1);
+--INSERT INTO ticket(user_id, event_id, date_time, seat) VALUES(0, 0, '2018-01-01 10:00:00', 2);
