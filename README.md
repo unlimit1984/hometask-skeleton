@@ -124,6 +124,7 @@ We have some additional service DiscountService for getting discount during purc
 6. __DONE__ Add two converters: JSON and PDF
 7. __DONE__ Extract all pdf logic in PdfUtil class
 8. __DONE__ Add live tests for UserRestController and BookingRestController
+9. __DONE__ Improved security
  
 
 ## How to test

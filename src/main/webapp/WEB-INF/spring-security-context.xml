@@ -10,11 +10,15 @@
 
     <global-method-security pre-post-annotations="enabled"/>
 
+    <!--The order is important, higher has more priority-->
     <http use-expressions="true">
         <intercept-url pattern="/auditoriums**" access="hasAuthority('REGISTERED_USER')"/>
         <intercept-url pattern="/showlogin" access="hasAuthority('REGISTERED_USER')"/>
         <intercept-url pattern="/account**/**" access="hasAuthority('REGISTERED_USER')"/>
         <intercept-url pattern="/ticket**/**" access="hasAuthority('REGISTERED_USER')"/>
+        <!--Add following rows to restrict all pages and forwarding to login page-->
+        <!--<intercept-url pattern="/login*" access="isAnonymous()" />-->
+        <!--<intercept-url pattern="/**" access="hasAuthority('REGISTERED_USER')" />-->
 
         <!--<form-login />-->
         <!--<logout/>-->
