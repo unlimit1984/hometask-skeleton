@@ -125,7 +125,12 @@ We have some additional service DiscountService for getting discount during purc
 7. __DONE__ Extract all pdf logic in PdfUtil class
 8. __DONE__ Add live tests for UserRestController and BookingRestController
 9. __DONE__ Improved security
- 
+10. __DONE__ Mark User and Event entities with appropriate JAXB annotations to enable JAXB binding.
+11. __IN_PROGRESS__ Based on annotated entity classes generate XML schema via schemagen tool. 
+12. __IN_PROGRESS__ Generate JAXB-derived service classes using xjc tool.
+13. __IN_PROGRESS__ Create SOAP based web-service endpoints to serve all User and Event related operations.
+14. __IN_PROGRESS__ Add Spring WS application context configuration.
+15. __IN_PROGRESS__ Implement test client for above mentioned endpoints via spring WebServiceTemplate.
 
 ## How to test
 1. install maven
