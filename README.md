@@ -126,7 +126,7 @@ We have some additional service DiscountService for getting discount during purc
 8. __DONE__ Add live tests for UserRestController and BookingRestController
 9. __DONE__ Improved security
 10. __DONE__ Mark User and Event entities with appropriate JAXB annotations to enable JAXB binding.
-11. __IN_PROGRESS__ Based on annotated entity classes generate XML schema via schemagen tool. 
+11. __DONE__ Add jaxb2-maven-plugin and generate schema.xsd by calling mvn clean install
 12. __IN_PROGRESS__ Generate JAXB-derived service classes using xjc tool.
 13. __IN_PROGRESS__ Create SOAP based web-service endpoints to serve all User and Event related operations.
 14. __IN_PROGRESS__ Add Spring WS application context configuration.
