@@ -1,6 +1,6 @@
 package ua.epam.spring.hometask.domain;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -10,24 +10,33 @@ import java.util.stream.Collectors;
  * @author Yuriy_Tkach
  */
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class User extends DomainObject {
 
+    @XmlElement
     private String firstName;
 
+    @XmlElement
     private String lastName;
 
+    @XmlElement
     private String email;
 
     //1st approach
     //@DateTimeFormat(pattern = "yyyy-MM-dd")
+    @XmlElement
     private LocalDate birthday;
 
+    @XmlTransient
     private NavigableSet<Ticket> tickets = new TreeSet<>();
 
+    @XmlElement
     private Set<LocalDateTime> luckyEvents = new HashSet<>();
 
+    @XmlElement
     private String password;
 
+    @XmlElement
     private Set<Role> roles;
 
     public String getFirstName() {
