@@ -34,6 +34,7 @@ public class UserRestController {
             throw new ResourceNotFoundException("User", "id", id);
         }
         return userService.getById(id);
+
     }
 
     @PutMapping("/user/{id}")
