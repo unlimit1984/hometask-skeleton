@@ -43,6 +43,7 @@
                 <version>2.2</version>
                 <configuration>
                     <path>/movie</path>
+                    <!--<port>8080</port>-->
                 </configuration>
             </plugin>
 
@@ -328,6 +329,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>3.1.1</version>
             <scope>test</scope>
         </dependency>
 

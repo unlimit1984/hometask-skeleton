@@ -43,11 +43,12 @@ public class UserRestController {
             throw new ResourceNotFoundException("User", "id", id);
         }
 
-        user.setEmail(userDetails.getEmail());
         user.setFirstName(userDetails.getFirstName());
         user.setLastName(userDetails.getLastName());
-        user.setRoles(userDetails.getRoles());
+        user.setEmail(userDetails.getEmail());
+        user.setBirthday(userDetails.getBirthday());
         user.setPassword(userDetails.getPassword());
+        user.setRoles(userDetails.getRoles());
 
         return userService.save(user);
     }
