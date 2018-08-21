@@ -24,6 +24,7 @@ public class UserRestControllerAssuredTest {
                         .contentType(ContentType.JSON)
                         .body(ResourceUtil.loadFrom("/user/create_user.json")).
                         when()
+                        .queryParam("test", "val")////add test param for testing
                         .post("/movie/api/user").
                         then()
                         .statusCode(201)

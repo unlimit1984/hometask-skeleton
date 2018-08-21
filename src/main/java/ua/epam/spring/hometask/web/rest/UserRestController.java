@@ -23,7 +23,7 @@ public class UserRestController {
 
     @PostMapping("/user")
     @ResponseStatus(HttpStatus.CREATED)
-    public User create(@RequestBody User user) {
+    public User create(@RequestBody User user, @RequestParam("test") String test) {//add test param for testing
         return userService.save(user);
     }
 
